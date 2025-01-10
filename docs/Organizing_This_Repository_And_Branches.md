@@ -3,11 +3,12 @@ This page documents good practices for how to organize files in this repository,
 
 ## Branches
 This repository contains several branches that are used in different stages throughout the season
-- `development` - New features are added to this branch, and this branch is used to merge other individual branches together
+
+- First, branches should be created for new larger features that are in progress (eg `launcher`, `auton`, `vision`, `commands`). Once these features have been implemented, they should be merged into `development` and then tested
+- `development` - This branch is used to merge other individual branches together and for adding smaller features
 - `testing` - Once all the features are merged into the `development` branch, this branch is used to test the code. Any necessary changes and fixes should be committed here
 - `main` - Once the code in `testing` has been fully tested and is ready for competition, it should be merged into `main`. This code is ready for competition and shouldn't contain any experimental features or untested changes
 
-Additional branches should be created for new larger features that are in progress (eg `launcher`, `auton`, `vision`, `commands`). Once these features have been implemented, they should be merged into `development` and then tested
 
 ### Branch Naming Conventions
 Branches should be all lowercase and any spaces should be replaced with `-`
