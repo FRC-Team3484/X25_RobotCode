@@ -6,6 +6,8 @@
 
   **This repository holds 3484's robot code for the 2025 Reefscape season**
 
+  **[Branches](https://github.com/FRC-Team3484/X25_RobotCode/branches)** ● **[Documentation](#documentation)**
+
 </div>
 
 ## Installation
