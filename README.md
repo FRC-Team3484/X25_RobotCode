@@ -31,6 +31,7 @@ This repo contains several pieces of documentation which may be useful throughou
   - [Formatting](docs/Code_Style_Guide.md#formatting)
   - [File Names](docs/Code_Style_Guide.md#file-names)
   - [Other](docs/Code_Style_Guide.md#other)
+- **[Commenting Guide](docs/Commenting_Guide.md)**
 - **[How to Use Git](docs/How_to_Use_Git.md)**
 - **[C++ Learning](docs/C++_Learning.md)**
 - **[Useful Documentation](docs/Useful_Documentation.md)**
