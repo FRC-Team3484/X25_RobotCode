@@ -23,9 +23,9 @@ You can use Git: Open Repository and select the `X25_RobotCode` parent folder to
 ## Documentation
 This repo contains several pieces of documentation which may be useful throughout the season or in the future. Some of these are repo specific and some are from [FRC-Team3484/programming-lists](https://github.com/FRC-Team3484/programming-lists)
 
-- **[Organizing This Repository And Branches](docs/Organizing_This_Repository_And_Branches.md)**
-  - [Branches](docs/Organizing_This_Repository_And_Branches.md#branches)
-  - [Merging Branches](docs/Organizing_This_Repository_And_Branches.md#merging-branches)
+- **[Repository Good Practices](docs/Repository_Good_Practices.md)**
+  - [Branches](docs/Repository_Good_Practices.md#branches)
+  - [Merging Branches](docs/Repository_Good_Practices.md#merging-branches)
 - **[How to Use Git](docs/How_to_Use_Git.md)**
 - **[C++ Learning](docs/C++_Learning.md)**
 - **[Useful Documentation](docs/Useful_Documentation.md)**
