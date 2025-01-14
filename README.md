@@ -11,14 +11,18 @@
 </div>
 
 ## Installation
+> [!NOTE]
+> **This project uses WPILib 2025.2.1 and includes needed vendor dependencies**
 
-First, clone this repository
+First, download the [2025.2.1 Release of WPILib](https://github.com/wpilibsuite/allwpilib/releases/tag/v2025.2.1) and install it to your computer.
+
+Next, clone this repository
 ```
 git clone https://github.com/FRC-Team3484/X25-RobotCode
 ```
-Next, open the WPILib VSCode and navigate to the `X25_RobotCode` folder. Open the command palette (`Ctrl-Shift-P`) and run the `WPILib: Build Robot Code` command
+Now, open the WPILib VSCode that you just installed and navigate to the `X25_RobotCode` folder. Open the command palette (`Ctrl-Shift-P`) and run the `WPILib: Build Robot Code` command
 
-You can use Git: Open Repository and select the `X25_RobotCode` parent folder to enable the Git tools inside of VSCode, while still being able to build and run the code
+Source control and WPILib tools and functionality should both be avaliable in this directory
 
 ## Documentation
 This repo contains several pieces of documentation which may be useful throughout the season or in the future. Some of these are repo specific and some are from [FRC-Team3484/programming-lists](https://github.com/FRC-Team3484/programming-lists)
