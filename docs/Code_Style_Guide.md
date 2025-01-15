@@ -7,7 +7,7 @@ This page documents good practices for how to format and style our C++ code
 - Classes are in Pascal Case (`PascalCase`)
 - Constants should be in capitalized snake case (`CAPITALIZED_SNAKE_CASE`)
 - Variables are in lower snake case (`lower_snake_case`)
-   Namespaces are Camel Case and one word (`Namespace`)
+- Namespaces are Camel Case and one word (`Namespace`)
 
 ## Formatting
 - Indentation is 4 spaces
