@@ -18,7 +18,7 @@ First, download the [2025.2.1 Release of WPILib](https://github.com/wpilibsuite/
 
 Next, clone this repository
 ```
-git clone https://github.com/FRC-Team3484/X25-RobotCode
+git clone https://github.com/FRC-Team3484/X25_RobotCode
 ```
 Now, open the WPILib VSCode that you just installed and navigate to the `X25_RobotCode` folder. Open the command palette (`Ctrl-Shift-P`) and run the `WPILib: Build Robot Code` command
 
