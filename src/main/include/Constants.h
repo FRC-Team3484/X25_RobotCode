@@ -35,4 +35,9 @@ namespace UserInterface {
     }
 }
 
+namespace PivotConstants {
+    constexpr int PIVOT_MOTOR_CAN_ID = 16;
+    constexpr int PIVOT_HOME_DI_CH = 3;
+}
+
 #endif
