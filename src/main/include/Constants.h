@@ -35,4 +35,11 @@ namespace UserInterface {
     }
 }
 
+namespace IntakeConstants {
+        constexpr int MOTOR_ONE_CAN_ID = 14;
+        constexpr int MOTOR_TWO_CAN_ID = 15;
+        constexpr int ALGAE_SENSOR_DI_CH = 1;
+        constexpr int CORAL_SENSOR_DI_CH = 2;
+}
+
 #endif
