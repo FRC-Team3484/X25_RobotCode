@@ -41,8 +41,9 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         
         bool _HomeSensor();
         bool _GetStalled();
+        
         units::inch_t _GetElevatorHeight();
-        units::feet_per_second_t _GetElevatorVelcity();
+        units::feet_per_second_t _GetElevatorVelocity();
 
         ctre::phoenix6::hardware::TalonFX _primary_motor;
         ctre::phoenix6::hardware::TalonFX _secondary_motor;
@@ -56,8 +57,9 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
 
-        frc::TrapezoidProfile<units::feet>::State _inital_state {0_ft, 0_fps};
-        frc::TrapezoidProfile<units::feet>::State _target_state {0_ft, 0_fps};
+        frc::TrapezoidProfile<units::feet>::State _initial_state {Elevator::HOME_POSITION, 0_fps};
+        frc::TrapezoidProfile<units::feet>::State _target_state {Elevator::HOME_POSITION, 0_fps};
+        frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
 

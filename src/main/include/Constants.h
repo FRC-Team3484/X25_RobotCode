@@ -38,6 +38,11 @@ namespace Elevator {
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
     constexpr bool INVERT_MOTORS = false;
+    constexpr double STALL_LIMIT = 0.9;
+    constexpr units::unit_t<units::compound_unit<units::inch, units::turn>> ELEVATOR_RATIO = 1_in/1_tr;
+    constexpr units::inch_t POSITION_TOLERANCE = 1_in;
+    constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps; 
 }
 
 #endif
