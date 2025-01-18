@@ -13,28 +13,39 @@
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
 
+#include <ctre/phoenix6/TalonFX.hpp>
+
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
 
 class ElevatorSubsystem : public frc2::SubsystemBase {
     public:
         ElevatorSubsystem(
-            int motor_can_id,
+            int primary_motor_can_id,
+            int secondary_motor_can_id,
             int home_sensor_di_ch,
-            SC::SC_PIDConstants elevator_pidc
+            SC::SC_PIDConstants elevator_pidc,
+            units::feet_per_second_t max_velocity,
+            units::feet_per_second_squared_t max_acceleration
             );
         void SetHeight(units::inch_t height);
         bool AtTargetHeight();
-
         void SetPower(double power);
         // sets power of motor for elevator
-        
+        void SetTestMode(bool test_mode);
         void Periodic() override;
 
 
     private:
-        bool _HomeSensor();
         
+        bool _HomeSensor();
+        bool _GetStalled();
+        units::inch_t _GetElevatorHeight();
+        units::feet_per_second_t _GetElevatorVelcity();
+
+        ctre::phoenix6::hardware::TalonFX _primary_motor;
+        ctre::phoenix6::hardware::TalonFX _secondary_motor;
+
         enum State {home, ready, test};
         State _elevator_state = home;
 
@@ -42,13 +53,11 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::PIDController _elevator_pid_controller{0,0,0};
 
-        frc::TrapezoidProfile<units::feet> _elevator_trapezoid{{Elevator::MAX_VELOCITY, Elevator::MAX_ACCELERATION}};
+        frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
 
         frc::TrapezoidProfile<units::feet>::State _inital_state {0_ft, 0_fps};
         frc::TrapezoidProfile<units::feet>::State _target_state {0_ft, 0_fps};
 
-        units::inch_t _GetElevatorHeight();
-        units::feet_per_second_t _GetElevatorVelcity();
 
 };
 
