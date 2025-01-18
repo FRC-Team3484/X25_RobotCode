@@ -37,7 +37,7 @@ namespace UserInterface {
 namespace Elevator {
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
-
+    constexpr bool INVERT_MOTORS = false;
 }
 
 #endif

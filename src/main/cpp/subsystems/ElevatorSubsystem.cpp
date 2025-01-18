@@ -4,6 +4,9 @@
 
 #include "subsystems/ElevatorSubsystem.h"
 
+using namespace ctre::phoenix6;
+using namespace Elevator;
+
 ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
@@ -25,6 +28,12 @@ ElevatorSubsystem::ElevatorSubsystem(
         feed_forward_constants.A
     }
     {
+        configs::TalonFXConfiguration motor_config{};
+        motor_config.MotorOutput.Inverted = INVERT_MOTORS;
+        motor_config.MotorOutput.NeutralMode = signals::NeutralModeValue::Brake;
+        _primary_motor.GetConfigurator().Apply(motor_config);
+        _secondary_motor.GetConfigurator().Apply(motor_config);
+        _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), false});
         
 }
 
