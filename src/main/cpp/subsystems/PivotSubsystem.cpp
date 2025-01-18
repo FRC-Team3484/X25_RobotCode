@@ -1,9 +1,12 @@
 #include "subsystems/PivotSubsystem.h"
 
 PivotSubsystem::PivotSubsystem(
-    int _pivot_motor_can_id,
-    int _pivot_home_di_ch
-) {
+    int pivot_motor_can_id,
+    int pivot_home_di_ch
+    ) :
+        _pivot_motor{pivot_motor_can_id},
+        _pivot_home{pivot_home_di_ch}
+    {
 
 }
 

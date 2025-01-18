@@ -2,9 +2,11 @@
 #define PIVOT_SUBSYSTEM_H
 
 #include <Constants.h>
+#include <units/angle.h>
 
 #include <frc2/command/SubsystemBase.h>
-#include <units/angle.h>
+#include <frc/DigitalInput.h>
+#include <ctre/phoenix6/TalonFX.hpp>
 
 class PivotSubsystem : public frc2::SubsystemBase {
     public:
@@ -18,6 +20,10 @@ class PivotSubsystem : public frc2::SubsystemBase {
         void SetPivotAngle(units::degree_t angle);
         units::degree_t GetPivotAngle();
         bool AtTargetPosition();
+
+    private:
+        ctre::phoenix6::hardware::TalonFX _pivot_motor;
+        frc::DigitalInput _pivot_home;
 };
 
 #endif
