@@ -9,7 +9,7 @@
 #include <frc/DigitalInput.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
-#include <frc/controller/SimpleMotorFeedforward.h>
+#include <frc/controller/ElevatorFeedforward.h>
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
 
@@ -26,7 +26,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             int home_sensor_di_ch,
             SC::SC_PIDConstants elevator_pidc,
             units::feet_per_second_t max_velocity,
-            units::feet_per_second_squared_t max_acceleration
+            units::feet_per_second_squared_t max_acceleration,
+            SC::SC_LinearFeedForward feed_forward_constants
             );
         void SetHeight(units::inch_t height);
         bool AtTargetHeight();
@@ -57,6 +58,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::TrapezoidProfile<units::feet>::State _inital_state {0_ft, 0_fps};
         frc::TrapezoidProfile<units::feet>::State _target_state {0_ft, 0_fps};
+
+        frc::ElevatorFeedforward _elevator_feed_forward;
 
 
 };

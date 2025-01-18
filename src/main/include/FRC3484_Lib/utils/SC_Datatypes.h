@@ -58,6 +58,14 @@ namespace SC
 		units::volt_t S;
 	} SC_SwervePID;
 
+
+	typedef struct {
+		units::volt_t G;
+		units::volt_t S;
+		units::unit_t<kv_unit> V;
+		units::unit_t<ka_unit> A;
+	} SC_LinearFeedForward;
+
 	typedef struct {
 		int CAN_ID;
 		int SteerMotorPort;
