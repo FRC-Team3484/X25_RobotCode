@@ -35,9 +35,14 @@ namespace UserInterface {
     }
 }
 
-namespace PivotConstants {
+// We changed PivotConstants to Pivot due to this is how elevator(constants) was named
+namespace Pivot {
     constexpr int PIVOT_MOTOR_CAN_ID = 16;
     constexpr int PIVOT_HOME_DI_CH = 3;
+
+    constexpr units::degree_t ANGLE_TOLERANCE = 10_deg;
+    constexpr units::degree_t HOME_POSITION = 0_deg;
+    constexpr units::degree_t TARGET_POSITION = 0_deg; // This will be changed when we know the target position
 }
 
 #endif
