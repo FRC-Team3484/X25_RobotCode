@@ -41,33 +41,33 @@ ElevatorSubsystem::ElevatorSubsystem(
 
 // This method will be called once per scheduler run
 void ElevatorSubsystem::Periodic() {
-    switch (_elevator_state)
-    {
-    case home:
-        volt_t feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
-        _primary_motor.SetVoltage(feed_forward_output);
-        if (_HomeSensor() || _GetStalled() ) {
-            SetPower(0);
-            _primary_motor.SetPosition(0_t);
-            _elevator_pid_controller.Reset();
-            _elevator_state = ready;
-        }
-        
-        break;
-    case ready:
-        auto current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
-        volt_t feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
-        volt_t pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
-        _primary_motor.SetVoltage(feed_forward_output+pid_output);
-        
-        break;
-    case test:
-        
-
-        break;
-    default:
-        _elevator_state = home;
-        break;
+    volt_t feed_forward_output;
+    frc::TrapezoidProfile<units::feet>::State current_state;
+    volt_t pid_output;
+    switch (_elevator_state) {
+        case home:
+            feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
+            _primary_motor.SetVoltage(feed_forward_output);
+            if (_HomeSensor() || _GetStalled() ) {
+                SetPower(0);
+                _primary_motor.SetPosition(0_tr);
+                _elevator_pid_controller.Reset();
+                _elevator_state = ready;
+            }
+            
+            break;
+        case ready:
+            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+            feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
+            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+            _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            
+            break;
+        case test:
+            break;
+        default:
+            _elevator_state = home;
+            break;
     }
 }
 
