@@ -41,7 +41,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         
         bool _HomeSensor();
         bool _GetStalled();
-        
+        double _GetStallPercentage();
+
         units::inch_t _GetElevatorHeight();
         units::feet_per_second_t _GetElevatorVelocity();
 

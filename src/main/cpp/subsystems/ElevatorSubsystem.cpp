@@ -4,6 +4,7 @@
 
 #include "subsystems/ElevatorSubsystem.h"
 #include <units/math.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 using namespace ctre::phoenix6;
 using namespace Elevator;
@@ -64,6 +65,9 @@ void ElevatorSubsystem::Periodic() {
             
             break;
         case test:
+            frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
+            frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
+            frc::SmartDashboard::PutBoolean("Home Sensor", _HomeSensor());
             break;
         default:
             _elevator_state = home;
@@ -105,7 +109,11 @@ bool ElevatorSubsystem::_HomeSensor() {
 }
 
 bool ElevatorSubsystem::_GetStalled() {
-    return (_primary_motor.GetSupplyCurrent().GetValue()/(_primary_motor.GetMotorStallCurrent().GetValue()*_primary_motor.Get())) > STALL_LIMIT;
+    return _GetStallPercentage() > STALL_LIMIT;
+}
+
+double ElevatorSubsystem::_GetStallPercentage() {
+    return (_primary_motor.GetSupplyCurrent().GetValue()/(_primary_motor.GetMotorStallCurrent().GetValue()*abs(_primary_motor.Get())));
 }
 
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
