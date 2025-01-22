@@ -66,9 +66,7 @@ void ElevatorSubsystem::Periodic() {
             break;
             // the 'ready' state is the state that the elevator is in when it is not at the home position.
         case test:
-            frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
-            frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
-            frc::SmartDashboard::PutBoolean("Home Sensor", _HomeSensor());
+            PrintTestInfo();
             break;
         // the 'test' state is for debugging.
         default:
@@ -110,6 +108,13 @@ void ElevatorSubsystem::SetTestMode(bool test_mode) {
     }
 }
 // this function sets the elevator to test mode, or sets it to home mode if it is in test mode.
+
+void ElevatorSubsystem::PrintTestInfo() {
+    frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
+    frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
+    frc::SmartDashboard::PutBoolean("Home Sensor", _HomeSensor());
+}
+// this function prints the test info for the elevator
 
 bool ElevatorSubsystem::_HomeSensor() {
     return !_home_sensor.Get();

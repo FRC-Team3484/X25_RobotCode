@@ -35,6 +35,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         // sets power of motor for elevator
         void SetTestMode(bool test_mode);
         void Periodic() override;
+        void PrintTestInfo();
 
 
     private:
