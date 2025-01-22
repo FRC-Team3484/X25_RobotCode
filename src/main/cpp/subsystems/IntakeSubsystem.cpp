@@ -1,4 +1,5 @@
 #include "subsystems/IntakeSubsystem.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 IntakeSubsystem::IntakeSubsystem(
     int _motor_one_can_id,
@@ -19,13 +20,19 @@ void IntakeSubsystem::Periodic() {
 }
 
 void IntakeSubsystem::SetRollerPower(double power) {
-
+    _intake_motor_1.Set(power);
+    _intake_motor_2.Set(power);
 }
 
 bool IntakeSubsystem::HasAlgae() {
-
+   return !_algae_sensor.Get();
 }
 
 bool IntakeSubsystem::HasCoral() {
+    return !_coral_sensor.Get();
+}
 
+void IntakeSubsystem::PrintTestInfo() {
+    frc::SmartDashboard::PutBoolean("Have Algae", HasAlgae());
+    frc::SmartDashboard::PutBoolean("Have Coral", HasCoral());
 }

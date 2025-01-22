@@ -30,6 +30,8 @@ namespace UserInterface {
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
         constexpr int TESTING_OPEN_LOOP_RIGHT = XBOX_RS_Y;
+        constexpr int TESTING_GET_MOTOR_1 = XBOX_LS_Y;
+        constexpr int TESTING_GET_MOTOR_2 = XBOX_RS_Y;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }

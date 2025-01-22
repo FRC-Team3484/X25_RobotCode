@@ -22,9 +22,32 @@ class IntakeSubsystem : public frc2::SubsystemBase {
             int coral_sensor_di_ch
         );
         void Periodic() override;
-        void SetRollerPower(double power); /** Controls the roller power */
-        bool HasAlgae(); /** Checks to see if the sensor is detecting the Algae */
-        bool HasCoral(); /** Checks to see if the sensor is detecting the Coral */
+
+        /** 
+         * Controls the roller power 
+         * 
+         * @param power The roller power is between -1.0 and 1.0
+        */
+        void SetRollerPower(double power);
+        
+        /** 
+         * Checks to see if the sensor is detecting the Algae 
+         * 
+         * @return Returns false if the sensor detects the Alage
+        */
+        bool HasAlgae(); 
+
+        /** 
+         * Checks to see if the sensor is detecting the Coral
+         * 
+         * @return Returns false if the sensor detects the Coral
+        */
+        bool HasCoral();
+
+        /**
+         * 
+        */
+        void PrintTestInfo();
     private:
         ctre::phoenix6::hardware::TalonFX _intake_motor_1;
         ctre::phoenix6::hardware::TalonFX _intake_motor_2;
