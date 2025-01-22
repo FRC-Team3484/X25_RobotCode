@@ -24,12 +24,19 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         void Periodic() override;
 
         /** 
-         * Controls the roller power 
+         * Controls the roller power for the Algae
          * 
-         * @param power The roller power is between -1.0 and 1.0
+         * @param power The roller power for the Algae is between -1.0 and 1.0
         */
-        void SetRollerPower(double power);
+        void SetAlgaePower(double power);
         
+         /** 
+         * Controls the roller power for the Coral
+         * 
+         * @param power The roller power for the Coral is between -1.0 and 1.0
+        */
+        void SetCoralPower(double power); 
+
         /** 
          * Checks to see if the sensor is detecting the Algae 
          * 

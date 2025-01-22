@@ -19,10 +19,17 @@ void IntakeSubsystem::Periodic() {
 
 }
 
-void IntakeSubsystem::SetRollerPower(double power) {
+void IntakeSubsystem::SetAlgaePower(double power) {
+    _intake_motor_1.Set(power);
+    _intake_motor_2.Set(-power);
+}
+
+
+void IntakeSubsystem::SetCoralPower(double power) {
     _intake_motor_1.Set(power);
     _intake_motor_2.Set(power);
 }
+
 
 bool IntakeSubsystem::HasAlgae() {
    return !_algae_sensor.Get();

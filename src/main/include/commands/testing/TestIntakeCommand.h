@@ -32,6 +32,7 @@ class TestIntakeCommand
 
   bool IsFinished() override;
 
+
   private:
     IntakeSubsystem* _intake_subsystem;
     Testing_Interface* _oi;
