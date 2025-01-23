@@ -55,6 +55,7 @@ void ElevatorSubsystem::Periodic() {
                 _primary_motor.SetPosition(0_tr);
                 _elevator_pid_controller.Reset();
                 _elevator_state = ready;
+                SetHeight(HOME_POSITION);
             }
             break;
         case ready:
@@ -103,6 +104,7 @@ void ElevatorSubsystem::SetTestMode(bool test_mode) {
     } else if (_elevator_state == test) {
         _elevator_state = home;
         _elevator_pid_controller.Reset();
+        SetHeight(HOME_POSITION);
     }
 }
 
@@ -125,7 +127,12 @@ bool ElevatorSubsystem::_GetStalled() {
 
 
 double ElevatorSubsystem::_GetStallPercentage() {
-    return (_primary_motor.GetSupplyCurrent().GetValue()/(_primary_motor.GetMotorStallCurrent().GetValue()*abs(_primary_motor.Get())));
+    if (abs(_primary_motor.Get()) > STALL_TRIGGER)
+    {
+        return (_primary_motor.GetSupplyCurrent().GetValue()/(_primary_motor.GetMotorStallCurrent().GetValue()*abs(_primary_motor.Get())));
+    } else {
+        return 0;
+    }
 }
 
 
