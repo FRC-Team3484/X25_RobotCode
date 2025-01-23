@@ -29,12 +29,21 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             units::feet_per_second_squared_t max_acceleration,
             SC::SC_LinearFeedForward feed_forward_constants
             );
+        
+        /*
+        * @param elevator_subsystem
+        */
+        // sets the height
         void SetHeight(units::inch_t height);
+        // sets height being targeted
         bool AtTargetHeight();
+        // sets power of motore for elevator
         void SetPower(double power);
-        // sets power of motor for elevator
+        // sets current mode to test
         void SetTestMode(bool test_mode);
+        // called consistantly during the program
         void Periodic() override;
+        // presents the info from test mode 
         void PrintTestInfo();
 
 
