@@ -37,3 +37,11 @@ void Operator_Interface::SetRumble(double Rumble) {
 int Operator_Interface::RawPOV() {
     return _operator_controller.GetPOV();
 }
+
+// ----------
+// Testing
+// ----------
+Testing_Interface::Testing_Interface() {}
+
+double Testing_Interface::GetMotor1() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(TESTING_GET_MOTOR_1), TESTING_DEADBAND);}
+double Testing_Interface::GetMotor2() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(TESTING_GET_MOTOR_2), TESTING_DEADBAND);}
