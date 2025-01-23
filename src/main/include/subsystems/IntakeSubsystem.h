@@ -12,7 +12,6 @@
  * This class has functions to check if the intake has 
  * the Coral or the Algae, and sets motor power accordingly.
  */
-
 class IntakeSubsystem : public frc2::SubsystemBase {
     public:
         IntakeSubsystem(
@@ -30,7 +29,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         */
         void SetAlgaePower(double power);
         
-         /** 
+        /** 
          * Controls the roller power for the Coral
          * 
          * @param power The roller power for the Coral is between -1.0 and 1.0
@@ -55,6 +54,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
          * 
         */
         void PrintTestInfo();
+        
     private:
         ctre::phoenix6::hardware::TalonFX _intake_motor_1;
         ctre::phoenix6::hardware::TalonFX _intake_motor_2;

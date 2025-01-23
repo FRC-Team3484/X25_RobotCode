@@ -31,18 +31,21 @@ class Robot : public frc::TimedRobot {
         void TestExit() override;
 
     private:
+        // Subsystems
         #ifdef INTAKE_ENABLED
         IntakeSubsystem _intake{IntakeConstants::MOTOR_ONE_CAN_ID, IntakeConstants::MOTOR_TWO_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_SENSOR_DI_CH};
         #endif
+
+        // Operator Interfaces
+        Testing_Interface _oi_testing{};
+
+        // Command Groups
         frc2::CommandPtr _test_state_commands = frc2::cmd::Parallel(
             #ifdef INTAKE_ENABLED
             TestIntakeCommand{&_intake, &_oi_testing}.ToPtr(),
             #endif
             frc2::cmd::None()
-        );
-
-        Testing_Interface _oi_testing{};
-        
+        );        
 };
 
 #endif

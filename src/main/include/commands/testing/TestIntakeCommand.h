@@ -1,8 +1,5 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-#pragma once
+#ifndef TEST_INTAKE_SUBSYSTEM_H
+#define TEST_INTAKE_SUBSYSTEM_H
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
@@ -10,30 +7,33 @@
 #include "OI.h"
 
 /**
- * An example command.
- *
- * <p>Note that this extends CommandHelper, rather extending Command
- * directly; this is crucially important, or else the decorator functions in
- * Command will *not* work!
+ * Test Intake Command
+ * 
+ * This command is run to test the functions of the intake
  */
 class TestIntakeCommand
-    : public frc2::CommandHelper<frc2::Command, TestIntakeCommand> {
- public:
-  /* You should consider using the more terse Command factories API instead
-   * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
-   */
-  TestIntakeCommand(IntakeSubsystem* intake_subsystem, Testing_Interface* oi);
+    : public frc2::CommandHelper<frc2::Command, TestIntakeCommand>
+{
+public:
+    /**
+     * Creates the test intake command
+     * 
+     * @param intake_subsystem The intake subsystem
+     * @param oi The testing interface from OI.h
+     */
+    TestIntakeCommand(IntakeSubsystem *intake_subsystem, Testing_Interface *oi);
 
-  void Initialize() override;
+    void Initialize() override;
 
-  void Execute() override;
+    void Execute() override;
 
-  void End(bool interrupted) override;
+    void End(bool interrupted) override;
 
-  bool IsFinished() override;
+    bool IsFinished() override;
 
-
-  private:
-    IntakeSubsystem* _intake_subsystem;
-    Testing_Interface* _oi;
+private:
+    IntakeSubsystem *_intake_subsystem;
+    Testing_Interface *_oi;
 };
+
+#endif
