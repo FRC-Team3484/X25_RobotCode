@@ -14,8 +14,22 @@
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
 
+/**
+ * The elevator subsystem controls the elevator, allowing it to move up and down, and prints test mode data
+ */
 class ElevatorSubsystem : public frc2::SubsystemBase {
     public:
+        /**
+         * Creates an instance of the elevator subsystem
+         * 
+         * @param primary_motor_can_id The CAN ID for the primary motor
+         * @param secondary_motor_can_id The CAN ID for the secondary motor
+         * @param home_sensor_di_ch The ID for the home sensor
+         * @param elevator_pidc The elevator PID constants
+         * @param max_velocity The maximum velocity the elevator can move
+         * @param max_acceleration The maxium acceleration the elevator can move
+         * @param feed_forward_constants The elevator feed forward constants
+         */
         ElevatorSubsystem(
             int primary_motor_can_id,
             int secondary_motor_can_id,
@@ -26,25 +40,42 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             SC::SC_LinearFeedForward feed_forward_constants
             );
         
-        /*
-        * @param elevator_subsystem
-        */
-        // sets the height
+        /**
+         * Sets the hight of the elevator
+         * 
+         * @param height The height to set the elevator, in inches
+         */
         void SetHeight(units::inch_t height);
-        // sets height being targeted
+        
+        /**
+         * Checks if the elevator is at the target hight
+         * 
+         * @return True if the elevator has reached the target
+         */
         bool AtTargetHeight();
-        // sets power of motore for elevator
+
+        /**
+         * Sets the power of the elevator
+         * 
+         * @param power The power of the elevator, as a double
+         */
         void SetPower(double power);
-        // sets current mode to test
+        
+        /**
+         * Sets the test mode of the elevator subsystem
+         * 
+         * @param test_mode If test mode should be enabled or not
+         */
         void SetTestMode(bool test_mode);
-        // called consistantly during the program
-        void Periodic() override;
-        // presents the info from test mode 
+
+        /**
+         * Prints the test info to Smart Dashboard, used when the robot is in test mode
+         */
         void PrintTestInfo();
 
+        void Periodic() override;
 
     private:
-        
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
@@ -69,8 +100,6 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
-
-
 };
 
 #endif

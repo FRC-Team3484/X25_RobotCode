@@ -43,6 +43,7 @@ namespace UserInterface {
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }
 }
+
 namespace ElevatorConstants {
     constexpr int PRIMARY_MOTOR_CAN_ID = 17;
     constexpr int SECONDARY_MOTOR_CAN_ID = 18;

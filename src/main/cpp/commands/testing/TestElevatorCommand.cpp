@@ -1,13 +1,9 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "commands/testing/TestElevatorCommand.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 TestElevatorCommand::TestElevatorCommand(ElevatorSubsystem* elevator_subsystem, Testing_Interface* testing_interface)
 : _elevator_subsystem(elevator_subsystem), _testing_interface(testing_interface) {
-    // Use addRequirements() here to declare subsystem dependencies.
+    // Use addRequirements() here to delare subsystem dependencies.
     AddRequirements({_elevator_subsystem});
 }
 

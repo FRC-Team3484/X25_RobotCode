@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "subsystems/ElevatorSubsystem.h"
 #include <units/math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -39,8 +35,6 @@ ElevatorSubsystem::ElevatorSubsystem(
         _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), false});
         _trapezoid_timer.Start();
 }
-
-
 
 void ElevatorSubsystem::Periodic() {
     volt_t feed_forward_output;
@@ -108,23 +102,19 @@ void ElevatorSubsystem::SetTestMode(bool test_mode) {
     }
 }
 
-
 void ElevatorSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
     frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
     frc::SmartDashboard::PutBoolean("Home Sensor", _HomeSensor());
 }
 
-
 bool ElevatorSubsystem::_HomeSensor() {
     return !_home_sensor.Get();
 }
 
-
 bool ElevatorSubsystem::_GetStalled() {
     return _GetStallPercentage() > STALL_LIMIT;
 }
-
 
 double ElevatorSubsystem::_GetStallPercentage() {
     if (abs(_primary_motor.Get()) > STALL_TRIGGER)
@@ -135,11 +125,9 @@ double ElevatorSubsystem::_GetStallPercentage() {
     }
 }
 
-
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
     return _primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO;
 }
-
 
 feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
     return _primary_motor.GetVelocity().GetValue() * ELEVATOR_RATIO;
