@@ -4,9 +4,12 @@
 #include <optional>
 #include "Constants.h"
 #include "Config.h"
-
-#include "subsystems/IntakeSubsystem.h"
 #include "OI.h"
+
+#include "subsystems/ElevatorSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
+
+#include "commands/testing/TestElevatorCommand.h"
 #include "commands/testing/TestIntakeCommand.h"
 
 #include <frc/TimedRobot.h>
@@ -32,6 +35,10 @@ class Robot : public frc::TimedRobot {
 
     private:
         // Subsystems
+        #ifdef ELEVATOR_ENABLED
+        ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
+        #endif
+
         #ifdef INTAKE_ENABLED
         IntakeSubsystem _intake{IntakeConstants::MOTOR_ONE_CAN_ID, IntakeConstants::MOTOR_TWO_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_SENSOR_DI_CH};
         #endif
@@ -41,11 +48,14 @@ class Robot : public frc::TimedRobot {
 
         // Command Groups
         frc2::CommandPtr _test_state_commands = frc2::cmd::Parallel(
+            #ifdef ELEVATOR_ENABLED
+            TestElevatorCommand{&_elevator, &_oi_testing}.ToPtr(),
+            #endif
             #ifdef INTAKE_ENABLED
             TestIntakeCommand{&_intake, &_oi_testing}.ToPtr(),
             #endif
             frc2::cmd::None()
-        );        
+        );       
 };
 
 #endif

@@ -1,1 +1,2 @@
+#define ELEVATOR_ENABLED
 #define INTAKE_ENABLED
