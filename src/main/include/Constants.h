@@ -40,9 +40,19 @@ namespace Pivot {
     constexpr int PIVOT_MOTOR_CAN_ID = 16;
     constexpr int PIVOT_HOME_DI_CH = 3;
 
-    constexpr units::degree_t ANGLE_TOLERANCE = 10_deg;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
+
+    constexpr bool INVERT_MOTOR = false; 
+
+    constexpr double STALL_LIMIT = 0.9;
+    constexpr double STALL_TRIGGER = 0.1;
+    constexpr double GEAR_RATIO = 1/1; // edit later
+
+    constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 0_deg;
-    constexpr units::degree_t TARGET_POSITION = 0_deg; // This will be changed when we know the target position
+    constexpr units::degree_t TARGET_POSITION = 0_deg;
+    constexpr double HOME_POWER = -0.2;
 }
 
 #endif

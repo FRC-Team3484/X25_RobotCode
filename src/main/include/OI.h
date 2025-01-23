@@ -42,6 +42,16 @@ class Operator_Interface {
 
     private:
         frc::XboxController _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
+
 };
 
+class Testing_Interface {
+    public:
+        Testing_Interface();
+
+        double GetMotorOne();
+        double GetMotorTwo();
+    private:
+        frc::XboxController _test_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};
+};
 #endif
