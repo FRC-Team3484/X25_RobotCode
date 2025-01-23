@@ -7,7 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 using namespace ctre::phoenix6;
-using namespace Elevator;
+using namespace ElevatorConstants;
 using namespace units;
 
 ElevatorSubsystem::ElevatorSubsystem(

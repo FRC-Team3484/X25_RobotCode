@@ -1,9 +1,5 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-#ifndef ELEVATORSUBSYSTEM_H
-#define ELEVATORSUBSYSTEM_H
+#ifndef ELEVATOR_SUBSYSTEM_H
+#define ELEVATOR_SUBSYSTEM_H
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/DigitalInput.h>
@@ -68,8 +64,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
 
-        frc::TrapezoidProfile<units::feet>::State _initial_state {Elevator::HOME_POSITION, 0_fps};
-        frc::TrapezoidProfile<units::feet>::State _target_state {Elevator::HOME_POSITION, 0_fps};
+        frc::TrapezoidProfile<units::feet>::State _initial_state {ElevatorConstants::HOME_POSITION, 0_fps};
+        frc::TrapezoidProfile<units::feet>::State _target_state {ElevatorConstants::HOME_POSITION, 0_fps};
         frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
