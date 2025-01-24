@@ -33,7 +33,7 @@ class Robot : public frc::TimedRobot {
     private:
         // Subsystems
         #ifdef INTAKE_ENABLED
-        IntakeSubsystem _intake{IntakeConstants::MOTOR_ONE_CAN_ID, IntakeConstants::MOTOR_TWO_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_SENSOR_DI_CH};
+        IntakeSubsystem _intake{IntakeConstants::MOTOR_ONE_CAN_ID, IntakeConstants::MOTOR_TWO_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH};
         #endif
 
         // Operator Interfaces
