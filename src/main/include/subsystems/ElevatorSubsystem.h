@@ -13,6 +13,7 @@
 #include <frc/controller/ElevatorFeedforward.h>
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
+#include <frc/RobotController.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 
@@ -72,6 +73,27 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::ElevatorFeedforward _elevator_feed_forward;
 
+
+
+    frc2::sysid::SysIdRoutine m_sysIdRoutine{
+        frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr},
+        frc2::sysid::Mechanism{
+            [this](units::volt_t driveVoltage) {
+            _primary_motor.SetVoltage(driveVoltage);
+            _secondary_motor.SetVoltage(driveVoltage);
+            
+        },
+        [this](frc::sysid::SysIdRoutineLog* log) {
+            log->Motor("primary-motor")
+                .voltage(_primary_motor.Get() * frc::RobotController::GetBatteryVoltage())
+                .position(units::meter_t{_GetElevatorHeight()})
+                .velocity(units::meters_per_second_t{_GetElevatorVelocity()});
+            log->Motor("secondary-motor")
+                .voltage(_secondary_motor.Get() * frc::RobotController::GetBatteryVoltage())
+                .position(units::meter_t{_GetElevatorHeight()})
+                .velocity(units::meters_per_second_t{_GetElevatorVelocity()});
+        },
+        this}};
 
 };
 
