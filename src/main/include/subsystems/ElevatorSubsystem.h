@@ -6,6 +6,7 @@
 #define ELEVATORSUBSYSTEM_H
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/sysid/SysIdRoutine.h>
 #include <frc/DigitalInput.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
@@ -37,6 +38,12 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         void Periodic() override;
         void PrintTestInfo();
 
+
+
+        frc2::CommandPtr PsuedoSetHeight(std::function<double()> height);
+
+        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
 
     private:
         

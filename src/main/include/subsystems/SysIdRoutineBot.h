@@ -26,8 +26,11 @@ class SysIdRoutineBot {
             Elevator::PRIMARY_MOTOR_CAN_ID,
             Elevator::SECONDARY_MOTOR_CAN_ID,
             Elevator::HOME_SENSOR_DI_CH,
-            Elevator::,
-            Elevator::MAX_VELOCITY, Elevator::MAX_ACCELERATION, Elevator::ELEVATOR_FEED_FORWARD_CONSTANTS};
+            Elevator::PID_C,
+            Elevator::MAX_VELOCITY,
+            Elevator::MAX_ACCELERATION,
+            Elevator::FEED_FORWARD
+            };
 };
 
 #endif

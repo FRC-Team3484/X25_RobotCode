@@ -11,4 +11,7 @@ SysIdRoutineBot::SysIdRoutineBot() {
 }
 
 void SysIdRoutineBot::_ConfigureBindings() {
+    _m_elevator.SetDefaultCommand(_m_elevator.PsuedoSetHeight(
+        [this] {return -_driver_controller.GetLeftY();}
+    ));
 }

@@ -44,14 +44,22 @@ namespace UserInterface {
     }
 }
 namespace Elevator {
+    constexpr int PRIMARY_MOTOR_CAN_ID = 17;
+    constexpr int SECONDARY_MOTOR_CAN_ID = 18;
+    constexpr int HOME_SENSOR_DI_CH = 0;
+
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
     constexpr bool INVERT_MOTORS = false;
     constexpr double STALL_LIMIT = 0.9;
+    constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
     constexpr units::inch_t HOME_POSITION = 0_in;
-    constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps; 
+    constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
+
+    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
 }
 
 #endif

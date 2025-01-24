@@ -5,6 +5,7 @@
 #include "subsystems/ElevatorSubsystem.h"
 #include <units/math.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc2/command/Commands.h>
 
 using namespace ctre::phoenix6;
 using namespace Elevator;
@@ -76,6 +77,10 @@ void ElevatorSubsystem::Periodic() {
     // up above is a big switch statement that contains the different states of the elevator.
 }
 
+frc2::CommandPtr ElevatorSubsystem::PsuedoSetHeight(std::function<double()> height) {
+    return frc2::cmd::Run([this, height] {SetHeight(inch_t{height()});});
+}
+
 void ElevatorSubsystem::SetHeight(inch_t height) {
     if (height != _target_state.position) {
         _target_state.position = height;
@@ -91,6 +96,7 @@ bool ElevatorSubsystem::AtTargetHeight() {
     return math::abs(_target_state.position - _GetElevatorHeight()) < POSITION_TOLERANCE;
 }
 // this function checks if the elevator is at the target height
+
 
 void ElevatorSubsystem::SetPower(double power) {
     if (_elevator_state == test) {
@@ -140,3 +146,30 @@ feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
     return _primary_motor.GetVelocity().GetValue() * ELEVATOR_RATIO;
 }
 // this function gets the velocity of the elevator
+
+
+// just in case. we were confused with the old code :), probably not needed.
+    // frc2::sysid::SysIdRoutine m_sysIdRoutine{
+    //     frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt,
+    //                         std::nullopt},
+    //     frc2::sysid::Mechanism{
+    //         [this](units::volt_t driveVoltage) {
+    //         _primary_motor.SetVoltage(driveVoltage);
+    //         _secondary_motor.SetVoltage(driveVoltage);
+            
+    //     },
+    //     [this](frc::sysid::SysIdRoutineLog* log) {
+    //         log->Motor("drive-fl")
+    //             .voltage(_drive_motor_FL.Get() *
+    //                     frc::RobotController::GetBatteryVoltage())
+    //             .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FL.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+    //             .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FL.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+    //         log->Motor("drive-fr")
+    //             .voltage(_drive_motor_FR.Get() *
+    //                     frc::RobotController::GetBatteryVoltage())
+    //             .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FR.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+    //             .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FR.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+    //     },
+
+    //     this}};
+
