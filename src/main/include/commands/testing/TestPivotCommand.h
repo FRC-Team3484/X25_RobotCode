@@ -19,26 +19,26 @@
  * Command will *not* work!
  */
 class TestPivotCommand
-    : public frc2::CommandHelper<frc2::Command, TestPivotCommand> {
- public:
-  /* You should consider using the more terse Command factories API instead
-   * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
-   */
-  TestPivotCommand(
-  PivotSubsystem* _pivot_subsystem,
-  Testing_Interface* _testing_interface
-  );
+	: public frc2::CommandHelper<frc2::Command, TestPivotCommand> {
+	public:
+	/* You should consider using the more terse Command factories API instead
+	* https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
+	*/
+	TestPivotCommand(
+		PivotSubsystem* _pivot_subsystem,
+  		Testing_Interface* _testing_interface
+  	);
 
-  void Initialize() override;
+		void Initialize() override;
 
-  void Execute() override;
+		void Execute() override;
 
-  void End(bool interrupted) override;
+		void End(bool interrupted) override;
 
-  bool IsFinished() override;
+		bool IsFinished() override;
 
-  private:
-  PivotSubsystem* _pivot_subsystem;
-  Testing_Interface* _testing_interface;
+  	private:
+  		PivotSubsystem* _pivot_subsystem;
+  		Testing_Interface* _testing_interface;
 };
 #endif

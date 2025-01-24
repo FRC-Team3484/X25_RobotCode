@@ -43,7 +43,10 @@ namespace Pivot {
     constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
     constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
 
-    constexpr bool INVERT_MOTOR = false; 
+    constexpr bool INVERT_MOTOR = false;
+
+    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
