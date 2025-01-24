@@ -54,6 +54,7 @@ void PivotSubsystem::Periodic() {
         feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, radians_per_second_t{_GetPivotVelocity()}, radians_per_second_t{current_state.velocity});
         pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
         _pivot_motor.SetVoltage(units::volt_t{feed_forward_output+pid_output});
+        break;
     case test:
         PrintTestInfo();
         break;
@@ -63,8 +64,8 @@ void PivotSubsystem::Periodic() {
     }
 }
 
-frc2::CommandPtr PivotSubsystem::PsuedoSetAngle(std::function<double()> height) {
-    return frc2::cmd::Run([this, height] {SetPivotAngle(inch_t{height()});});
+frc2::CommandPtr PivotSubsystem::PsuedoSetAngle(std::function<double()> angle) {
+    return frc2::cmd::Run([this, angle] {SetPivotAngle(degree_t{angle()});});
 }
 
 void PivotSubsystem::SetPivotAngle(degree_t angle) {
