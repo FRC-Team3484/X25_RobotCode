@@ -16,8 +16,22 @@
 
 #include <units/angle.h>
 
+/**
+ * The pivot subsystem controls the pivot motion of the intake, allowing it to turn up and down, and prints test mode data 
+ */
+
 class PivotSubsystem : public frc2::SubsystemBase {
     public:
+        /**
+         * Creates an instance of the pivot subsystem
+         * 
+         * @param pivot_motor_can_id The CAN ID for the only pivot motor
+         * @param pivot_home_di_ch The ID for the home sensor
+         * @param pivot_pidc The pivot PID constants
+         * @param max_velocity The maximum velocity the pivot can move
+         * @param max_acceleration The maxium acceleration the pivot can move
+         * @param feed_forward_constants The pivot feed forward constants
+         */
         PivotSubsystem(
             int pivot_motor_can_id,
             int pivot_home_di_ch,
@@ -27,15 +41,44 @@ class PivotSubsystem : public frc2::SubsystemBase {
             SC::SC_AngularFeedForward feed_forward_constants
         );
 
-        
-
+        /**
+         * Sets the angle of the pivot
+         * 
+         * @param angle The angle to set the pivot, in degrees
+         */
         void SetPivotAngle(units::degree_t angle);
+
+        /**
+         * Checks if the pivot is at the target position
+         * 
+         * @return True if the pivot has reached the position
+         */
         bool AtTargetPosition();
-        void Periodic() override;
+
+
         //test functions
+
+
+        /**
+         * Sets the power of the pivot
+         * 
+         * @param power The power of the pivot, as a double
+         */
         void SetPower(double power);
+
+        /**
+         * Sets the test mode of the pivot subsystem
+         * 
+         * @param test_mode If test mode should be enabled or not
+         */
         void SetTestMode(bool test_mode);
+
+        /**
+         * Prints the test info to Smart Dashboard, used when the robot is in test mode
+         */
         void PrintTestInfo();
+
+        void Periodic() override;
 
     private:
 

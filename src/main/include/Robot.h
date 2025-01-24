@@ -31,7 +31,7 @@ class Robot : public frc::TimedRobot {
         void TestExit() override;
 
     private:
-
+        // Subsystems
         #ifdef PIVOT
             PivotSubsystem _pivot{Pivot::PIVOT_MOTOR_CAN_ID, Pivot::PIVOT_HOME_DI_CH, Pivot::PID_C, Pivot::MAX_VELOCITY, Pivot::MAX_ACCELERATION, Pivot::FEED_FORWARD};
         #endif
