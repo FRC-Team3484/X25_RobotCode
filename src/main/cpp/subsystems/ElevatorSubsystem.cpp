@@ -70,7 +70,7 @@ void ElevatorSubsystem::Periodic() {
             break;
         // the 'test' state is for debugging.
         default:
-            _elevator_state = home;
+            _elevator_state = test;
             break;
     }
     // up above is a big switch statement that contains the different states of the elevator.
