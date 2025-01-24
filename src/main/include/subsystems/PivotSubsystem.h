@@ -9,7 +9,9 @@
 #include <frc/Timer.h>
 #include <frc/controller/ArmFeedforward.h>
 #include <frc/controller/PIDController.h>
+#include <frc/RobotController.h>
 
+#include <frc2/command/sysid/SysIdRoutine.h>
 #include <frc2/command/SubsystemBase.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
@@ -80,6 +82,11 @@ class PivotSubsystem : public frc2::SubsystemBase {
 
         void Periodic() override;
 
+        frc2::CommandPtr PsuedoSetAngle(std::function<double()> angle);
+
+        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
+
     private:
 
         bool _HomeSensor();
@@ -105,6 +112,21 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         frc::ArmFeedforward _pivot_feed_forward;
+
+    frc2::sysid::SysIdRoutine m_sysIdRoutine{
+        frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr},
+        frc2::sysid::Mechanism{
+            [this](units::volt_t driveVoltage) {
+            _pivot_motor.SetVoltage(driveVoltage);
+            
+        },
+        [this](frc::sysid::SysIdRoutineLog* log) {
+            log->Motor("primary-motor")
+                .voltage(_pivot_motor.Get() * frc::RobotController::GetBatteryVoltage())
+                .position(units::turn_t{_GetPivotAngle()})
+                .velocity(units::turns_per_second_t{_GetPivotVelocity()});
+        },
+        this}};
 };
 
 #endif
