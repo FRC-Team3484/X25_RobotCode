@@ -69,6 +69,23 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
     SetBrakeMode();
 
     frc::SmartDashboard::PutData("Field", &_field);
+
+    ctre::phoenix6::configs::TalonFXConfiguration motor_config{};
+        motor_config.MotorOutput.Inverted = true;
+        motor_config.MotorOutput.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
+        
+        _drive_motor_FL.GetConfigurator().Apply(motor_config);
+        _drive_motor_FR.GetConfigurator().Apply(motor_config);
+        _drive_motor_BL.GetConfigurator().Apply(motor_config);
+        _drive_motor_BR.GetConfigurator().Apply(motor_config);
+
+        _steer_motor_FL.GetConfigurator().Apply(motor_config);
+        _steer_motor_FR.GetConfigurator().Apply(motor_config);
+        _steer_motor_BL.GetConfigurator().Apply(motor_config);
+        _steer_motor_BR.GetConfigurator().Apply(motor_config);
+
+        _drive_motor_FL.SetControl(ctre::phoenix6::controls::Follower{_drive_motor_BL.GetDeviceID(), false});
+        _drive_motor_FR.SetControl(ctre::phoenix6::controls::Follower{_drive_motor_BR.GetDeviceID(), false});
 }
 
 void DrivetrainSubsystem::Periodic() {
@@ -91,6 +108,18 @@ SmartDashboard::PutNumber("Odometry X", GetPose().X().value());
     }
 
     _field.SetRobotPose(GetPose());
+}
+
+frc2::CommandPtr DrivetrainSubsystem::PseudoForwardCommand(std::function<double()> fwd) {
+    return frc2::cmd::Run([this, fwd] { _drive.ArcadeDrive(fwd(), 0); }, {this});
+}
+
+frc2::CommandPtr DrivetrainSubsystem::SysIdQuasistatic(frc2::sysid::Direction direction) {
+    return _sysIdRoutine.Quasistatic(direction);
+}
+
+frc2::CommandPtr DrivetrainSubsystem::SysIdDynamic(frc2::sysid::Direction direction) {
+    return _sysIdRoutine.Dynamic(direction);
 }
 
 void DrivetrainSubsystem::Drive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, bool open_loop) {
