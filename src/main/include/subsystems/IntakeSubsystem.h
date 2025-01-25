@@ -18,7 +18,8 @@ class IntakeSubsystem : public frc2::SubsystemBase {
             int motor_one_can_id,
             int motor_two_can_id,
             int algae_sensor_di_ch,
-            int coral_sensor_di_ch
+            int coral_high_sensor_di_ch,
+            int coral_low_sensor_di_ch
         );
         void Periodic() override;
 
@@ -48,7 +49,9 @@ class IntakeSubsystem : public frc2::SubsystemBase {
          * 
          * @return Returns false if the sensor detects the Coral
         */
-        bool HasCoral();
+        bool CoralHigh();
+
+        bool CoralLow();
 
         /**
          * 
@@ -59,7 +62,8 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         ctre::phoenix6::hardware::TalonFX _intake_motor_1;
         ctre::phoenix6::hardware::TalonFX _intake_motor_2;
         frc::DigitalInput _algae_sensor;
-        frc::DigitalInput _coral_sensor;
+        frc::DigitalInput _coral_high_sensor;
+        frc::DigitalInput _coral_low_sensor;
 };
 
 #endif
