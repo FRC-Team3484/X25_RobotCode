@@ -49,6 +49,7 @@ namespace SC
 
 	using kv_unit = units::compound_unit<units::volts, units::inverse<units::meters_per_second>>;
 	using ka_unit = units::compound_unit<units::volts, units::inverse<units::meters_per_second_squared>>;
+	
 	typedef struct {
 		double Kp;
 		double Ki;
@@ -57,6 +58,16 @@ namespace SC
 		units::unit_t<ka_unit> A;
 		units::volt_t S;
 	} SC_SwervePID;
+	
+	using kav_unit = units::compound_unit<units::volts, units::inverse<units::rad_per_s>>;
+	using kaa_unit = units::compound_unit<units::volts, units::inverse<units::rad_per_s_sq>>;
+	typedef struct {
+		units::volt_t G;
+		units::volt_t S;
+		units::unit_t<kav_unit> V;
+		units::unit_t<kaa_unit> A;
+	} SC_AngularFeedForward;
+
 
 
 	typedef struct {

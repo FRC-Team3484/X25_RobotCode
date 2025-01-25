@@ -35,6 +35,7 @@ void Operator_Interface::SetRumble(double Rumble) {
 }
 
 int Operator_Interface::RawPOV() {
+
     return _operator_controller.GetPOV();
 }
 

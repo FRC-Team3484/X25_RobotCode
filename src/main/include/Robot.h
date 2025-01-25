@@ -16,6 +16,12 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc2/command/Commands.h>
 
+#include "subsystems/PivotSubsystem.h"
+#include "commands/testing/TestPivotCommand.h"
+#include "Config.h"
+#include "Constants.h"
+#include "OI.h"
+
 class Robot : public frc::TimedRobot {
     public:
         Robot();
@@ -43,6 +49,10 @@ class Robot : public frc::TimedRobot {
         IntakeSubsystem _intake{IntakeConstants::MOTOR_ONE_CAN_ID, IntakeConstants::MOTOR_TWO_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH};
         #endif
 
+        #ifdef PIVOT
+        PivotSubsystem _pivot{Pivot::PIVOT_MOTOR_CAN_ID, Pivot::PIVOT_HOME_DI_CH, Pivot::PID_C, Pivot::MAX_VELOCITY, Pivot::MAX_ACCELERATION, Pivot::FEED_FORWARD};
+        #endif
+
         // Operator Interfaces
         Testing_Interface _oi_testing{};
 
@@ -54,8 +64,11 @@ class Robot : public frc::TimedRobot {
             #ifdef INTAKE_ENABLED
             TestIntakeCommand{&_intake, &_oi_testing}.ToPtr(),
             #endif
+            #ifdef PIVOT
+            TestPivotCommand{&_pivot, &_oi_testing}.ToPtr(),
+            #endif
             frc2::cmd::None()
-        );       
+        );    
 };
 
 #endif
