@@ -32,7 +32,6 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         void DriveRobotcentric(frc::ChassisSpeeds speeds, bool open_loop=false);
         void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desired_states, bool open_loop=false, bool optimize=true);
         frc::Rotation2d GetHeading();
-        frc2::CommandPtr PseudoForwardCommand(std::function<double()> fwd);
         void SetHeading(units::degree_t heading=0_deg);
         units::degrees_per_second_t GetTurnRate();
         frc::Pose2d GetPose();
@@ -55,8 +54,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
             frc::Translation2d{-SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2}
         };
 
-        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
-        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
+        frc2::CommandPtr PseudoForwardCommand(std::function<double()> fwd);
+        frc2::CommandPtr SysIdForwardQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdForwardDynamic(frc2::sysid::Direction direction);
 
     private:
         SwerveModule* _modules[4];
@@ -83,7 +83,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
                                        [this](auto val) {_drive_motor_FR.Set(val);}
         };
 
-        frc2::sysid::SysIdRoutine _sysIdRoutine{
+        frc2::sysid::SysIdRoutine _sysIdForwardRoutine{
         frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr},
         frc2::sysid::Mechanism{
             [this](units::volt_t driveVoltage) {
