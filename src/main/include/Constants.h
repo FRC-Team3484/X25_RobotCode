@@ -45,8 +45,8 @@ namespace UserInterface {
 }
 
 namespace ElevatorConstants {
-    constexpr int PRIMARY_MOTOR_CAN_ID = 17;
-    constexpr int SECONDARY_MOTOR_CAN_ID = 18;
+    constexpr int PRIMARY_MOTOR_CAN_ID = 20;
+    constexpr int SECONDARY_MOTOR_CAN_ID = 21;
     constexpr int HOME_SENSOR_DI_CH = 0;
 
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
@@ -64,14 +64,14 @@ namespace ElevatorConstants {
 }
 
 namespace IntakeConstants {
-        constexpr int MOTOR_CAN_ID = 14;
+        constexpr int MOTOR_CAN_ID = 30;
         constexpr int ALGAE_SENSOR_DI_CH = 1;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 2;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 4;
 }
 
 namespace PivotConstants {
-    constexpr int PIVOT_MOTOR_CAN_ID = 16;
+    constexpr int PIVOT_MOTOR_CAN_ID = 31;
     constexpr int PIVOT_HOME_DI_CH = 3;
 
     constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
