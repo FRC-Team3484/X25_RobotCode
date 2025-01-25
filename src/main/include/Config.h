@@ -1,0 +1,2 @@
+#define DRIVETRAIN_ENABLED
+// #define VISION_ENABLED

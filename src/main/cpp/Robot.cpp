@@ -20,7 +20,9 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::AutonomousExit() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    _drive_state_commands.Schedule();
+}
 
 void Robot::TeleopPeriodic() {}
 
