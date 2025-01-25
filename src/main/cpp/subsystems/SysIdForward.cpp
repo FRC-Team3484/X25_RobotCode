@@ -11,7 +11,19 @@ SysIdForward::SysIdForward() {
 }
 
 void SysIdForward::_ConfigureBindings() {
+    _drivetrain.SetDefaultCommand(_drivetrain.PseudoForwardCommand(
+      [this] { return -_driver_controller.GetLeftY(); }));
 
+  // Using bumpers as a modifier and combining it with the buttons so that we
+  // can have both sets of bindings at once
+    (_driver_controller.A())
+      .WhileTrue(_drivetrain.SysIdForwardQuasistatic(frc2::sysid::Direction::kForward));
+    (_driver_controller.B())
+      .WhileTrue(_drivetrain.SysIdForwardQuasistatic(frc2::sysid::Direction::kReverse));
+    (_driver_controller.X())
+      .WhileTrue(_drivetrain.SysIdForwardDynamic(frc2::sysid::Direction::kForward));
+    (_driver_controller.Y())
+      .WhileTrue(_drivetrain.SysIdForwardDynamic(frc2::sysid::Direction::kReverse));
 }
 // This method will be called once per scheduler run
 

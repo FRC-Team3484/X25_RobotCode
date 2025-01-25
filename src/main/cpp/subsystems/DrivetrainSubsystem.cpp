@@ -122,6 +122,18 @@ frc2::CommandPtr DrivetrainSubsystem::SysIdForwardDynamic(frc2::sysid::Direction
     return _sysIdForwardRoutine.Dynamic(direction);
 }
 
+frc2::CommandPtr DrivetrainSubsystem::PseudoSidewaysCommand(std::function<double()> fwd) {
+    return frc2::cmd::Run([this, fwd] { _drive.ArcadeDrive(fwd(), 0); }, {this});
+}
+
+frc2::CommandPtr DrivetrainSubsystem::SysIdSidewaysQuasistatic(frc2::sysid::Direction direction) {
+    return _sysIdSidewaysRoutine.Quasistatic(direction);
+}
+
+frc2::CommandPtr DrivetrainSubsystem::SysIdSidewaysDynamic(frc2::sysid::Direction direction) {
+    return _sysIdSidewaysRoutine.Dynamic(direction);
+}
+
 void DrivetrainSubsystem::Drive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, bool open_loop) {
     DriveRobotcentric(ChassisSpeeds::FromFieldRelativeSpeeds(x_speed, y_speed, rotation, GetHeading()), open_loop);
 }
