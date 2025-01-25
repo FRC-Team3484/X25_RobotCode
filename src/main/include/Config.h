@@ -1,3 +1,3 @@
-#define PIVOT
+#define PIVOT_ENABLED
 #define ELEVATOR_ENABLED
 #define INTAKE_ENABLED

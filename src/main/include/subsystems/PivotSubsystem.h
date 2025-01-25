@@ -55,9 +55,7 @@ class PivotSubsystem : public frc2::SubsystemBase {
          */
         bool AtTargetPosition();
 
-
         //test functions
-
 
         /**
          * Sets the power of the pivot
@@ -100,8 +98,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
 
         frc::TrapezoidProfile<units::degree> _pivot_trapezoid;
 
-        frc::TrapezoidProfile<units::degree>::State _intitial_state{Pivot::HOME_POSITION, 0_deg_per_s};
-        frc::TrapezoidProfile<units::degree>::State _target_state{Pivot::TARGET_POSITION, 0_deg_per_s};
+        frc::TrapezoidProfile<units::degree>::State _intitial_state{PivotConstants::HOME_POSITION, 0_deg_per_s};
+        frc::TrapezoidProfile<units::degree>::State _target_state{PivotConstants::TARGET_POSITION, 0_deg_per_s};
         frc::Timer _trapezoid_timer;
 
         frc::ArmFeedforward _pivot_feed_forward;

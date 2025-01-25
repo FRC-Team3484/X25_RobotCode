@@ -41,14 +41,14 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             );
         
         /**
-         * Sets the hight of the elevator
+         * Sets the height of the elevator
          * 
          * @param height The height to set the elevator, in inches
          */
         void SetHeight(units::inch_t height);
         
         /**
-         * Checks if the elevator is at the target hight
+         * Checks if the elevator is at the target height
          * 
          * @return True if the elevator has reached the target
          */

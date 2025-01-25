@@ -71,8 +71,7 @@ namespace IntakeConstants {
         constexpr int CORAL_LOW_SENSOR_DI_CH = 4;
 }
 
-// We changed PivotConstants to Pivot due to this is how elevator(constants) was named
-namespace Pivot {
+namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 16;
     constexpr int PIVOT_HOME_DI_CH = 3;
 

@@ -4,7 +4,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 using namespace units;
-using namespace Pivot;
+using namespace PivotConstants;
 using namespace ctre::phoenix6;
 
 PivotSubsystem::PivotSubsystem(
