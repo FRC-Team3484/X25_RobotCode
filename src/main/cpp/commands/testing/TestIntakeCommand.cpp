@@ -19,8 +19,7 @@ void TestIntakeCommand::Execute()
     if (frc::SmartDashboard::GetBoolean("Test Intake", false))
     {
         _intake_subsystem->PrintTestInfo();
-        _intake_subsystem->SetAlgaePower(_oi->GetMotorOne());
-        _intake_subsystem->SetCoralPower(_oi->GetMotorTwo());
+        _intake_subsystem->SetPower(_oi->GetMotorOne());
     }
 }
 

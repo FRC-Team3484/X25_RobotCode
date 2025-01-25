@@ -64,8 +64,7 @@ namespace ElevatorConstants {
 }
 
 namespace IntakeConstants {
-        constexpr int MOTOR_ONE_CAN_ID = 14;
-        constexpr int MOTOR_TWO_CAN_ID = 15;
+        constexpr int MOTOR_CAN_ID = 14;
         constexpr int ALGAE_SENSOR_DI_CH = 1;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 2;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 4;
