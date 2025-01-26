@@ -18,11 +18,13 @@
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
         DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, frc::Translation2d center_of_rotation);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);

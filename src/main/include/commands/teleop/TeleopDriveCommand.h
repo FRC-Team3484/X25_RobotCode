@@ -25,6 +25,9 @@ class TeleopDriveCommand: public frc2::CommandHelper<frc2::Command, TeleopDriveC
 
         std::optional<frc::DriverStation::Alliance> alliance;
 
+        enum State {drive, pivot, test_drive, test_pivot};
+        State _drivetrain_state = drive;
+
         wpi::array<frc::SwerveModulePosition, 4> _initial_positions = {
             frc::SwerveModulePosition{0_m, 0_rad},
             frc::SwerveModulePosition{0_m, 0_rad},
