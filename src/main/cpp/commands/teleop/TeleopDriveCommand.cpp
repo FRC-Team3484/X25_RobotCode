@@ -34,45 +34,59 @@ void TeleopDriveCommand::Execute() {
     // Logic with buttons
     if (_oi != NULL) {
 
-        if (_oi->GetResetHeading()) {
-            _drivetrain->SetHeading();
+        switch(_drivetrain_state){
+            case drive:
+                if (_oi->GetResetHeading()) {
+                    _drivetrain->SetHeading();
+                }
+
+                if (_oi->GetSetBrakeMode()) {
+                    _drivetrain->SetBrakeMode();
+                }
+
+                if (_oi->GetDisableBrakeMode()) {
+                    _drivetrain->SetCoastMode();
+                }
+
+                if (_oi->GetDynamicPivot()){
+                    _drivetrain_state = pivot;
+                }
+
+                if (_oi->GetBrake()) {
+                    _drivetrain->SetModuleStates(
+                        {
+                        SwerveModuleState{(_initial_positions[FL].distance - current_positions[FL].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, 45_deg},
+                        SwerveModuleState{(_initial_positions[FR].distance - current_positions[FR].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, -45_deg},
+                        SwerveModuleState{(_initial_positions[BL].distance - current_positions[BL].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, -45_deg},
+                        SwerveModuleState{(_initial_positions[BR].distance - current_positions[BR].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, 45_deg}
+                        },
+                        true,
+                        false
+                    );
+                    
+                } else {
+                    // Logic for actual joystick movements
+
+                    meters_per_second_t x_speed = -_oi->GetThrottle() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
+                    meters_per_second_t y_speed = -_oi->GetStrafe() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
+                    radians_per_second_t rotation = -_oi->GetRotation() * MAX_ROTATION_SPEED;
+
+                    if (_oi->LowSpeed()) {
+                        x_speed *= LOW_SCALE;
+                        y_speed *= LOW_SCALE;
+                        rotation *= LOW_SCALE;
+                    }
+                    
+                    _drivetrain->Drive(x_speed, y_speed, rotation, true);
+                }
+                break;
+            case pivot:
+                break;
+            default:
+                _drivetrain_state=drive;
+                break;
         }
-
-        if (_oi->GetSetBrakeMode()) {
-            _drivetrain->SetBrakeMode();
-        }
-
-        if (_oi->GetDisableBrakeMode()) {
-            _drivetrain->SetCoastMode();
-        }
-
-        if (_oi->GetBrake()) {
-            _drivetrain->SetModuleStates(
-                {
-                SwerveModuleState{(_initial_positions[FL].distance - current_positions[FL].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, 45_deg},
-                SwerveModuleState{(_initial_positions[FR].distance - current_positions[FR].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, -45_deg},
-                SwerveModuleState{(_initial_positions[BL].distance - current_positions[BL].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, -45_deg},
-                SwerveModuleState{(_initial_positions[BR].distance - current_positions[BR].distance) * DYNAMIC_BRAKE_SCALING * MAX_LINEAR_SPEED, 45_deg}
-                },
-                true,
-                false
-            );
-            
-        } else {
-            // Logic for actual joystick movements
-
-            meters_per_second_t x_speed = -_oi->GetThrottle() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
-            meters_per_second_t y_speed = -_oi->GetStrafe() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
-            radians_per_second_t rotation = -_oi->GetRotation() * MAX_ROTATION_SPEED;
-
-            if (_oi->LowSpeed()) {
-                x_speed *= LOW_SCALE;
-                y_speed *= LOW_SCALE;
-                rotation *= LOW_SCALE;
-            }
-            
-            _drivetrain->Drive(x_speed, y_speed, rotation, true);
-        }
+        
     }
 }
 
