@@ -81,6 +81,9 @@ void TeleopDriveCommand::Execute() {
                 }
                 break;
             case pivot:
+                if (_oi->GetDynamicPivot()){
+                    
+                }
                 break;
             default:
                 _drivetrain_state=drive;
