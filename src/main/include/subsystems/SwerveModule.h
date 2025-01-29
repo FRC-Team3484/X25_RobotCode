@@ -33,6 +33,9 @@ class SwerveModule {
         ctre::phoenix6::configs::CANcoderConfiguration _encoder_config{};
 
         frc::PIDController _drive_pid_controller{0, 0, 0};
+
+        enum State {drive, pivot};
+        State _drivetrain_state = drive;
         
         frc::ProfiledPIDController<units::radians> _steer_pid_controller{SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kp_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Ki_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kd_Steer, 
             {SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_SPEED, SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_ACCELERATION}};
