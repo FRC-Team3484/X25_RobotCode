@@ -63,4 +63,10 @@ namespace ElevatorConstants {
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
 }
 
+namespace LEDConstants {
+    constexpr int LED_PWM_PORT = 9;
+    constexpr int LED_STRIP_LENGTH = 260;
+
+}
+
 #endif
