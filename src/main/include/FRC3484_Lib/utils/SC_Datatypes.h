@@ -12,6 +12,7 @@
 #include <units/time.h>
 #include <units/angle.h>
 #include <units/voltage.h>
+#include <units/current.h>
 #include <units/length.h>
 #include <units/velocity.h>
 #include <units/acceleration.h>
@@ -32,17 +33,17 @@ namespace SC
 
 	// Swerve Configurations
 	typedef struct {
-		double Drive_Current_Threshold = 60;
-		double Drive_Current_Time = 0.1;
+		units::ampere_t Drive_Current_Threshold = 60_A;
+		units::second_t Drive_Current_Time = 0.1_s;
 
-		double Steer_Current_Threshold = 40;
-		double Steer_Current_Time = 0.1;
+		units::ampere_t Steer_Current_Threshold = 40_A;
+		units::second_t Steer_Current_Time = 0.1_s;
 
 		bool Steer_Motor_Reversed = true;
 		bool Encoder_Reversed = false;
 		bool Current_Limit_Enable = true;
-		double Current_Limit_Drive = 35;
-		double Current_Limit_Steer = 25;
+		units::ampere_t Current_Limit_Drive = 35_A;
+		units::ampere_t Current_Limit_Steer = 25_A;
 
 	} SC_SwerveCurrents;
 

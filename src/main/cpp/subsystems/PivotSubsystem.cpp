@@ -75,9 +75,11 @@ void PivotSubsystem::SetPivotAngle(degree_t angle) {
 degree_t PivotSubsystem::_GetPivotAngle() {
     return _pivot_motor.GetPosition().GetValue() * GEAR_RATIO; // Type casts revolutions into degrees
 }
+
 degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
     return _pivot_motor.GetVelocity().GetValue() * GEAR_RATIO;
 }
+
 double PivotSubsystem::_GetStallPercentage(){
     if (abs(_pivot_motor.Get()) > STALL_TRIGGER) {
         return (_pivot_motor.GetSupplyCurrent().GetValue()/(_pivot_motor.GetMotorStallCurrent().GetValue()*abs(_pivot_motor.Get())));
@@ -93,9 +95,8 @@ bool PivotSubsystem::_GetStalled(){
 
 bool PivotSubsystem::_HomeSensor(){
     return !_pivot_home.Get();
-
-
 }
+
 void PivotSubsystem::PrintTestInfo(){
     frc::SmartDashboard::PutNumber("Pivot Angle (deg)", _GetPivotAngle().value());
     frc::SmartDashboard::PutNumber("Pivot Stall", _GetStallPercentage());
@@ -112,15 +113,13 @@ void PivotSubsystem::SetTestMode(bool test_mode){
         SetPivotAngle(HOME_POSITION);
     }
 }
+
 void PivotSubsystem::SetPower(double power){
     if (_pivot_state == test){
         _pivot_motor.Set(power);
     }
 }
 
-
-
 bool PivotSubsystem::AtTargetPosition() {
     return math::abs(_target_state.position - _GetPivotAngle()) < ANGLE_TOLERANCE;
 }
-

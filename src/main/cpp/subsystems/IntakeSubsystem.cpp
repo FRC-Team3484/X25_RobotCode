@@ -12,7 +12,6 @@ IntakeSubsystem::IntakeSubsystem(
         _coral_high_sensor{_coral_high_sensor_di_ch},
         _coral_low_sensor{_coral_low_sensor_di_ch}
     {
-
 };
 
 void IntakeSubsystem::Periodic() {}
