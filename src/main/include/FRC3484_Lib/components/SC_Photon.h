@@ -7,6 +7,7 @@
 
 #include <photon/PhotonCamera.h>
 #include <photon/PhotonPoseEstimator.h>
+#include <photon/PhotonUtils.h>
 
 class SC_Photon {
     public:

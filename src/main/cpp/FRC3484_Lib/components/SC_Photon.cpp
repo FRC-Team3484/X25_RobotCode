@@ -10,8 +10,12 @@ Pose2d SC_Photon::EstimatePose(Pose2d current_pose) {
     if (_pose_estimator.GetPoseStrategy() == PoseStrategy::CLOSEST_TO_REFERENCE_POSE)
         _pose_estimator.SetReferencePose(Pose3d{current_pose});
 
-    PhotonPipelineResult&& result = _camera.GetLatestResult();
-    std::optional<EstimatedRobotPose> vision_est = _pose_estimator.Update(result);
+    std::vector<PhotonPipelineResult> results = _camera.GetAllUnreadResults();
+    std::optional<EstimatedRobotPose> vision_est;
+    for (const PhotonPipelineResult& result: results) {
+        vision_est = _pose_estimator.Update(result);
+    }
+
     if (vision_est.has_value()) return vision_est->estimatedPose.ToPose2d();
     return current_pose;
 }
