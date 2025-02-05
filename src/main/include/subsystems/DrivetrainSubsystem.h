@@ -19,6 +19,7 @@
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <frc2/command/CommandPtr.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
@@ -43,6 +44,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         void ResetOdometryAuto(frc::Pose2d pose);
 
         int CheckNotNullModule();
+
+        frc2::CommandPtr GoToPose(frc::Pose2d pose);
+        
 
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},

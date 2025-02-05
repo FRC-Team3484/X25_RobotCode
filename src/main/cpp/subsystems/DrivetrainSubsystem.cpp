@@ -13,6 +13,7 @@
 
 using namespace SC;
 using namespace SwerveConstants::DrivetrainConstants;
+using namespace SwerveConstants::AutonDriveConstants;
 
 using namespace frc;
 using namespace units;
@@ -248,4 +249,16 @@ int DrivetrainSubsystem::CheckNotNullModule() {
         }
     }
     return counter;
+}
+
+frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
+    PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
+
+    frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
+        pose,
+        constraints,
+        0.0_mps
+    );
+
+    return pathfindingCommand;
 }
