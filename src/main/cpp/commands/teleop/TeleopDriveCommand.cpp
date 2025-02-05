@@ -50,6 +50,15 @@ void TeleopDriveCommand::Execute() {
 
                 if (_oi->GetDynamicPivot()){
                     _drivetrain_state = pivot;
+
+                    // Created objects
+                    _pivot_corner = {1_m, copysign(1.0, _oi->GetRotation())*1_m};
+                    _pivot_drive = {-(_oi->GetThrottle())*1_m, -(_oi->GetStrafe())*1_m};
+
+                    _pivot_corner.RotateBy(_pivot_drive.Angle());
+                    _pivot_corner.RotateBy(_drivetrain->GetPose().Rotation());
+
+                    _pivot_corner = {copysign(1.0, _pivot_corner.X().value()) * SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH, copysign(1.0, _pivot_corner.Y().value()) * SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH};
                 }
 
                 if (_oi->GetBrake()) {
@@ -81,9 +90,7 @@ void TeleopDriveCommand::Execute() {
                 }
                 break;
             case pivot:
-                if (_oi->GetDynamicPivot()){
-                    
-                }
+                
                 break;
             default:
                 _drivetrain_state=drive;
