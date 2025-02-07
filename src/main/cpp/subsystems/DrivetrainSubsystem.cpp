@@ -102,11 +102,11 @@ void DrivetrainSubsystem::DriveRobotcentric(ChassisSpeeds speeds, bool open_loop
     SetModuleStates(states, open_loop, true);
 }
 
-void DrivetrainSubsystem::DynamicPivotDrive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, bool open_loop, frc::Translation2d center_of_rotation) {
-    DynamicPivotDriveRobotcentric(ChassisSpeeds::FromFieldRelativeSpeeds(x_speed, y_speed, rotation, GetHeading()), open_loop, center_of_rotation);
+void DrivetrainSubsystem::DynamicPivotDrive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, frc::Translation2d center_of_rotation, bool open_loop) {
+    DynamicPivotDriveRobotcentric(ChassisSpeeds::FromFieldRelativeSpeeds(x_speed, y_speed, rotation, GetHeading()), center_of_rotation, open_loop);
 }
 
-void DrivetrainSubsystem::DynamicPivotDriveRobotcentric(ChassisSpeeds speeds, bool open_loop, frc::Translation2d center_of_rotation) {
+void DrivetrainSubsystem::DynamicPivotDriveRobotcentric(ChassisSpeeds speeds, frc::Translation2d center_of_rotation, bool open_loop) {
     auto states = kinematics.ToSwerveModuleStates(speeds, center_of_rotation);
     SetModuleStates(states, open_loop, true);
 }
