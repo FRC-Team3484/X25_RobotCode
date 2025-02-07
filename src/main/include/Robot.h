@@ -6,6 +6,7 @@
 #include "Config.h"
 
 #include "subsystems/ElevatorSubsystem.h"
+#include "subsystems/LEDSubsystem.h"
 #include "OI.h"
 #include "commands/testing/TestElevatorCommand.h"
 
@@ -35,6 +36,8 @@ class Robot : public frc::TimedRobot {
         #ifdef ELEVATOR_ENABLED
         ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
         #endif
+
+        LEDSubsystem _leds{LEDConstants::LED_PWM_PORT, LEDConstants::LED_STRIP_LENGTH};
 
         // Operator Interfaces
         Testing_Interface _oi_testing{};

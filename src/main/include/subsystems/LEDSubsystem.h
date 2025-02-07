@@ -4,6 +4,8 @@
 #include <frc2/command/SubsystemBase.h>
 #include <array>
 #include <frc/AddressableLED.h>
+#include "subsystems/ColorWave.h"
+#include "Constants.h"
 
 
 class LEDSubsystem : public frc2::SubsystemBase {
@@ -14,11 +16,6 @@ class LEDSubsystem : public frc2::SubsystemBase {
         );
 
         void Periodic() override;
-
-        enum State {idle, driving, path, pivot, scoring, has_algae, has_coral};
-        State led_state = idle;
-
-        void SetState(State state);
 
         void IdleAnimation();
 
@@ -34,9 +31,19 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void HasCoralAnimation();
 
+        void StartIdleAnimation();
+
     private:
+
+        enum State {idle, driving, path, pivot, scoring, has_algae, has_coral};
+        State _led_state = idle;
+
         frc::AddressableLED _leds;
         std::vector<frc::AddressableLED::LEDData> _led_buffer;
+
+        ColorWave _colorwave{LEDConstants::COLORS};
+
+
 
 };
 #endif

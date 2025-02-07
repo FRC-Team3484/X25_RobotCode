@@ -12,6 +12,8 @@
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/angular_acceleration.h>
+#include <frc/LEDPattern.h>
+#include <vector>
 
 namespace UserInterface {
     namespace Driver {
@@ -68,6 +70,12 @@ namespace ElevatorConstants {
 namespace LEDConstants {
     constexpr int LED_PWM_PORT = 9;
     constexpr int LED_STRIP_LENGTH = 260;
+
+    constexpr units::meter_t LED_SPACING = 1_m / 60.0;
+    constexpr units::meter_t WAVELENGTH = 0.25_m;
+    constexpr units::meters_per_second_t SCROLLING_SPEED = 0.25_mps;
+    const std::vector<frc::Color> COLORS = {frc::Color{"#7FFFD4"}, frc::Color{"#FF8200"}, frc::Color{"#FF0091"}};
+    constexpr double GAMMA = 2.2;
 
 }
 

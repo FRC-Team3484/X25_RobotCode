@@ -25,6 +25,7 @@
     "system_error": "cpp",
     "array": "cpp",
     "regex": "cpp",
-    "expected": "cpp"
+    "expected": "cpp",
+    "span": "cpp"
   }
 }

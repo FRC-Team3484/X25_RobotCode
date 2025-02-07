@@ -7,11 +7,16 @@ LEDSubsystem::LEDSubsystem(
     ) :
     _leds(led_pwm_port)
     {
-    _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData());       
+    _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData()); 
+    _leds.SetLength(led_strip_length);
+    _leds.SetData(_led_buffer);
+    _leds.Start();      
 }
 
+
+
 void LEDSubsystem::Periodic() {
-    switch (led_state) {
+    switch (_led_state) {
     case idle:
         IdleAnimation();
         break;
@@ -35,15 +40,16 @@ void LEDSubsystem::Periodic() {
         break;
 
     default:
-        led_state = idle;
+        _led_state = idle;
         break;
     }
+    _leds.SetData(_led_buffer);
 }
 
 void LEDSubsystem::IdleAnimation() {
-    
+    _colorwave.ApplyTo(_led_buffer);
 }
-// scrolling rainbow
+// scrolling custom rainbow
 
 void LEDSubsystem::DrivingAnimation() {
 
@@ -73,8 +79,8 @@ void LEDSubsystem::HasAlgaeAnimation() {
 void LEDSubsystem::HasCoralAnimation() {
 
 }
-// Driving But Green 
+// Driving But Green #7fffd4
 
-void LEDSubsystem::SetState(State state) {
-    led_state = state;
+void LEDSubsystem::StartIdleAnimation() {
+    _led_state = idle;
 }
