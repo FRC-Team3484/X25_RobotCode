@@ -8,7 +8,7 @@
 #include "OI.h"
 #include "Constants.h"
 #include "Config.h"
-#include "AutonGenerator.h"
+//#include "AutonGenerator.h"
 
 #include "subsystems/DrivetrainSubsystem.h"
 #include "commands/teleop/TeleopDriveCommand.h"
@@ -57,8 +57,8 @@ class Robot : public frc::TimedRobot {
 
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
-        DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr};
-        AutonGenerator _auton_generator{&_drivetrain};
+        DrivetrainSubsystem _drivetrain{};
+        // AutonGenerator _auton_generator{&_drivetrain};
         #endif
 
         

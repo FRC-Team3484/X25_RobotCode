@@ -11,7 +11,7 @@ AutonStopCommand::AutonStopCommand(DrivetrainSubsystem* drivetrain_subsystem)
 }
 
 void AutonStopCommand::Initialize() {
-    _drivetrain_subsystem->StopMotors();
+    //_drivetrain_subsystem->StopMotors();
 }
 
 void AutonStopCommand::Execute() {}

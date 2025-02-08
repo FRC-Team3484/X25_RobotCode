@@ -5,10 +5,7 @@
 #ifndef DRIVETRAINSUBSYSTEM_H
 #define DRIVETRAINSUBSYSTEM_H
 
-#include "subsystems/SwerveModule.h"
-#include "FRC3484_Lib/components/SC_Photon.h"
-
-#include <studica/AHRS.h>
+#include "Constants.h"
 
 #include <units/angle.h>
 #include <units/angular_velocity.h>
@@ -16,43 +13,24 @@
 #include <wpi/array.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc/geometry/Rotation2d.h>
-#include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc/drive/DifferentialDrive.h>
 #include "ctre/phoenix6/TalonFX.hpp"
 #include <frc/RobotController.h>
+#include <frc/controller/PIDController.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <ctre/phoenix6/CANcoder.hpp>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision);
+        DrivetrainSubsystem();
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
-        void DriveRobotcentric(frc::ChassisSpeeds speeds, bool open_loop=false);
-        void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desired_states, bool open_loop=false, bool optimize=true);
-        frc::Rotation2d GetHeading();
-        void SetHeading(units::degree_t heading=0_deg);
-        units::degrees_per_second_t GetTurnRate();
-        frc::Pose2d GetPose();
-        void ResetOdometry(frc::Pose2d pose);
-        wpi::array<frc::SwerveModulePosition, 4> GetModulePositions();
-        frc::ChassisSpeeds GetChassisSpeeds();
-        void StopMotors();
-        void ResetEncoders();
-        void SetCoastMode();
         void SetBrakeMode();
-        frc::Rotation2d GetHeadingAuto();
-        void ResetOdometryAuto(frc::Pose2d pose);
+        
 
         int CheckNotNullModule();
-
-        frc::SwerveDriveKinematics<4> kinematics{
-            frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{-SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{-SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2}
-        };
 
         frc2::CommandPtr PseudoForwardCommand(std::function<double()> fwd);
         frc2::CommandPtr SysIdForwardQuasistatic(frc2::sysid::Direction direction);
@@ -63,8 +41,14 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc2::CommandPtr SysIdSidewaysDynamic(frc2::sysid::Direction direction);
 
     private:
-        SwerveModule* _modules[4];
-            
+        bool _sideways = false;
+
+        
+        units::degree_t _GetSteerAngleFL();
+        units::degree_t _GetSteerAngleFR();
+        units::degree_t _GetSteerAngleBL();
+        units::degree_t _GetSteerAngleBR();
+
         ctre::phoenix6::hardware::TalonFX _drive_motor_FL{10};
         ctre::phoenix6::hardware::TalonFX _drive_motor_FR{12};
         ctre::phoenix6::hardware::TalonFX _drive_motor_BL{14};
@@ -75,18 +59,32 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         ctre::phoenix6::hardware::TalonFX _steer_motor_BL{15};
         ctre::phoenix6::hardware::TalonFX _steer_motor_BR{17};
 
-        studica::AHRS* _gyro;
-        units::degree_t _gyro_offset = 0_deg;
+        ctre::phoenix6::hardware::CANcoder _encoder_FL{20};
+        ctre::phoenix6::hardware::CANcoder _encoder_FR{21};
+        ctre::phoenix6::hardware::CANcoder _encoder_BL{22};
+        ctre::phoenix6::hardware::CANcoder _encoder_BR{23};
 
-        frc::SwerveDriveOdometry<4>* _odometry;
+        ctre::phoenix6::configs::CANcoderConfiguration _encoder_FL_config{};
+        ctre::phoenix6::configs::CANcoderConfiguration _encoder_FR_config{};
+        ctre::phoenix6::configs::CANcoderConfiguration _encoder_BL_config{};
+        ctre::phoenix6::configs::CANcoderConfiguration _encoder_BR_config{};
 
-        frc::Field2d _field;
-
-        SC_Photon* _vision;
         frc::DifferentialDrive _drive{[this](auto val) {_drive_motor_FL.Set(val);},
                                        [this](auto val) {_drive_motor_FR.Set(val);}
         };
 
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_FL{SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kp_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Ki_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kd_Steer, 
+            {SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_SPEED, SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_ACCELERATION}};
+
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_FR{SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kp_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Ki_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kd_Steer, 
+                    {SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_SPEED, SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_ACCELERATION}};
+        
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_BL{SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kp_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Ki_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kd_Steer, 
+            {SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_SPEED, SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_ACCELERATION}};
+        
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_BR{SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kp_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Ki_Steer, SwerveConstants::DrivetrainConstants::SteerPIDConstants::Kd_Steer, 
+            {SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_SPEED, SwerveConstants::DrivetrainConstants::SteerPIDConstants::MAX_ACCELERATION}};
+        
         frc2::sysid::SysIdRoutine _sysIdForwardRoutine{
         frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr},
         frc2::sysid::Mechanism{

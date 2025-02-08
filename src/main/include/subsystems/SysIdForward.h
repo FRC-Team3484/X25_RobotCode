@@ -22,7 +22,7 @@ class SysIdForward {
     frc2::CommandXboxController _driver_controller{UserInterface::Driver::DRIVER_CONTROLLER_PORT};
 
     SC_Photon* _vision_ptr = nullptr;
-    DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr};
+    DrivetrainSubsystem _drivetrain{};
 
     
     // Components (e.g. motor controllers and sensors) should generally be
