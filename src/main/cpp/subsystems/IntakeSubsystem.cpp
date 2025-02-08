@@ -3,12 +3,14 @@
 
 IntakeSubsystem::IntakeSubsystem(
     int _motor_can_id,
+<<<<<<< HEAD
     int _algae_top_sensor_di_ch,
     int _algae_bottom_sensor_di_ch,
     int _coral_high_sensor_di_ch,
     int _coral_low_sensor_di_ch
     ) : 
         _intake_motor{_motor_can_id},
+<<<<<<< HEAD
         _algae_top_sensor{_algae_top_sensor_di_ch},
         _algae_bottom_sensor{_algae_bottom_sensor_di_ch},
         _coral_high_sensor{_coral_high_sensor_di_ch},
@@ -26,6 +28,9 @@ void IntakeSubsystem::SetAlgaePower(double power) {
 }
 
 void IntakeSubsystem::SetCoralPower(double power) {
+=======
+void IntakeSubsystem::SetPower(double power) {
+>>>>>>> 4938b3ac8a7e0d7bbf8cc16cad6331d31a556da5
     _intake_motor.Set(power);
 }
 
