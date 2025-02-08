@@ -91,6 +91,7 @@ void TeleopDriveCommand::Execute() {
                 break;
             case pivot:
                 _drivetrain->DynamicPivotDrive(0_mps, 0_mps, MAX_ROTATION_SPEED * (_oi->GetRotation() > 0 ? 1 : -1), _pivot_corner, true);
+                if (!_oi->GetDynamicPivot()) _drivetrain_state = drive;
                 break;
             default:
                 _drivetrain_state=drive;
