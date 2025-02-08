@@ -11,7 +11,6 @@
 //#include "AutonGenerator.h"
 
 #include "subsystems/DrivetrainSubsystem.h"
-#include "commands/teleop/TeleopDriveCommand.h"
 #include "FRC3484_Lib/components/SC_Photon.h"
 
 #include <frc/TimedRobot.h>
@@ -60,16 +59,6 @@ class Robot : public frc::TimedRobot {
         DrivetrainSubsystem _drivetrain{};
         // AutonGenerator _auton_generator{&_drivetrain};
         #endif
-
-        
-
-        // Command Groups
-        frc2::CommandPtr _drive_state_commands = frc2::cmd::Parallel(
-            #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{&_drivetrain, &_oi_driver}.ToPtr(),
-            #endif
-            frc2::cmd::None()
-        );
 
         // Variables
         std::optional<frc2::CommandPtr> _auton_command;
