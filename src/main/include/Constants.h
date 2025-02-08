@@ -35,7 +35,7 @@ namespace UserInterface {
     }
 }
 
-namespace FunnelSubsystem {
+namespace FunnelSubsystemConstants {
     constexpr int MOTOR_CAN_ID = 0;
     constexpr int CORAL_SENSOR_DI_CH = 0;
 

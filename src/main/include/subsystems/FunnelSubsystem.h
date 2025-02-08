@@ -34,4 +34,5 @@ class FunnelSubsystem : public frc2::SubsystemBase {
         frc::DigitalInput _coral_sensor;
 
 };
-    #endif
+
+#endif

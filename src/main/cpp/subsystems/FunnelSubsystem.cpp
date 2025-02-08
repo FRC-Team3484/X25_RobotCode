@@ -9,11 +9,11 @@ FunnelSubsystem::FunnelSubsystem(
     int motor_can_id,
     int coral_sensor_di_ch
     ) :
-        _funnel_motor(motor_can_id),
-        _coral_sensor(coral_sensor_di_ch)
+        _funnel_motor{motor_can_id},
+        _coral_sensor{coral_sensor_di_ch}
     {
 
-}
+};
 
 // This method will be called once per scheduler run
 void FunnelSubsystem::Periodic() {}
@@ -29,5 +29,3 @@ bool FunnelSubsystem::hasCoral() {
 void FunnelSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutBoolean("Has Coral", hasCoral());
 }
-
-
