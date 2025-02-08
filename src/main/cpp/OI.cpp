@@ -43,5 +43,4 @@ int Operator_Interface::RawPOV() {
 // ----------
 Testing_Interface::Testing_Interface() {}
 
-double Testing_Interface::GetMotor1() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(TESTING_GET_MOTOR_1), TESTING_DEADBAND);}
-double Testing_Interface::GetMotor2() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(TESTING_GET_MOTOR_2), TESTING_DEADBAND);}
+double Testing_Interface::GetMotor1() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(TESTING_GET_MOTOR), TESTING_DEADBAND);}

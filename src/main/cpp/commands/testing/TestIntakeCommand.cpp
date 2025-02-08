@@ -20,7 +20,7 @@ void TestIntakeCommand::Execute()
     {
         _intake_subsystem->PrintTestInfo();
         _intake_subsystem->SetAlgaePower(_oi->GetMotor1());
-        _intake_subsystem->SetCoralPower(_oi->GetMotor2());
+        _intake_subsystem->SetCoralPower(_oi->GetMotor1());
     }
 }
 
