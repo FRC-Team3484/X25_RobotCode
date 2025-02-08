@@ -5,7 +5,6 @@
 using namespace ctre::phoenix6;
 using namespace ElevatorConstants;
 using namespace units;
-
 ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
@@ -53,11 +52,16 @@ void ElevatorSubsystem::Periodic() {
             }
             break;
         case ready:
-            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
-            feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
-            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
-            _primary_motor.SetVoltage(feed_forward_output+pid_output);
-            
+            if (_target_state.position == HOME_POSITION && _HomeSensor()) {
+                _primary_motor.SetPosition(0_tr);
+                _elevator_pid_controller.Reset();
+                SetHeight(HOME_POSITION);
+            } else {
+                current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+                feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
+                pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+                _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            }
             break;
         case test:
             PrintTestInfo();
