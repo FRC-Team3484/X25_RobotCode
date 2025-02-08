@@ -74,7 +74,11 @@ namespace LEDConstants {
     constexpr units::meter_t LED_SPACING = 1_m / 60.0;
     constexpr units::meter_t WAVELENGTH = 0.25_m;
     constexpr units::meters_per_second_t SCROLLING_SPEED = 0.25_mps;
-    const std::vector<frc::Color> COLORS = {frc::Color{"#7FFFD4"}, frc::Color{"#FF8200"}, frc::Color{"#FF0091"}};
+    constexpr frc::Color ALGAE_GREEN {"#10F01A"};
+    constexpr frc::Color TEAM_BLUE {"#009BB4"};
+    constexpr frc::Color DRIVE_ORANGE {"#FF8200"};
+    constexpr frc::Color CORAL_PINK {"#FF0091"};
+    const std::vector<frc::Color> COLORS = {TEAM_BLUE, DRIVE_ORANGE, CORAL_PINK};
     constexpr double GAMMA = 2.2;
 
 }
