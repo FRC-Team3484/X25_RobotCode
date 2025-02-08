@@ -16,14 +16,15 @@ class IntakeSubsystem : public frc2::SubsystemBase {
     public:
         IntakeSubsystem(
             int motor_can_id,
-            int algae_sensor_di_ch,
+            int algae_top_sensor_di_ch,
+            int algae_bottom_sensor_di_ch,
             int coral_high_sensor_di_ch,
             int coral_low_sensor_di_ch
         );
         void Periodic() override;
 
         /** 
-         * Controls the roller power for the intake
+         * Controls the roller power for the intake (algae)
          * 
          * @param power The roller power is between -1.0 and 1.0
         */
@@ -34,7 +35,9 @@ class IntakeSubsystem : public frc2::SubsystemBase {
          * 
          * @return Returns true if the sensor detects the Alage
         */
-        bool HasAlgae(); 
+        bool AlgaeTop(); 
+
+        bool AlgaeBottom(); 
 
         /** 
          * Checks to see if the sensor is detecting the Coral
@@ -57,7 +60,8 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         
     private:
         ctre::phoenix6::hardware::TalonFX _intake_motor;
-        frc::DigitalInput _algae_sensor;
+        frc::DigitalInput _algae_top_sensor;
+        frc::DigitalInput _algae_bottom_sensor;
         frc::DigitalInput _coral_high_sensor;
         frc::DigitalInput _coral_low_sensor;
 };

@@ -49,7 +49,7 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #ifdef INTAKE_ENABLED
-        IntakeSubsystem _intake{IntakeConstants::MOTOR_CAN_ID, IntakeConstants::ALGAE_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH};
+        IntakeSubsystem _intake{IntakeConstants::MOTOR_CAN_ID, IntakeConstants::ALGAE_TOP_SENSOR_DI_CH, IntakeConstants::ALGAE_BOTTOM_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH};
         #endif
 
         #ifdef PIVOT_ENABLED

@@ -146,8 +146,9 @@ namespace UserInterface {
 
     }
     namespace Testing {
-        constexpr int TESTING_GET_MOTOR_ONE = XBOX_LS_Y;
-        constexpr int TESTING_GET_MOTOR_TWO = XBOX_RS_Y;
+        constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
+        constexpr int TESTING_OPEN_LOOP_RIGHT = XBOX_RS_Y;
+        constexpr int TESTING_GET_MOTOR = XBOX_LS_Y;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }
@@ -174,9 +175,10 @@ namespace ElevatorConstants {
 
 namespace IntakeConstants {
         constexpr int MOTOR_CAN_ID = 40;
-        constexpr int ALGAE_SENSOR_DI_CH = 1;
-        constexpr int CORAL_HIGH_SENSOR_DI_CH = 2;
-        constexpr int CORAL_LOW_SENSOR_DI_CH = 4;
+        constexpr int ALGAE_TOP_SENSOR_DI_CH = 1;
+        constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
+        constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
+        constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
 }
 
 namespace PivotConstants {
