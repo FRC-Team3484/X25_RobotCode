@@ -98,6 +98,16 @@ void DrivetrainSubsystem::DriveRobotcentric(ChassisSpeeds speeds, bool open_loop
     SetModuleStates(states, open_loop, true);
 }
 
+void DrivetrainSubsystem::DynamicPivotDrive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, frc::Translation2d center_of_rotation, bool open_loop) {
+    DynamicPivotDriveRobotcentric(ChassisSpeeds::FromFieldRelativeSpeeds(x_speed, y_speed, rotation, GetHeading()), center_of_rotation, open_loop);
+}
+
+void DrivetrainSubsystem::DynamicPivotDriveRobotcentric(ChassisSpeeds speeds, frc::Translation2d center_of_rotation, bool open_loop) {
+    auto states = kinematics.ToSwerveModuleStates(speeds, center_of_rotation);
+    SetModuleStates(states, open_loop, true);
+}
+
+
 void DrivetrainSubsystem::SetModuleStates(wpi::array<SwerveModuleState, 4> desired_states, bool open_loop, bool optimize) {
     kinematics.DesaturateWheelSpeeds(&desired_states, MAX_WHEEL_SPEED);
     for (int i = 0; i < 4; i++) {

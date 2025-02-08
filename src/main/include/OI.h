@@ -18,11 +18,14 @@ class Driver_Interface {
 
         bool GetSetBrakeMode();
         bool GetDisableBrakeMode();
+        
+        bool GetDynamicPivot();
 
         bool LowSpeed();
         void SetRumble(double Rumble);
 
         bool DriverOverride();
+
 
     private:
         frc::XboxController _driver_controller{UserInterface::Driver::DRIVER_CONTROLLER_PORT};

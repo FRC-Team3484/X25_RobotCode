@@ -133,9 +133,10 @@ namespace UserInterface {
         // Settings
         constexpr int RESET_HEADING = XBOX_BACK;
         constexpr int BRAKE = XBOX_X;
-        constexpr int BRAKE_MODE = XBOX_RB;
+        constexpr int BRAKE_MODE = XBOX_LT;
         constexpr int DISABLE_BRAKE_MODE = XBOX_LB;
-        constexpr int LOW_SPEED = XBOX_LT;
+        constexpr int LOW_SPEED = XBOX_RT;
+        constexpr int DYNAMIC_PIVOT = XBOX_RB;
 
         // Override
         constexpr int DRIVER_OVERRIDE = XBOX_Y;

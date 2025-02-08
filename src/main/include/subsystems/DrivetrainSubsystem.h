@@ -14,6 +14,7 @@
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
 #include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
@@ -23,6 +24,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
         void DriveRobotcentric(frc::ChassisSpeeds speeds, bool open_loop=false);
+        void DynamicPivotDrive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, frc::Translation2d center_of_rotation, bool open_loop=false);
+        void DynamicPivotDriveRobotcentric(frc::ChassisSpeeds speeds, frc::Translation2d center_of_rotation, bool open_loop=false);
         void SetModuleStates(wpi::array<frc::SwerveModuleState, 4> desired_states, bool open_loop=false, bool optimize=true);
         frc::Rotation2d GetHeading();
         void SetHeading(units::degree_t heading=0_deg);

@@ -10,6 +10,7 @@
 #include <frc/controller/SimpleMotorFeedforward.h>
 #include <frc/kinematics/SwerveModuleState.h>
 #include <frc/kinematics/SwerveModulePosition.h>
+#include <frc/kinematics/SwerveDriveKinematics.h>
 
 class SwerveModule {
     public:
