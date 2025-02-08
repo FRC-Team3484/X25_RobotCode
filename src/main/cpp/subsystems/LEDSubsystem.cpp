@@ -52,7 +52,7 @@ void LEDSubsystem::IdleAnimation() {
 // scrolling custom rainbow
 
 void LEDSubsystem::DrivingAnimation() {
-
+    _solid_orange.ApplyTo(_led_buffer);
 }
 // solid color (Orange #ff8200)
 

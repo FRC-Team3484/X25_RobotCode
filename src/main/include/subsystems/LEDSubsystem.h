@@ -4,6 +4,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <array>
 #include <frc/AddressableLED.h>
+#include <frc/LEDPattern.h>
 #include "subsystems/ColorWave.h"
 #include "Constants.h"
 
@@ -41,9 +42,9 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::AddressableLED _leds;
         std::vector<frc::AddressableLED::LEDData> _led_buffer;
 
-        ColorWave _colorwave{LEDConstants::COLORS};
+        ColorWave _colorwave{LEDConstants::COLORS, LEDConstants::LED_SPACING, LEDConstants::WAVELENGTH, LEDConstants::GAMMA, LEDConstants::SCROLLING_SPEED};
 
-
+        frc::LEDPattern _solid_orange = frc::LEDPattern::Solid(LEDConstants::COLORS[1]);
 
 };
 #endif
