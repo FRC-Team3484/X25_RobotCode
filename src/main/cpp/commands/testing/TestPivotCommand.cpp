@@ -18,7 +18,7 @@ void TestPivotCommand::Initialize() {
 void TestPivotCommand::Execute() {
     if (frc::SmartDashboard::GetBoolean("Test Pivot", false))
     {
-        _pivot_subsystem->SetPower(_testing_interface->GetMotorOne());
+        _pivot_subsystem->SetPower(_testing_interface->GetMotor1());
         _pivot_subsystem->PrintTestInfo();
     }
 }

@@ -44,8 +44,7 @@ class Testing_Interface {
     public:
         Testing_Interface();
 
-        double GetMotorOne();
-        double GetMotorTwo();
+        double GetMotor1();
 
     private:
         frc::XboxController _testing_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};
