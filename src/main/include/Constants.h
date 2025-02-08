@@ -35,4 +35,12 @@ namespace UserInterface {
     }
 }
 
+namespace FunnelSubsystem {
+    constexpr int MOTOR_CAN_ID = 0;
+    constexpr int CORAL_SENSOR_DI_CH = 0;
+
+    constexpr double STOP_POWER = 0.0;
+    constexpr double INTAKE_POWER = 0.5;
+}
+
 #endif
