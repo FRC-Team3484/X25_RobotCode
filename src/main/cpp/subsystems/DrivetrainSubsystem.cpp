@@ -261,6 +261,8 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
         0.0_mps
     );
 
+    _target_position = pose;
+
     return pathfindingCommand;
 }
 
@@ -285,4 +287,12 @@ frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(SwerveConstants::AutonDriveC
     }
 
     return offset_pose;
+}
+
+bool DrivetrainSubsystem::GetAtTargetPosition() {
+    return GetPose().Translation().Distance(_target_position.Translation()) < AT_TARGET_POSITION_THRESHOLD;
+}
+
+bool DrivetrainSubsystem::GetNearTargetPosition() {
+    return GetPose().Translation().Distance(_target_position.Translation()) < NEAR_TARGET_POSITION_THRESHOLD;
 }

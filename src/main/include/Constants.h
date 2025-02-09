@@ -66,6 +66,9 @@ namespace SwerveConstants {
         constexpr units::feet_per_second_t MAX_WHEEL_SPEED = 8_fps;
         constexpr units::feet_per_second_squared_t MAX_WHEEL_ACCELERATION = 4_fps_sq;
 
+        constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
+        constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
+
 // Check For Autons
         namespace DrivePIDConstants {
             // Check SC_Datatypes for the struct

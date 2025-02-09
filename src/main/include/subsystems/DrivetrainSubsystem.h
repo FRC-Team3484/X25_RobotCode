@@ -60,8 +60,21 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @return The pose of the robot closest to the reef side
          */
         frc::Pose2d GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset);
-        
 
+        /**
+         * Checks if the robot is at the target position
+         * 
+         * @return True if the robot is at the target position
+         */
+        bool GetAtTargetPosition();
+
+        /**
+         * Checks if the robot is near the target position
+         * 
+         * @return True if the robot is near the target position
+         */
+        bool GetNearTargetPosition();
+        
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
@@ -80,6 +93,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Field2d _field;
 
         SC_Photon* _vision;
+
+        frc::Pose2d _target_position;
 };
 
 #endif
