@@ -57,7 +57,6 @@ void ElevatorSubsystem::Periodic() {
             feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
             pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
             _primary_motor.SetVoltage(feed_forward_output+pid_output);
-            
             break;
         case test:
             PrintTestInfo();
@@ -66,7 +65,6 @@ void ElevatorSubsystem::Periodic() {
             _elevator_state = home;
             break;
     }
-
 }
 
 void ElevatorSubsystem::SetHeight(inch_t height) {
@@ -79,18 +77,15 @@ void ElevatorSubsystem::SetHeight(inch_t height) {
     }
 }
 
-
 bool ElevatorSubsystem::AtTargetHeight() {
     return math::abs(_target_state.position - _GetElevatorHeight()) < POSITION_TOLERANCE;
 }
-
 
 void ElevatorSubsystem::SetPower(double power) {
     if (_elevator_state == test) {
         _primary_motor.Set(power);
     }
 }
-
 
 void ElevatorSubsystem::SetTestMode(bool test_mode) {
     if (test_mode) {

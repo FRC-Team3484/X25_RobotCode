@@ -55,8 +55,6 @@ class PivotSubsystem : public frc2::SubsystemBase {
          */
         bool AtTargetPosition();
 
-        //test functions
-
         /**
          * Sets the power of the pivot
          * 

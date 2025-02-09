@@ -97,7 +97,6 @@ void TeleopDriveCommand::Execute() {
                 _drivetrain_state=drive;
                 break;
         }
-        
     }
 }
 

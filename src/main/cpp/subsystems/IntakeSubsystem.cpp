@@ -16,9 +16,8 @@ IntakeSubsystem::IntakeSubsystem(
     {
 };
 
-void IntakeSubsystem::Periodic() {
+void IntakeSubsystem::Periodic() {}
 
-}
 void IntakeSubsystem::SetPower(double power) {
     _intake_motor.Set(power);
 }

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #ifndef FUNNEL_SUBSYSTEM_H
 #define FUNNEL_SUBSYSTEM_H
 
@@ -11,22 +7,44 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix6/TalonFX.hpp>
 
+/**
+ * The funnel subsystem sets the power of the indexer on the robot, helping to guide the Coral into the intake
+ */
 class FunnelSubsystem : public frc2::SubsystemBase {
     public:
+        /**
+         * Creates an instance of the funnel subsystem
+         * 
+         * @param motor_can_id The CAN ID for the motor
+         * @param coral_sensor_di_ch The ID for the sensor which detects the Coral
+         */
         FunnelSubsystem(
             int motor_can_id,
             int coral_sensor_di_ch
         );
 
         /**
-         * Will be called periodically whenever the CommandScheduler runs.
+         * Called every loop when the subsystem is active
          */
         void Periodic() override;
 
+        /**
+         * Sets the power of the funnel motor
+         * 
+         * @param power The power to set the funnel motor to
+         */
         void SetPower(double power);
 
-        bool hasCoral();
+        /**
+         * Checks to see if the sensor is detecting the Coral
+         * 
+         * @return Returns true if the sensor detects the Coral
+         */
+        bool HasCoral();
 
+        /**
+         * Prints test mode data to SmartDashboard
+         */
         void PrintTestInfo();
 
     private:
