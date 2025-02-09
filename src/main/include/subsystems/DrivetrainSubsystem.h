@@ -16,6 +16,7 @@
 #include <frc/kinematics/SwerveDriveOdometry.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
+#include <frc2/command/CommandPtr.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
@@ -43,6 +44,36 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         int CheckNotNullModule();
 
+        /**
+         * Returns a command that will drive the robot to the given pose
+         * 
+         * @param pose The pose to drive to
+         * @return A command that will drive the robot to the given pose
+         */
+        frc2::CommandPtr GoToPose(frc::Pose2d pose);
+
+        /**
+         * Returns the pose of the robot closest to the reef side
+         * 
+         * @param reef_offset The left or the right side of the reef to align to
+         * @return The pose of the robot closest to the reef side
+         */
+        frc::Pose2d GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset);
+
+        /**
+         * Checks if the robot is at the target position
+         * 
+         * @return True if the robot is at the target position
+         */
+        bool GetAtTargetPosition();
+
+        /**
+         * Checks if the robot is near the target position
+         * 
+         * @return True if the robot is near the target position
+         */
+        bool GetNearTargetPosition();
+        
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
@@ -61,6 +92,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Field2d _field;
 
         SC_Photon* _vision;
+
+        frc::Pose2d _target_position;
 };
 
 #endif
