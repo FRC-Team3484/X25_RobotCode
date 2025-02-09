@@ -14,6 +14,7 @@
 using namespace SC;
 using namespace SwerveConstants::DrivetrainConstants;
 using namespace SwerveConstants::AutonDriveConstants;
+using namespace VisionConstants;
 
 using namespace frc;
 using namespace units;
@@ -261,4 +262,27 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     );
 
     return pathfindingCommand;
+}
+
+frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset) {
+    frc::Pose2d current_pose = GetPose();
+    std::vector<Pose2d> differences;
+    frc::Pose2d offset_pose;
+
+    for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+        if (std::find(std::begin(REEF_APRIL_TAGS), std::end(REEF_APRIL_TAGS), tag.ID) != std::end(REEF_APRIL_TAGS)) {
+            differences.emplace_back(Pose2d{tag.pose.ToPose2d().Translation() - current_pose.Translation(), tag.pose.ToPose2d().Rotation() - current_pose.Rotation()});
+        }
+    }
+
+    frc::Pose2d closest = frc::Pose2d().Nearest(std::span{differences});
+    frc::Pose2d april_tag = Pose2d{current_pose.Translation() + closest.Translation(), current_pose.Rotation() + closest.Rotation()};
+
+    if (reef_offset == REEF_OFFSETS::left) {
+        offset_pose = Pose2d{april_tag.Translation() + LEFT_REEF_OFFSET, april_tag.Rotation()};
+    } else if (reef_offset == REEF_OFFSETS::right) {
+        offset_pose = Pose2d{april_tag.Translation() + RIGHT_REEF_OFFSET, april_tag.Rotation()};
+    }
+
+    return offset_pose;
 }

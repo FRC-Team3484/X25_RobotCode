@@ -45,7 +45,21 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         int CheckNotNullModule();
 
+        /**
+         * Returns a command that will drive the robot to the given pose
+         * 
+         * @param pose The pose to drive to
+         * @return A command that will drive the robot to the given pose
+         */
         frc2::CommandPtr GoToPose(frc::Pose2d pose);
+
+        /**
+         * Returns the pose of the robot closest to the reef side
+         * 
+         * @param reef_offset The left or the right side of the reef to align to
+         * @return The pose of the robot closest to the reef side
+         */
+        frc::Pose2d GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset);
         
 
         frc::SwerveDriveKinematics<4> kinematics{

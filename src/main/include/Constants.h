@@ -3,6 +3,7 @@
 
 #include <frc/apriltag/AprilTagFieldLayout.h>
 #include <photon/PhotonPoseEstimator.h>
+#include <frc/geometry/Translation2d.h>
 
 #include <FRC3484_Lib/utils/SC_ControllerMaps.h>
 #include <FRC3484_Lib/utils/SC_Datatypes.h>
@@ -98,6 +99,12 @@ namespace SwerveConstants {
 
         constexpr units::inch_t POSITION_TOLERANCE = 2_in; // Drive to a position, when safe to quit
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
+
+        constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+
+        enum class REEF_OFFSETS {left, right};
+        constexpr frc::Translation2d LEFT_REEF_OFFSET = frc::Translation2d{6_in, 0_in};
+        constexpr frc::Translation2d RIGHT_REEF_OFFSET = frc::Translation2d{-6_in, 0_in};
     }
 
     namespace PathDrivePIDConstants {
