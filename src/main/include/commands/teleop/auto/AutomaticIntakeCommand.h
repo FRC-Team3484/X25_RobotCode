@@ -8,6 +8,16 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/PivotSubsystem.h"
+#include "subsystems/DrivetrainSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
+#include "subsystems/FunnelSubsystem.h"
+
+#include "OI.h"
+
+#include "StowArmCommand.h"
+
 /**
 * An example command.
 *
@@ -32,6 +42,13 @@ class AutomaticIntakeCommand
         void End(bool interrupted) override;
 
         bool IsFinished() override;
+
+    private:
+        bool _isFinished = false;
+        
+
+        enum State {wait, intake, done};
+        State _auto_intake_state = wait;
 };
 
 #endif

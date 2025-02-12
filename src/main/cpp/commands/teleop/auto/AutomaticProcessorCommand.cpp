@@ -12,7 +12,25 @@ AutomaticProcessorCommand::AutomaticProcessorCommand() {
 void AutomaticProcessorCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void AutomaticProcessorCommand::Execute() {}
+void AutomaticProcessorCommand::Execute() {
+    switch (_auto_processor_state) {
+        case wait:
+            break; 
+        case extend_elevator:
+            break;
+        case extend_arm:
+            break;
+        case eject_algae:
+            break;
+        case retract_arm:
+            break;
+        case retract_elevator:
+            break;
+        default:
+            _auto_processor_state = wait;
+            break;
+    }
+}
 
 // Called once the command ends or is interrupted.
 void AutomaticProcessorCommand::End(bool interrupted) {}

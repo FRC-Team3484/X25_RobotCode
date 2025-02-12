@@ -12,7 +12,24 @@ AutomaticIntakeCommand::AutomaticIntakeCommand() {
 void AutomaticIntakeCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void AutomaticIntakeCommand::Execute() {}
+void AutomaticIntakeCommand::Execute() {
+    switch(_auto_intake_state) {
+        case wait:
+
+            
+            _isFinished = true;
+            break;
+        case intake:
+            
+            break;
+        case done:
+            
+            break;
+        default:
+            _auto_intake_state = wait;
+            break;
+    }
+}
 
 // Called once the command ends or is interrupted.
 void AutomaticIntakeCommand::End(bool interrupted) {}

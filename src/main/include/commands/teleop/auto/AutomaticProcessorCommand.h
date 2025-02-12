@@ -2,11 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#ifndef AUTOMATICPROCESSORCOMMAND_H
-#define AUTOMATICPROCESSORCOMMAND_H
+#ifndef AUTOMATIC_PROCESSOR_COMMAND_H
+#define AUTOMATIC_PROCESSOR_COMMAND_H
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
+
+#include "subsystems/IntakeSubsystem.h"
+#include "subsystems/PivotSubsystem.h"
+#include "subsystems/DrivetrainSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
+
+#include "OI.h"
+
+#include "StowArmCommand.h"
 
 /**
 * An example command.
@@ -30,6 +39,10 @@ class AutomaticProcessorCommand
         void End(bool interrupted) override;
 
         bool IsFinished() override;
+
+    private:
+        enum State {wait, extend_elevator, extend_arm, eject_algae, retract_arm, retract_elevator};
+        State _auto_processor_state = wait;
 };
 
 #endif
