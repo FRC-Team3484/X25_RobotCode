@@ -80,6 +80,7 @@ namespace LEDConstants {
     constexpr frc::Color CORAL_PINK {"#FF0091"};
     const std::vector<frc::Color> COLORS = {TEAM_BLUE, DRIVE_ORANGE, CORAL_PINK};
     constexpr double GAMMA = 2.2;
+    constexpr units::second_t PIVOT_ANIMATION_TIME = 0.8_s;
 
 }
 

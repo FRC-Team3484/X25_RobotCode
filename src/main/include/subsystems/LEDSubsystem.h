@@ -9,8 +9,6 @@
 #include "Constants.h"
 #include <frc/Timer.h>
 
-using namespace frc; 
-
 class LEDSubsystem : public frc2::SubsystemBase {
     public:
         LEDSubsystem(
@@ -41,24 +39,26 @@ class LEDSubsystem : public frc2::SubsystemBase {
         enum State {idle, driving, path, pivot, scoring, has_algae, has_coral};
         State _led_state = idle;
 
-        AddressableLED _leds;
-        std::vector<AddressableLED::LEDData> _led_buffer;
+        frc::AddressableLED _leds;
+        std::vector<frc::AddressableLED::LEDData> _led_buffer;
 
         ColorWave _colorwave{LEDConstants::COLORS, LEDConstants::LED_SPACING, LEDConstants::WAVELENGTH, LEDConstants::GAMMA, LEDConstants::SCROLLING_SPEED};
 
-        LEDPattern _solid_orange;
-        LEDPattern _solid_green;
-        LEDPattern _solid_pink;
+        frc::LEDPattern _solid_orange;
+        frc::LEDPattern _solid_green;
+        frc::LEDPattern _solid_pink;
+        frc::LEDPattern _solid_blue;
 
-        std::array<std::pair<double, Color>, 2> step_mask{std::pair{0.0, Color::kWhite}, std::pair{0.5, Color::kBlack}};
-        LEDPattern _scrolling_step = LEDPattern::Steps(step_mask).ScrollAtAbsoluteSpeed(LEDConstants::SCROLLING_SPEED, LEDConstants::LED_SPACING);
-        LEDPattern _step_orange;
+        std::array<std::pair<double, frc::Color>, 2> step_mask{std::pair{0.0, frc::Color::kWhite}, std::pair{0.5, frc::Color::kBlack}};
+        frc::LEDPattern _scrolling_step = frc::LEDPattern::Steps(step_mask).ScrollAtAbsoluteSpeed(LEDConstants::SCROLLING_SPEED, LEDConstants::LED_SPACING);
+        frc::LEDPattern _step_orange;
 
-        //frc::Timer _timer;
-        //LEDPattern _progress_bar = LEDPattern::ProgressMaskLayer({});
+        frc::Timer _timer;
+        frc::LEDPattern _progress_bar = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
+        double _PivotAnimationProgress(); 
+        frc::LEDPattern _progress_orange;
 
-
-
+        frc::LEDPattern _scoring_blue;
 
 
 };
