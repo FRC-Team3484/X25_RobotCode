@@ -6,19 +6,17 @@
 
 AutomaticIntakeCommand::AutomaticIntakeCommand(
     DrivetrainSubsystem* drivetrain, 
+    ElevatorSubsystem* elevator, 
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot, 
-    ElevatorSubsystem* elevator, 
     FunnelSubsystem* funnel, 
-    Driver_Interface* oi) 
-    : 
-    _drivetrain{drivetrain},
-    _intake{intake},
-    _pivot{pivot},
-    _elevator{elevator},
-    _funnel{funnel},
-    _oi{oi}
-    {
+    Driver_Interface* oi) : 
+    _drivetrain(drivetrain),
+    _elevator(elevator),
+    _intake(intake),
+    _pivot(pivot),
+    _funnel(funnel),
+    _oi(oi) {
     AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);

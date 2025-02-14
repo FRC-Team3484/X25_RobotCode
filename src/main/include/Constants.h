@@ -178,6 +178,8 @@ namespace ElevatorConstants {
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
     constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_1 = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_2 = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
 
@@ -209,7 +211,6 @@ namespace PivotConstants {
 
     constexpr bool INVERT_MOTOR = false;
     
-
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
 

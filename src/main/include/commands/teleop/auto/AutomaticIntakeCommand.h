@@ -33,7 +33,7 @@ class AutomaticIntakeCommand
         /* You should consider using the more terse Command factories API instead
         * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
         */
-        explicit AutomaticIntakeCommand(DrivetrainSubsystem* drivetrain, IntakeSubsystem* intake, PivotSubsystem* pivot, ElevatorSubsystem* elevator, FunnelSubsystem* funnel, Driver_Interface* oi);
+        explicit AutomaticIntakeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Driver_Interface* oi);
 
         void Initialize() override;
 
@@ -45,9 +45,9 @@ class AutomaticIntakeCommand
 
     private:
         DrivetrainSubsystem* _drivetrain;
+        ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake; 
         PivotSubsystem* _pivot;
-        ElevatorSubsystem* _elevator;
         FunnelSubsystem* _funnel;
         Driver_Interface* _oi;
 

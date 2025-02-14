@@ -50,10 +50,10 @@ class AutomaticScoreCoralCommand
 		enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
 		State _auto_score_coral_state = wait;
 
-		IntakeSubsystem* _intake;
-		PivotSubsystem* _pivot;
 		DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
+		IntakeSubsystem* _intake;
+		PivotSubsystem* _pivot;
 		Driver_Interface* _oi;
 };
 

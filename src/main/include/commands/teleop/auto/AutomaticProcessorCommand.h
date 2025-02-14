@@ -30,7 +30,13 @@ class AutomaticProcessorCommand
         /* You should consider using the more terse Command factories API instead
         * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
         */
-        AutomaticProcessorCommand();
+        explicit AutomaticProcessorCommand(
+            DrivetrainSubsystem* drivetrain,
+            ElevatorSubsystem* elevator,
+            IntakeSubsystem* intake,
+            PivotSubsystem* pivot,
+            Operator_Interface* oi
+        );
 
         void Initialize() override;
 
@@ -41,8 +47,14 @@ class AutomaticProcessorCommand
         bool IsFinished() override;
 
     private:
-        enum State {wait, extend_elevator, extend_arm, eject_algae, retract_arm, retract_elevator};
+        enum State {wait, extend_elevator, extend_pivot, eject_algae, done};
         State _auto_processor_state = wait;
+
+        DrivetrainSubsystem* _drivetrain;
+        ElevatorSubsystem* _elevator;
+        IntakeSubsystem* _intake;
+        PivotSubsystem* _pivot;
+        Operator_Interface* _oi;
 };
 
 #endif

@@ -10,14 +10,12 @@ AutomaticScoreCoralCommand::AutomaticScoreCoralCommand(
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,   
-    Driver_Interface* oi) 
-    : 
-    _drivetrain{drivetrain}, 
-    _elevator{elevator},
-    _intake{intake},
-    _pivot{pivot}, 
-    _oi(oi)  
-    {
+    Driver_Interface* oi) : 
+    _drivetrain(drivetrain), 
+    _elevator(elevator),
+    _intake(intake),
+    _pivot(pivot), 
+    _oi(oi) {
     AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
@@ -69,7 +67,6 @@ void AutomaticScoreCoralCommand::Execute() {
 
     // Called once the command ends or is interrupted.
     void AutomaticScoreCoralCommand::End(bool interrupted) {
-        _drivetrain->StopMotors();
         _intake->SetPower(IntakeConstants::STOP_POWER);
     }
 

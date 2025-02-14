@@ -2,11 +2,9 @@
 
 StowArmCommand::StowArmCommand(
 	PivotSubsystem* pivot, 
-	ElevatorSubsystem* elevator)
-    : 
+	ElevatorSubsystem* elevator) : 
 	_pivot(pivot), 
-	_elevator(elevator) 
-	{
+	_elevator(elevator) {
   	AddRequirements(_pivot);
   	AddRequirements(_elevator);
 }
