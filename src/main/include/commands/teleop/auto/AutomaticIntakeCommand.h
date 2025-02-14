@@ -33,7 +33,7 @@ class AutomaticIntakeCommand
         /* You should consider using the more terse Command factories API instead
         * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
         */
-        AutomaticIntakeCommand();
+        explicit AutomaticIntakeCommand(DrivetrainSubsystem* drivetrain, IntakeSubsystem* intake, PivotSubsystem* pivot, ElevatorSubsystem* elevator, FunnelSubsystem* funnel, Driver_Interface* oi);
 
         void Initialize() override;
 
@@ -44,11 +44,16 @@ class AutomaticIntakeCommand
         bool IsFinished() override;
 
     private:
-        bool _isFinished = false;
-        
+        DrivetrainSubsystem* _drivetrain;
+        IntakeSubsystem* _intake; 
+        PivotSubsystem* _pivot;
+        ElevatorSubsystem* _elevator;
+        FunnelSubsystem* _funnel;
+        Driver_Interface* _oi;
 
         enum State {wait, intake, done};
         State _auto_intake_state = wait;
+
 };
 
 #endif

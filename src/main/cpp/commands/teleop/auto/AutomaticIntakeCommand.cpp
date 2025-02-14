@@ -4,8 +4,25 @@
 
 #include "commands/teleop/auto/AutomaticIntakeCommand.h"
 
-AutomaticIntakeCommand::AutomaticIntakeCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+AutomaticIntakeCommand::AutomaticIntakeCommand(
+    DrivetrainSubsystem* drivetrain, 
+    IntakeSubsystem* intake, 
+    PivotSubsystem* pivot, 
+    ElevatorSubsystem* elevator, 
+    FunnelSubsystem* funnel, 
+    Driver_Interface* oi) : 
+    _drivetrain{drivetrain},
+    _intake{intake},
+    _pivot{pivot},
+    _elevator{elevator},
+    _funnel{funnel},
+    _oi{oi}
+    {
+    AddRequirements(_drivetrain);
+    AddRequirements(_intake);
+    AddRequirements(_pivot);
+    AddRequirements(_elevator);
+    AddRequirements(_funnel);
 }
 
 // Called when the command is initially scheduled.
@@ -15,15 +32,25 @@ void AutomaticIntakeCommand::Initialize() {}
 void AutomaticIntakeCommand::Execute() {
     switch(_auto_intake_state) {
         case wait:
-
             
-            _isFinished = true;
+            _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
+            _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
+
+            if(_drivetrain->GetNearTargetPosition()){
+                _auto_intake_state = intake;
+            }
             break;
         case intake:
-            
+            _intake->SetPower(IntakeConstants::EJECT_POWER);
+            _funnel->SetPower(FunnelSubsystemConstants::INTAKE_POWER);
+
+            if (_intake->CoralHigh() && _intake->CoralLow()) {
+                _auto_intake_state = done;
+            }
             break;
         case done:
-            
+            _intake->SetPower(IntakeConstants::STOP_POWER);
+            _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
             break;
         default:
             _auto_intake_state = wait;
@@ -32,9 +59,12 @@ void AutomaticIntakeCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AutomaticIntakeCommand::End(bool interrupted) {}
+void AutomaticIntakeCommand::End(bool interrupted) {
+    _intake->SetPower(IntakeConstants::STOP_POWER);
+    _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
+}
 
 // Returns true when the command should end.
 bool AutomaticIntakeCommand::IsFinished() {
-    return false;
+    return _auto_intake_state == done;
 }
