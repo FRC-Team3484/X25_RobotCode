@@ -17,7 +17,7 @@ class StowArmCommand
     : public frc2::CommandHelper<frc2::Command, StowArmCommand> {
 
     public:
-        StowArmCommand(PivotSubsystem* pivot_subsystem, ElevatorSubsystem* elevator_subsystem);
+        StowArmCommand(PivotSubsystem* pivot, ElevatorSubsystem* elevator);
 
         void Initialize() override;
         void Execute() override;
@@ -25,8 +25,8 @@ class StowArmCommand
         bool IsFinished() override;
 
     private:
-        PivotSubsystem* _pivot_subsystem;
-        ElevatorSubsystem* _elevator_subsystem;
+        PivotSubsystem* _pivot;
+        ElevatorSubsystem* _elevator;
 };
 
 #endif

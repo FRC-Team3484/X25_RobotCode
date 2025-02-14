@@ -10,7 +10,8 @@ AutomaticIntakeCommand::AutomaticIntakeCommand(
     PivotSubsystem* pivot, 
     ElevatorSubsystem* elevator, 
     FunnelSubsystem* funnel, 
-    Driver_Interface* oi) : 
+    Driver_Interface* oi) 
+    : 
     _drivetrain{drivetrain},
     _intake{intake},
     _pivot{pivot},
@@ -19,9 +20,9 @@ AutomaticIntakeCommand::AutomaticIntakeCommand(
     _oi{oi}
     {
     AddRequirements(_drivetrain);
+    AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);
-    AddRequirements(_elevator);
     AddRequirements(_funnel);
 }
 
@@ -32,7 +33,6 @@ void AutomaticIntakeCommand::Initialize() {}
 void AutomaticIntakeCommand::Execute() {
     switch(_auto_intake_state) {
         case wait:
-            
             _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
             _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
 

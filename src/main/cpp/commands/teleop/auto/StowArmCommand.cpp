@@ -1,11 +1,19 @@
 #include "commands/teleop/auto/StowArmCommand.h"
 
-StowArmCommand::StowArmCommand(PivotSubsystem* pivot_subsystem, ElevatorSubsystem* elevator_subsystem)
-    : _pivot_subsystem(pivot_subsystem), _elevator_subsystem(elevator_subsystem) {}
+StowArmCommand::StowArmCommand(
+	PivotSubsystem* pivot, 
+	ElevatorSubsystem* elevator)
+    : 
+	_pivot(pivot), 
+	_elevator(elevator) 
+	{
+  	AddRequirements(_pivot);
+  	AddRequirements(_elevator);
+}
 
 void StowArmCommand::Initialize() {
-  _pivot_subsystem->SetPivotAngle(PivotConstants::HOME_POSITION);
-  _elevator_subsystem->SetHeight(ElevatorConstants::HOME_POSITION);
+  _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
+  _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
 }
 
 void StowArmCommand::Execute() {}
