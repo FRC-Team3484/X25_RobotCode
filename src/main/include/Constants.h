@@ -190,6 +190,9 @@ namespace IntakeConstants {
         constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
+
+        constexpr double EJECT_POWER = 1.0;
+        constexpr double STOP_POWER = 0.0;
 }
 
 namespace PivotConstants {
@@ -200,6 +203,7 @@ namespace PivotConstants {
     constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
+    
 
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
