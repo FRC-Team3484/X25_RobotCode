@@ -13,7 +13,7 @@ void TestIntakeCommand::Initialize()
     frc::SmartDashboard::PutBoolean("Test Intake", false);
 }
 
-// Called repeatedly when this Command is scheduled to run
+// Called repeatedly when thi s Command is scheduled to run
 void TestIntakeCommand::Execute()
 {
     if (frc::SmartDashboard::GetBoolean("Test Intake", false))

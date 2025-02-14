@@ -30,6 +30,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         */
         void SetPower(double power);
 
+        bool AtTargetPower();
         /** 
          * Checks to see if the sensor is detecting the Algae 
          * 

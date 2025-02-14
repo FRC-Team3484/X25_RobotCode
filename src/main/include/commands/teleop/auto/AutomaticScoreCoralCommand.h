@@ -30,7 +30,13 @@ class AutomaticScoreCoralCommand
 		/* You should consider using the more terse Command factories API instead
 		* https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 		*/
-		AutomaticScoreCoralCommand();
+		AutomaticScoreCoralCommand(
+			IntakeSubsystem* intake_subsystem,
+			PivotSubsystem* pivot_subsystem,
+			DrivetrainSubsystem* drivetrain_subsystem,
+			ElevatorSubsystem* elevator_subsystem,
+			Driver_Interface* oi
+		);
 
 		void Initialize() override;
 
@@ -41,8 +47,14 @@ class AutomaticScoreCoralCommand
 		bool IsFinished() override;
 
 	private:
-		enum State {wait, extend_elevator, extend_arm, eject_piece, retract_arm, retract_elevator};
+		enum State {wait, extend_elevator, extend_pivot, eject_piece, retract_pivot, retract_elevator};
 		State _auto_score_coral_state = wait;
+
+		IntakeSubsystem* _intake_subsystem;
+		PivotSubsystem* _pivot_subsystem;
+		DrivetrainSubsystem* _drivetrain_subsystem;
+		ElevatorSubsystem* _elevator_subsystem;
+		Driver_Interface* _oi;
 };
 
 #endif

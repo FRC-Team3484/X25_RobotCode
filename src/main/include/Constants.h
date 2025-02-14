@@ -178,6 +178,7 @@ namespace ElevatorConstants {
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
     constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
 
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
@@ -190,6 +191,12 @@ namespace IntakeConstants {
         constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
+
+        constexpr double EJECT_POWER = 1.0;
+        
+        // constexpr int ROLLER_STOP = 0;
+        // // constexpr double ROLLER_EJECT = -1.0;
+        // // constexpr double ROLLER_INTAKE = 0.4;
 }
 
 namespace PivotConstants {
