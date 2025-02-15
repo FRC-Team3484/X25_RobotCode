@@ -1,5 +1,5 @@
-#ifndef TELEOP_SCORE_CORAL_COMMAND_H
-#define TELEOP_SCORE_CORAL_COMMAND_H
+#ifndef TELEOP_SCORE_ALGAE_COMMAND_H
+#define TELEOP_SCORE_ALGAE_COMMAND_H
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
@@ -11,17 +11,14 @@
 
 #include "OI.h"
 
-/**
- * Scores coral into the reef by setting the height of the elevator, extending the pivot, and running the intake
- */
-class TeleopScoreCoralCommand
-    : public frc2::CommandHelper<frc2::Command, TeleopScoreCoralCommand> {
+class TeleopScoreAlgaeCommand
+	: public frc2::CommandHelper<frc2::Command, TeleopScoreAlgaeCommand> {
 	public:
-		TeleopScoreCoralCommand(
-			DrivetrainSubsystem* drivetrain, 
+		TeleopScoreAlgaeCommand(
+			DrivetrainSubsystem* drivetrain,
 			ElevatorSubsystem* elevator,
-			IntakeSubsystem* intake, 
-			PivotSubsystem* pivot,   
+			IntakeSubsystem* intake,
+			PivotSubsystem* pivot,
 			Operator_Interface* oi
 		);
 
@@ -33,9 +30,10 @@ class TeleopScoreCoralCommand
 
 		bool IsFinished() override;
 
+
 	private:
 		enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
-		State _auto_score_coral_state = wait;
+		State _auto_score_algae_state = wait;
 
 		DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
@@ -43,5 +41,6 @@ class TeleopScoreCoralCommand
 		PivotSubsystem* _pivot;
 		Operator_Interface* _oi;
 };
+
 
 #endif
