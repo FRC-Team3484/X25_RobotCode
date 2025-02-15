@@ -49,11 +49,11 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::LEDPattern _solid_pink;
         frc::LEDPattern _solid_blue;
 
-        std::array<std::pair<double, frc::Color>, 2> step_mask{std::pair{0.0, frc::Color::kWhite}, std::pair{0.5, frc::Color::kBlack}};
-        frc::LEDPattern _scrolling_step = frc::LEDPattern::Steps(step_mask).ScrollAtAbsoluteSpeed(LEDConstants::SCROLLING_SPEED, LEDConstants::LED_SPACING);
+        frc::Timer _timer;
+        std::array<std::pair<double, frc::Color>, 2> step_mask{std::pair{0.0, frc::Color::kWhite}, std::pair{0.3, frc::Color::kBlack}};
+        frc::LEDPattern _scrolling_step = frc::LEDPattern::Steps(step_mask).ScrollAtAbsoluteSpeed(1.0_mps, LEDConstants::LED_SPACING);
         frc::LEDPattern _step_orange;
 
-        frc::Timer _timer;
         frc::LEDPattern _progress_bar = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
         double _PivotAnimationProgress(); 
         frc::LEDPattern _progress_orange;

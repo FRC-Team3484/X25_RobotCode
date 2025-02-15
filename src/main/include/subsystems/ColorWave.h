@@ -34,6 +34,8 @@ class ColorWave {
 
     units::hertz_t _velocity;
 
+    double _PositiveFmod(double numerator, double denonomator);
+
     frc::Timer _timer;
 
     double _WavePosition();

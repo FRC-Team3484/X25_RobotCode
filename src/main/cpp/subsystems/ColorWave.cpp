@@ -27,7 +27,11 @@ double ColorWave::_GammaCorrection(double brightness) {
 }
 
 int ColorWave::_GetColorIndex(int offset) {
-    return int(((offset - _WavePosition()) / _wavelength)) % _colors.size();
+    return int(_PositiveFmod(floor((double (offset) - _WavePosition()) / _wavelength), _colors.size()));
+}
+
+double ColorWave::_PositiveFmod(double numerator, double denominator) {
+    return fmod(fmod(numerator, denominator) + denominator, denominator);
 }
 
 double ColorWave::_WavePosition() {

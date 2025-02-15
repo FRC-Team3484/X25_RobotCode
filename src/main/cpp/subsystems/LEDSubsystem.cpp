@@ -13,7 +13,7 @@ LEDSubsystem::LEDSubsystem(
     _solid_blue{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::TEAM_BLUE, LEDConstants::GAMMA))},
     _step_orange{_solid_orange.Mask(_scrolling_step)},
     _progress_orange{_solid_orange.Mask(_progress_bar)},
-    _scoring_blue{_solid_blue.Blink(0.2_s)}
+    _scoring_blue{_solid_blue.Blink(0.6_s, 0.2_s)}
     {
     _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData()); 
     _leds.SetLength(led_strip_length);
