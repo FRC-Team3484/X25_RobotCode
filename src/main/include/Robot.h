@@ -18,6 +18,7 @@
 #include "subsystems/ElevatorSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
+#include "subsystems/FunnelSubsystem.h"
 
 #include "commands/teleop/TeleopDriveCommand.h"
 
@@ -108,7 +109,7 @@ class Robot : public frc::TimedRobot {
         );
 
         // State machine
-        enum State {stow, drive};
+        enum State {drive, stow, intake_algae, score_algae, intake_coral, score_coral};
         State _robot_state = stow;
 
         // Power Stuff
