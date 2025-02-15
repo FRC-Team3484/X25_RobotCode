@@ -43,10 +43,26 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
+        bool GetAlgaeLevel4Left();
+        bool GetAlgaeLevel4Right();
+        bool GetAlgaeLevel3Left();
+        bool GetAlgaeLevel3Right();
+        bool GetAlgaeLevel2Left();
+        bool GetAlgaeLevel2Right();
+        bool GetAlgaeLevel1();
+        bool GetCoralLevel3();
+        bool GetCoralLevel2();
+        bool GetGround();
+        bool GetProcessor();
+        bool GetClimbUp();
+        bool GetClimbDown();
+        bool GetNet();
+        bool GetIgnoreVision();
+
         int RawPOV();
 
     private:
-        frc::XboxController _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
+        frc::GenericHID _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };
 
 /**

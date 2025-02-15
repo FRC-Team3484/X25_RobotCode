@@ -154,7 +154,23 @@ namespace UserInterface {
     }
     namespace Operator {
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
+        constexpr int ALGAE_LEVEL_4_LEFT = 0;
+        constexpr int ALGAE_LEVEL_4_RIGHT = 0;
+        constexpr int ALGAE_LEVEL_3_LEFT = 0;
+        constexpr int ALGAE_LEVEL_3_RIGHT = 0;
+        constexpr int ALGAE_LEVEL_2_LEFT = 0;
+        constexpr int ALGAE_LEVEL_2_RIGHT = 0;
+        constexpr int ALGAE_LEVEL_1 = 0;
 
+        constexpr int CORAL_LEVEL_3 = 0;
+        constexpr int CORAL_LEVEL_2 = 0;
+
+        constexpr int GROUND = 0;
+        constexpr int PROCESSOR = 0;
+        constexpr int CLIMB_UP = 0;
+        constexpr int CLIMB_DOWN = 0;
+        constexpr int NET = 0;
+        constexpr int IGNORE_VISION = 0;
     }
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;

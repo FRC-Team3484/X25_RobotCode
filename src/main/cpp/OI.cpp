@@ -35,6 +35,22 @@ void Operator_Interface::SetRumble(double Rumble) {
     _operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
 }
 
+bool Operator_Interface::GetAlgaeLevel4Left() {return _operator_controller.GetRawButton(ALGAE_LEVEL_4_LEFT);}
+bool Operator_Interface::GetAlgaeLevel4Right() {return _operator_controller.GetRawButton(ALGAE_LEVEL_4_RIGHT);}
+bool Operator_Interface::GetAlgaeLevel3Left() {return _operator_controller.GetRawButton(ALGAE_LEVEL_3_LEFT);}
+bool Operator_Interface::GetAlgaeLevel3Right() {return _operator_controller.GetRawButton(ALGAE_LEVEL_3_RIGHT);}
+bool Operator_Interface::GetAlgaeLevel2Left() {return _operator_controller.GetRawButton(ALGAE_LEVEL_2_LEFT);}
+bool Operator_Interface::GetAlgaeLevel2Right() {return _operator_controller.GetRawButton(ALGAE_LEVEL_2_RIGHT);}
+bool Operator_Interface::GetAlgaeLevel1() {return _operator_controller.GetRawButton(ALGAE_LEVEL_1);}
+bool Operator_Interface::GetCoralLevel3() {return _operator_controller.GetRawButton(CORAL_LEVEL_3);}
+bool Operator_Interface::GetCoralLevel2() {return _operator_controller.GetRawButton(CORAL_LEVEL_2);}
+bool Operator_Interface::GetGround() {return _operator_controller.GetRawButton(GROUND);}
+bool Operator_Interface::GetProcessor() {return _operator_controller.GetRawButton(PROCESSOR);}
+bool Operator_Interface::GetClimbUp() {return _operator_controller.GetRawButton(CLIMB_UP);}
+bool Operator_Interface::GetClimbDown() {return _operator_controller.GetRawButton(CLIMB_DOWN);}
+bool Operator_Interface::GetNet() {return _operator_controller.GetRawButton(NET);}
+bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
+
 int Operator_Interface::RawPOV() {
 
     return _operator_controller.GetPOV();
