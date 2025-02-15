@@ -21,6 +21,8 @@
 
 #include "commands/teleop/TeleopDriveCommand.h"
 
+#include "commands/teleop/auto/StowArmCommand.h"
+
 #include "commands/testing/TestElevatorCommand.h"
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
@@ -73,6 +75,13 @@ class Robot : public frc::TimedRobot {
         Testing_Interface _oi_testing{};
 
         // Command Groups
+        frc2::CommandPtr _stow_state_commands = frc2::cmd::Parallel(
+            #if defined (ELEVATOR_ENABLED) && defined (PIVOT_ENABLED)
+            StowArmCommand{&_pivot, &_elevator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
         frc2::CommandPtr _drive_state_commands = frc2::cmd::Parallel(
             #ifdef DRIVETRAIN_ENABLED
             TeleopDriveCommand{&_drivetrain, &_oi_driver}.ToPtr(),
@@ -94,8 +103,8 @@ class Robot : public frc::TimedRobot {
         );
 
         // State machine
-        enum State {drive};
-        State _robot_state = drive;
+        enum State {stow, drive};
+        State _robot_state = stow;
 
         // Power Stuff
         frc::PowerDistribution _pdp{1, frc::PowerDistribution::ModuleType::kRev};

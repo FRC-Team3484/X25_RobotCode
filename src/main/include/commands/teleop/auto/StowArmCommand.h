@@ -25,6 +25,9 @@ class StowArmCommand
         bool IsFinished() override;
 
     private:
+        enum State {stow_arm, stow_elevator, done};
+        State _stow_arm_state = stow_arm;
+
         PivotSubsystem* _pivot;
         ElevatorSubsystem* _elevator;
 };

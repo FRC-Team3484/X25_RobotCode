@@ -24,7 +24,26 @@ void Robot::TeleopInit() {
     _drive_state_commands.Schedule();
 }
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+    switch (_robot_state) {
+        case drive:
+            _test_state_commands.Cancel();
+            _stow_state_commands.Cancel();
+
+            _drive_state_commands.Schedule();
+            break;
+
+        case stow:
+            _drive_state_commands.Cancel();
+            _test_state_commands.Cancel();
+            
+            _stow_state_commands.Schedule();
+            break;
+
+        default:
+            _robot_state = stow;
+    }
+}
 
 void Robot::TeleopExit() {}
 
