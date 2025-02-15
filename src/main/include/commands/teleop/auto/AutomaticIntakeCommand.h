@@ -16,23 +16,14 @@
 
 #include "OI.h"
 
-#include "StowArmCommand.h"
-
 /**
-* An example command.
-*
-* <p>Note that this extends CommandHelper, rather extending Command
-* directly; this is crucially important, or else the decorator functions in
-* Command will *not* work!
-*/
+ * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
+ */
 class AutomaticIntakeCommand
     : public frc2::CommandHelper<frc2::Command, AutomaticIntakeCommand>
     {
     
     public:
-        /* You should consider using the more terse Command factories API instead
-        * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
-        */
         explicit AutomaticIntakeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Driver_Interface* oi);
 
         void Initialize() override;

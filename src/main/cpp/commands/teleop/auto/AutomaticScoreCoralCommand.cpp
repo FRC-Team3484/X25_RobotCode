@@ -1,9 +1,5 @@
-    // Copyright (c) FIRST and other WPILib contributors.
-    // Open Source Software; you can modify and/or share it under the terms of
-    // the WPILib BSD license file in the root directory of this project.
-
-    #include "commands/teleop/auto/AutomaticScoreCoralCommand.h"
-    #include "Constants.h"
+#include "commands/teleop/auto/AutomaticScoreCoralCommand.h"
+#include "Constants.h"
 
 AutomaticScoreCoralCommand::AutomaticScoreCoralCommand(
     DrivetrainSubsystem* drivetrain, 
@@ -22,12 +18,10 @@ AutomaticScoreCoralCommand::AutomaticScoreCoralCommand(
     AddRequirements(_pivot);
 }
 
-    // Called when the command is initially scheduled.
-void AutomaticScoreCoralCommand::Initialize() {
+// Called when the command is initially scheduled.
+void AutomaticScoreCoralCommand::Initialize() {}
 
-}
-
-    // Called repeatedly when this Command is scheduled to run
+// Called repeatedly when this Command is scheduled to run
 void AutomaticScoreCoralCommand::Execute() {
     switch(_auto_score_coral_state) {
         case wait:
@@ -65,12 +59,12 @@ void AutomaticScoreCoralCommand::Execute() {
     }
 }
 
-    // Called once the command ends or is interrupted.
-    void AutomaticScoreCoralCommand::End(bool interrupted) {
-        _intake->SetPower(IntakeConstants::STOP_POWER);
-    }
+// Called once the command ends or is interrupted.
+void AutomaticScoreCoralCommand::End(bool interrupted) {
+    _intake->SetPower(IntakeConstants::STOP_POWER);
+}
 
-    // Returns true when the command should end.
-    bool AutomaticScoreCoralCommand::IsFinished() {
+// Returns true when the command should end.
+bool AutomaticScoreCoralCommand::IsFinished() {
     return _auto_score_coral_state == done;
-    }
+}

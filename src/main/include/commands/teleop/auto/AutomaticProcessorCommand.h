@@ -15,15 +15,9 @@
 
 #include "OI.h"
 
-#include "StowArmCommand.h"
-
 /**
-* An example command.
-*
-* <p>Note that this extends CommandHelper, rather extending Command
-* directly; this is crucially important, or else the decorator functions in
-* Command will *not* work!
-*/
+ * Scores a algae into the processor, by extending the pivot and running the intake
+ */
 class AutomaticProcessorCommand
     : public frc2::CommandHelper<frc2::Command, AutomaticProcessorCommand> {
     public:

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #include "commands/teleop/auto/AutomaticProcessorCommand.h"
 #include "Constants.h"
 
@@ -29,7 +25,7 @@ void AutomaticProcessorCommand::Initialize() {}
 void AutomaticProcessorCommand::Execute() {
     switch (_auto_processor_state) {
         case wait:
-            // if drivetrain is near target position, got to extend_elevator.
+            // if drivetrain is near target position, go to extend_elevator
             if (_drivetrain->GetNearTargetPosition()) {
                 _auto_processor_state = extend_elevator;
             }
@@ -52,7 +48,7 @@ void AutomaticProcessorCommand::Execute() {
             break;
         case eject_algae:
             // eject algae from intake
-            // when intake doesn't detect a piece, go to retract_pivot
+            // when intake doesn't detect a piece, cancel command and stow arm and elevator
             _intake->SetPower(IntakeConstants::EJECT_POWER);
             if (_intake->AlgaeTop()) {
                 _auto_processor_state = done;
