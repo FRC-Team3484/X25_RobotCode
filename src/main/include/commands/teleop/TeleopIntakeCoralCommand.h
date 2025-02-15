@@ -2,8 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#ifndef TELEOP_INTAKE_COMMAND_H
-#define TELEOP_INTAKE_COMMAND_H
+#ifndef TELEOP_INTAKE_CORAL_COMMAND_H
+#define TELEOP_INTAKE_CORAL_COMMAND_H
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
@@ -19,12 +19,12 @@
 /**
  * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
  */
-class TeleopIntakeCommand
-    : public frc2::CommandHelper<frc2::Command, TeleopIntakeCommand>
+class TeleopIntakeCoralCommand
+    : public frc2::CommandHelper<frc2::Command, TeleopIntakeCoralCommand>
     {
     
     public:
-        explicit TeleopIntakeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
+        explicit TeleopIntakeCoralCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
 
         void Initialize() override;
 
@@ -43,7 +43,7 @@ class TeleopIntakeCommand
         Operator_Interface* _oi;
 
         enum State {wait, intake, done};
-        State _auto_intake_state = wait;
+        State _auto_intake_coral_state = wait;
 
 };
 

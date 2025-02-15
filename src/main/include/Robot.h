@@ -24,7 +24,9 @@
 #include "commands/teleop/StowArmCommand.h"
 #include "commands/teleop/TeleopProcessorCommand.h"
 #include "commands/teleop/TeleopScoreCoralCommand.h"
-#include "commands/teleop/TeleopIntakeCommand.h"
+#include "commands/teleop/TeleopIntakeCoralCommand.h"
+#include "commands/teleop/TeleopScoreAlgaeCommand.h"
+#include "commands/teleop/TeleopIntakeAlgaeCommand.h"
 
 #include "commands/testing/TestElevatorCommand.h"
 #include "commands/testing/TestIntakeCommand.h"
