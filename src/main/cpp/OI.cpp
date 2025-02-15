@@ -31,9 +31,9 @@ void Driver_Interface::SetRumble(double Rumble) {
 // Operator
 // ----------
 Operator_Interface::Operator_Interface(){}
-void Operator_Interface::SetRumble(double Rumble) {
-    _operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
-}
+void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
+bool Operator_Interface::IgnoreVision(){return false;} /*Make this a button later*/
+
 
 int Operator_Interface::RawPOV() {
 

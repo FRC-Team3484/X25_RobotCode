@@ -21,7 +21,10 @@
 
 #include "commands/teleop/TeleopDriveCommand.h"
 
-#include "commands/teleop/auto/StowArmCommand.h"
+#include "commands/teleop/StowArmCommand.h"
+#include "commands/teleop/TeleopProcessorCommand.h"
+#include "commands/teleop/TeleopScoreCoralCommand.h"
+#include "commands/teleop/TeleopIntakeCommand.h"
 
 #include "commands/testing/TestElevatorCommand.h"
 #include "commands/testing/TestIntakeCommand.h"

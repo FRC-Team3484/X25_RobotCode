@@ -45,6 +45,8 @@ class Operator_Interface {
 
         int RawPOV();
 
+        bool IgnoreVision();
+
     private:
         frc::XboxController _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };

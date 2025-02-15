@@ -1,12 +1,12 @@
-#include "commands/teleop/auto/AutomaticIntakeCommand.h"
+#include "commands/teleop/TeleopIntakeCommand.h"
 
-AutomaticIntakeCommand::AutomaticIntakeCommand(
+TeleopIntakeCommand::TeleopIntakeCommand(
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator, 
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot, 
     FunnelSubsystem* funnel, 
-    Driver_Interface* oi) : 
+    Operator_Interface* oi) : 
     _drivetrain(drivetrain),
     _elevator(elevator),
     _intake(intake),
@@ -21,16 +21,16 @@ AutomaticIntakeCommand::AutomaticIntakeCommand(
 }
 
 // Called when the command is initially scheduled.
-void AutomaticIntakeCommand::Initialize() {}
+void TeleopIntakeCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void AutomaticIntakeCommand::Execute() {
+void TeleopIntakeCommand::Execute() {
     switch(_auto_intake_state) {
         case wait:
             _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
             _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
 
-            if(_drivetrain->GetNearTargetPosition()){
+            if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
                 _auto_intake_state = intake;
             }
             break;
@@ -53,12 +53,12 @@ void AutomaticIntakeCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AutomaticIntakeCommand::End(bool interrupted) {
+void TeleopIntakeCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
     _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
 }
 
 // Returns true when the command should end.
-bool AutomaticIntakeCommand::IsFinished() {
+bool TeleopIntakeCommand::IsFinished() {
     return _auto_intake_state == done;
 }

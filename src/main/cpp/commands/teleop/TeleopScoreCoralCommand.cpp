@@ -1,12 +1,12 @@
-#include "commands/teleop/auto/AutomaticScoreCoralCommand.h"
+#include "commands/teleop/TeleopScoreCoralCommand.h"
 #include "Constants.h"
 
-AutomaticScoreCoralCommand::AutomaticScoreCoralCommand(
+TeleopScoreCoralCommand::TeleopScoreCoralCommand(
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,   
-    Driver_Interface* oi) : 
+    Operator_Interface* oi) : 
     _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
@@ -19,20 +19,20 @@ AutomaticScoreCoralCommand::AutomaticScoreCoralCommand(
 }
 
 // Called when the command is initially scheduled.
-void AutomaticScoreCoralCommand::Initialize() {}
+void TeleopScoreCoralCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void AutomaticScoreCoralCommand::Execute() {
+void TeleopScoreCoralCommand::Execute() {
     switch(_auto_score_coral_state) {
         case wait:
-            if(_drivetrain->GetNearTargetPosition()) {
+            if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
                 _auto_score_coral_state = extend_elevator;
             }
             break;
         case extend_elevator:
             _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_3);
 
-            if(_elevator->AtTargetHeight()) {
+            if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auto_score_coral_state = extend_pivot;
             }
             break;
@@ -60,11 +60,11 @@ void AutomaticScoreCoralCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AutomaticScoreCoralCommand::End(bool interrupted) {
+void TeleopScoreCoralCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
 }
 
 // Returns true when the command should end.
-bool AutomaticScoreCoralCommand::IsFinished() {
+bool TeleopScoreCoralCommand::IsFinished() {
     return _auto_score_coral_state == done;
 }

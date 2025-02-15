@@ -1,4 +1,4 @@
-#include "commands/teleop/auto/StowArmCommand.h"
+#include "commands/teleop/StowArmCommand.h"
 
 StowArmCommand::StowArmCommand(
 	PivotSubsystem* pivot, 

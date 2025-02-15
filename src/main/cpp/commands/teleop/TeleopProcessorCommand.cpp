@@ -1,7 +1,7 @@
-#include "commands/teleop/auto/AutomaticProcessorCommand.h"
+#include "commands/teleop/TeleopProcessorCommand.h"
 #include "Constants.h"
 
-AutomaticProcessorCommand::AutomaticProcessorCommand(
+TeleopProcessorCommand::TeleopProcessorCommand(
     DrivetrainSubsystem* drivetrain,
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake,
@@ -19,14 +19,14 @@ AutomaticProcessorCommand::AutomaticProcessorCommand(
 }
 
 // Called when the command is initially scheduled.
-void AutomaticProcessorCommand::Initialize() {}
+void TeleopProcessorCommand::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void AutomaticProcessorCommand::Execute() {
+void TeleopProcessorCommand::Execute() {
     switch (_auto_processor_state) {
         case wait:
             // if drivetrain is near target position, go to extend_elevator
-            if (_drivetrain->GetNearTargetPosition()) {
+            if (_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
                 _auto_processor_state = extend_elevator;
             }
             break; 
@@ -34,7 +34,7 @@ void AutomaticProcessorCommand::Execute() {
             // extend elevator to score in the processor
             // if elevator is at target height, go to extend_pivot
             _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_1);
-            if (_elevator->AtTargetHeight()) {
+            if (_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auto_processor_state = extend_pivot;
             }
             break;
@@ -65,11 +65,11 @@ void AutomaticProcessorCommand::Execute() {
 }
 
 // Called once the command ends or is interrupted.
-void AutomaticProcessorCommand::End(bool interrupted) {
+void TeleopProcessorCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
 }
 
 // Returns true when the command should end.
-bool AutomaticProcessorCommand::IsFinished() {
+bool TeleopProcessorCommand::IsFinished() {
     return _auto_processor_state == done;
 }
