@@ -1,11 +1,22 @@
 #include "Robot.h"
 
 #include <frc2/command/CommandScheduler.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
+#include <frc/Filesystem.h>
+#include <wpinet/WebServer.h>
 
-Robot::Robot() {}
+Robot::Robot() {
+    wpi::WebServer::GetInstance().Start(5800, frc::filesystem::GetDeployDirectory());
+}
 
 void Robot::RobotPeriodic() {
     frc2::CommandScheduler::GetInstance().Run();
+
+    frc::SmartDashboard::PutNumber("Voltage", frc::DriverStation::GetBatteryVoltage());
+    
+    _match_time = frc::DriverStation::GetMatchTime();
+    frc::SmartDashboard::PutNumber("Match Time", _match_time.to<double>());
 }
 
 void Robot::DisabledInit() {}

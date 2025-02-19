@@ -19,6 +19,8 @@
 #include <frc2/command/CommandPtr.h>
 #include <frc/PowerDistribution.h>
 
+#include <units/time.h>
+
 class Robot : public frc::TimedRobot {
     public:
         Robot();
@@ -73,6 +75,9 @@ class Robot : public frc::TimedRobot {
 
         // Variables
         std::optional<frc2::CommandPtr> _auton_command;
+
+        // Elastic Dashboard Stuff
+        units::second_t _match_time = 0_s;
 };
 
 #endif
