@@ -199,6 +199,11 @@ namespace ElevatorConstants {
     constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
 
+    constexpr double RATCHET_ENGAGED = 1.0;
+    constexpr double RATCHET_DISENGAGED = 0.0; 
+
+    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
+
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
 }
