@@ -185,6 +185,7 @@ namespace ElevatorConstants {
     constexpr int PRIMARY_MOTOR_CAN_ID = 30;
     constexpr int SECONDARY_MOTOR_CAN_ID = 31;
     constexpr int HOME_SENSOR_DI_CH = 0;
+    constexpr int BRAKE_SERVO = 0;
 
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;

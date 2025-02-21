@@ -50,10 +50,12 @@ class Robot : public frc::TimedRobot {
         void TestPeriodic() override;
         void TestExit() override;
 
+        void OperatorPeriodic();
+
     private:
         // Subsystems
         #ifdef ELEVATOR_ENABLED
-        ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
+        ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::BRAKE_SERVO, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
         #endif
 
         #ifdef INTAKE_ENABLED
@@ -109,8 +111,11 @@ class Robot : public frc::TimedRobot {
         );
 
         // State machine
-        enum State {drive, stow, intake_algae, score_algae, intake_coral, score_coral};
-        State _robot_state = stow;
+        enum dr_state {drive, auto_pickup_coral, auto_score_reef, auto_score_processor}; //main state
+        dr_state _driver_robot_state = drive;
+
+        enum op_state {stow, manual_score_coral, manual_score_algae, manual_score_processor, manual_remove_algae, manual_remove_coral, ground_pickup, score_net, climb}; //state inside the drive state (driver)
+        op_state _operator_drive_robot_state = stow;
 
         // Power Stuff
         frc::PowerDistribution _pdp{1, frc::PowerDistribution::ModuleType::kRev};

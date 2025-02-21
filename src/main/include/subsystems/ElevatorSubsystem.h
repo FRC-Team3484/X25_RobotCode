@@ -26,6 +26,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @param primary_motor_can_id The CAN ID for the primary motor
          * @param secondary_motor_can_id The CAN ID for the secondary motor
          * @param home_sensor_di_ch The ID for the home sensor
+         * @param brake_servo The ID for the brake servo
          * @param elevator_pidc The elevator PID constants
          * @param max_velocity The maximum velocity the elevator can move
          * @param max_acceleration The maxium acceleration the elevator can move

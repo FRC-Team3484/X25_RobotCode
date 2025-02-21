@@ -22,37 +22,60 @@ void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
     _drive_state_commands.Schedule();
-    _robot_state = stow;
+    _driver_robot_state = drive;
+    _operator_drive_robot_state = stow;
 }
 
 void Robot::TeleopPeriodic() {
-    switch (_robot_state) {
+    switch (_driver_robot_state) {
         case drive:
             _test_state_commands.Cancel();
             _stow_state_commands.Cancel();
-
+            OperatorPeriodic();
             _drive_state_commands.Schedule();
             break;
-        case stow:
+        case auto_pickup_coral:
             _drive_state_commands.Cancel();
             _test_state_commands.Cancel();
             
             _stow_state_commands.Schedule();
             break;
-        case intake_algae:
+        case auto_score_reef:
             
             break;
-        case score_algae:
-            
-            break;
-        case intake_coral:
-            
-            break;
-        case score_coral:
+        case auto_score_processor:
 
             break;
         default:
-            _robot_state = stow;
+            _driver_robot_state = drive;
+    }
+}
+
+void Robot::OperatorPeriodic() {
+    switch (_operator_drive_robot_state){
+        case stow:
+        
+            break;
+        case manual_score_coral:
+
+            break;
+        case manual_score_algae:
+        
+            break;
+        case manual_score_processor:
+            break;
+        case manual_remove_algae:
+            break;
+        case manual_remove_coral:
+            break;
+        case ground_pickup:
+            break;
+        case score_net:
+            break;
+        case climb:
+            break;
+        default:
+            _operator_drive_robot_state = stow;
     }
 }
 
