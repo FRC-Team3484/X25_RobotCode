@@ -15,5 +15,8 @@
     "**/*~": true
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
-  "C_Cpp.default.compilerPath": "/usr/bin/clang"
+  "C_Cpp.default.compilerPath": "/usr/bin/clang",
+  "files.associations": {
+    "regex": "cpp"
+  }
 }

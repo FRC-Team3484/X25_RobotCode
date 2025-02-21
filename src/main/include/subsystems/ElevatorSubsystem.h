@@ -8,6 +8,7 @@
 #include <frc/controller/ElevatorFeedforward.h>
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
+#include <frc/Servo.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 
@@ -34,6 +35,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             int primary_motor_can_id,
             int secondary_motor_can_id,
             int home_sensor_di_ch,
+            int brake_servo,
             SC::SC_PIDConstants elevator_pidc,
             units::feet_per_second_t max_velocity,
             units::feet_per_second_squared_t max_acceleration,
@@ -49,7 +51,6 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @param height The height to set the elevator, in inches
          */
         void SetHeight(units::inch_t height);
-        
         /**
          * Checks if the elevator is at the target hight
          * 
@@ -79,6 +80,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         void Periodic() override;
 
     private:
+        bool _climbing = false;
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
@@ -95,6 +97,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::DigitalInput _home_sensor;
 
         frc::PIDController _elevator_pid_controller{0,0,0};
+        frc::Servo _brake_servo;
 
         frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
 
@@ -103,6 +106,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
+
 };
 
 #endif
