@@ -38,7 +38,7 @@ void AutonFeederCoralCommand::Execute() {
             break;
         case intake:
             _intake->SetPower(IntakeConstants::EJECT_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::INTAKE_POWER);
+            _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->CoralHigh() && _intake->CoralLow()) {
                _auton_feeder_coral_state = done;
@@ -46,7 +46,7 @@ void AutonFeederCoralCommand::Execute() {
             break;
         case done:
             _intake->SetPower(IntakeConstants::STOP_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
+            _funnel->SetPower(FunnelConstants::STOP_POWER);
             break;
         default:
            _auton_feeder_coral_state = wait;

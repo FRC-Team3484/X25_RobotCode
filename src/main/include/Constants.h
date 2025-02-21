@@ -142,14 +142,18 @@ namespace UserInterface {
         constexpr int ROTATION = XBOX_RS_X;
         // Settings
         constexpr int RESET_HEADING = XBOX_BACK;
-        constexpr int BRAKE = XBOX_X;
-        constexpr int BRAKE_MODE = XBOX_LT;
-        constexpr int DISABLE_BRAKE_MODE = XBOX_LB;
+        constexpr int BRAKE = XBOX_LB;
+        constexpr int TOGGLE_COAST_MODE = XBOX_START;
         constexpr int LOW_SPEED = XBOX_RT;
         constexpr int DYNAMIC_PIVOT = XBOX_RB;
 
+        constexpr int AUTO_CORAL_PICKUP = XBOX_A; //change once dpad exists
+        constexpr int AUTO_ALGAE_PICKUP = XBOX_X;
+        constexpr int AUTO_SCORE_REEF = XBOX_B;
+        constexpr int AUTO_SCORE_PROCESSOR = XBOX_Y;
+
         // Override
-        constexpr int DRIVER_OVERRIDE = XBOX_Y;
+        constexpr int DRIVER_OVERRIDE = XBOX_DPAD_UP;
 
     }
     namespace Operator {
@@ -218,6 +222,7 @@ namespace IntakeConstants {
 
         constexpr double EJECT_POWER = 1.0;
         constexpr double STOP_POWER = 0.0;
+        constexpr double INTAKE_POWER = 2.0;
         
         // constexpr int ROLLER_STOP = 0;
         // // constexpr double ROLLER_EJECT = -1.0;
@@ -246,7 +251,7 @@ namespace PivotConstants {
     constexpr double HOME_POWER = -0.2;
 }
 
-namespace FunnelSubsystemConstants {
+namespace FunnelConstants {
     constexpr int MOTOR_CAN_ID = 0;
     constexpr int CORAL_SENSOR_DI_CH = 0;
 

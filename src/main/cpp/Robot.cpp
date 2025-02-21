@@ -30,20 +30,38 @@ void Robot::TeleopPeriodic() {
     switch (_driver_robot_state) {
         case drive:
             _test_state_commands.Cancel();
-            _stow_state_commands.Cancel();
             OperatorPeriodic();
-            _drive_state_commands.Schedule();
+            if (_oi_driver.GetCoralPickup())            _driver_robot_state = auto_pickup_coral; 
+            else if (_oi_driver.GetAlgaePickup())       _driver_robot_state = auto_pickup_algae;
+            else if (_oi_driver.GetScoreReef())         _driver_robot_state = auto_score_reef;
+            else if (_oi_driver.GetScoreProcessor())    _driver_robot_state = auto_score_processor;
+            
             break;
         case auto_pickup_coral:
             _drive_state_commands.Cancel();
             _test_state_commands.Cancel();
             
-            _stow_state_commands.Schedule();
+            if (!_oi_driver.GetCoralPickup())           _driver_robot_state = drive;
+            
+            
+            break;
+        case auto_pickup_algae:
+            _drive_state_commands.Cancel();
+            _test_state_commands.Cancel();
+            
+            if (!_oi_driver.GetAlgaePickup())           _driver_robot_state = drive;
+            
+
             break;
         case auto_score_reef:
             
+            if (!_oi_driver.GetScoreReef())             _driver_robot_state = drive;
+
             break;
         case auto_score_processor:
+            
+            if (!_oi_driver.GetScoreProcessor())        _driver_robot_state = drive;
+            
 
             break;
         default:
@@ -54,7 +72,12 @@ void Robot::TeleopPeriodic() {
 void Robot::OperatorPeriodic() {
     switch (_operator_drive_robot_state){
         case stow:
-        
+            _stow_state_commands.Schedule();
+            _intake_algae_commands.Cancel();
+            _intake_coral_commands.Cancel();
+            _processor_commands.Cancel();
+            _score_algae_commands.Cancel();
+            _score_coral_commands.Cancel();
             break;
         case manual_score_coral:
 

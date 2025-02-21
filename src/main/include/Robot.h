@@ -54,6 +54,11 @@ class Robot : public frc::TimedRobot {
 
     private:
         // Subsystems
+        #ifdef DRIVETRAIN_ENABLED   
+        DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr};
+        AutonGenerator _auton_generator{&_drivetrain};
+        #endif
+
         #ifdef ELEVATOR_ENABLED
         ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::BRAKE_SERVO, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
         #endif
@@ -66,16 +71,17 @@ class Robot : public frc::TimedRobot {
         PivotSubsystem _pivot{PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD};
         #endif
 
+        #ifdef FUNNEL_ENABLED
+        FunnelSubsystem _funnel{FunnelConstants::MOTOR_CAN_ID, FunnelConstants::CORAL_SENSOR_DI_CH};
+        #endif
+
         #ifdef VISION_ENABLED
         SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_NAME, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY, VisionConstants::CAMERA_POSITION);
         #else
         SC_Photon* _vision_ptr = nullptr;
         #endif
 
-        #ifdef DRIVETRAIN_ENABLED   
-        DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr};
-        AutonGenerator _auton_generator{&_drivetrain};
-        #endif
+        
 
         // Operator Interfaces
         Driver_Interface _oi_driver{};
@@ -97,6 +103,41 @@ class Robot : public frc::TimedRobot {
             frc2::cmd::None()
         );
 
+        frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopIntakeAlgaeCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
+        frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (FUNNEL_ENABLED)
+            TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_funnel, &_oi_operator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
+        frc2::CommandPtr _processor_commands = frc2::cmd::Parallel(
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopProcessorCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
+        frc2::CommandPtr _score_algae_commands = frc2::cmd::Parallel(
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopScoreAlgaeCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
+        frc2::CommandPtr _score_coral_commands = frc2::cmd::Parallel(
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
+            TeleopScoreCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+
         frc2::CommandPtr _test_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
             TestElevatorCommand{&_elevator, &_oi_testing}.ToPtr(),
@@ -111,11 +152,27 @@ class Robot : public frc::TimedRobot {
         );
 
         // State machine
-        enum dr_state {drive, auto_pickup_coral, auto_score_reef, auto_score_processor}; //main state
-        dr_state _driver_robot_state = drive;
+        enum driver_states {
+            drive,
+            auto_pickup_coral, 
+            auto_pickup_algae,
+            auto_score_reef, 
+            auto_score_processor
+        }; //main state
+        driver_states _driver_robot_state = drive;
 
-        enum op_state {stow, manual_score_coral, manual_score_algae, manual_score_processor, manual_remove_algae, manual_remove_coral, ground_pickup, score_net, climb}; //state inside the drive state (driver)
-        op_state _operator_drive_robot_state = stow;
+        enum operator_states {
+            stow,
+            manual_score_coral, 
+            manual_score_algae, 
+            manual_score_processor, 
+            manual_remove_algae, 
+            manual_remove_coral, 
+            ground_pickup, 
+            score_net, 
+            climb
+        }; //state inside the drive state (driver)
+        operator_states _operator_drive_robot_state = stow;
 
         // Power Stuff
         frc::PowerDistribution _pdp{1, frc::PowerDistribution::ModuleType::kRev};

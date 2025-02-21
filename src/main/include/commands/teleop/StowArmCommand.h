@@ -17,6 +17,12 @@ class StowArmCommand
     : public frc2::CommandHelper<frc2::Command, StowArmCommand> {
 
     public:
+        /**
+         * Creates an instnce of TeleopDriveCommand
+         * 
+         * @param pivot A pointer to the pivot subsystem
+         * @param elevator A pointer to the elevator interface
+         */
         StowArmCommand(PivotSubsystem* pivot, ElevatorSubsystem* elevator);
 
         void Initialize() override;

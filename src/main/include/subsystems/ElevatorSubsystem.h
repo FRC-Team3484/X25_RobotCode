@@ -92,16 +92,20 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         ctre::phoenix6::hardware::TalonFX _primary_motor;
         ctre::phoenix6::hardware::TalonFX _secondary_motor;
 
-        enum State {home, ready, test};
-        State _elevator_state = home;
+        enum state {
+            home, 
+            ready, 
+            test
+        };
+        state _elevator_state = home;
 
         frc::DigitalInput _home_sensor;
 
-        frc::PIDController _elevator_pid_controller{0,0,0};
         frc::Servo _brake_servo;
 
-        frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
+        frc::PIDController _elevator_pid_controller{0,0,0};
 
+        frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
         frc::TrapezoidProfile<units::feet>::State _initial_state {ElevatorConstants::HOME_POSITION, 0_fps};
         frc::TrapezoidProfile<units::feet>::State _target_state {ElevatorConstants::HOME_POSITION, 0_fps};
         frc::Timer _trapezoid_timer;

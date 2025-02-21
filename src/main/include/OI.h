@@ -19,8 +19,7 @@ class Driver_Interface {
         bool GetBrake();
         bool GetBrakePressed();
 
-        bool GetSetBrakeMode();
-        bool GetDisableBrakeMode();
+        bool GetSetCoastMode();
         
         bool GetDynamicPivot();
 
@@ -28,6 +27,11 @@ class Driver_Interface {
         void SetRumble(double Rumble);
 
         bool DriverOverride();
+
+        bool GetCoralPickup();
+        bool GetAlgaePickup();
+        bool GetScoreReef();
+        bool GetScoreProcessor();
 
 
     private:

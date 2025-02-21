@@ -12,7 +12,6 @@
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
-#include "subsystems/FunnelSubsystem.h"
 
 #include "OI.h"
 
@@ -24,7 +23,7 @@ class TeleopIntakeAlgaeCommand
     {
     
     public:
-        explicit TeleopIntakeAlgaeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
+        explicit TeleopIntakeAlgaeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, Operator_Interface* oi);
 
         void Initialize() override;
 
@@ -39,7 +38,6 @@ class TeleopIntakeAlgaeCommand
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake; 
         PivotSubsystem* _pivot;
-        FunnelSubsystem* _funnel;
         Operator_Interface* _oi;
 
         enum State {wait, intake, done};
