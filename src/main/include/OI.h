@@ -47,15 +47,17 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
-        bool GetAlgaeLevel4Left();
-        bool GetAlgaeLevel4Right();
-        bool GetAlgaeLevel3Left();
-        bool GetAlgaeLevel3Right();
-        bool GetAlgaeLevel2Left();
-        bool GetAlgaeLevel2Right();
-        bool GetAlgaeLevel1();
-        bool GetCoralLevel3();
-        bool GetCoralLevel2();
+        bool GetCoralLevel4Left();
+        bool GetCoralLevel4Right();
+        bool GetCoralLevel3Left();
+        bool GetCoralLevel3Right();
+        bool GetCoralLevel2Left();
+        bool GetCoralLevel2Right();
+        bool GetCoralLevel1();
+
+        bool GetAlgaeLevel3();
+        bool GetAlgaeLevel2();
+
         bool GetGround();
         bool GetProcessor();
         bool GetClimbUp();

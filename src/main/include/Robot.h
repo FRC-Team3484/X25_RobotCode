@@ -51,6 +51,8 @@ class Robot : public frc::TimedRobot {
         void TestExit() override;
 
         void OperatorPeriodic();
+        void StartDriveState();
+        void StartOperatorState();
 
     private:
         // Subsystems
@@ -102,6 +104,9 @@ class Robot : public frc::TimedRobot {
             #endif
             frc2::cmd::None()
         );
+
+        frc2::CommandPtr _drive_to_reef = frc2::cmd::None();
+        frc2::CommandPtr _drive_to_processor = frc2::cmd::None(); //need to make more
 
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
