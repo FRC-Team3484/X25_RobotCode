@@ -16,7 +16,7 @@
 #include "OI.h"
 
 /**
- * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
+ * Intakes an algae, by raising the elevator, extending the pivot, and running the intake
  */
 class TeleopIntakeAlgaeCommand
     : public frc2::CommandHelper<frc2::Command, TeleopIntakeAlgaeCommand>
@@ -40,6 +40,7 @@ class TeleopIntakeAlgaeCommand
         PivotSubsystem* _pivot;
         Operator_Interface* _oi;
 
+        
         enum State {wait, intake, done};
         State _auto_intake_algae_state = wait;
 

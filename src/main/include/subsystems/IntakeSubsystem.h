@@ -31,16 +31,21 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         void SetPower(double power);
 
         /** 
-         * Checks to see if the sensor is detecting the Algae 
+         * Checks to see if the top sensor is detecting the Algae 
          * 
          * @return Returns true if the sensor detects the Alage
         */
         bool AlgaeTop(); 
 
+         /** 
+         * Checks to see if the bottom sensor is detecting the Algae 
+         * 
+         * @return Returns true if the sensor detects the Alage
+        */
         bool AlgaeBottom(); 
 
         /** 
-         * Checks to see if the sensor is detecting the Coral
+         * Checks to see if the higher sensor is detecting the Coral
          * 
          * @return Returns true if the sensor detects the Coral
         */
