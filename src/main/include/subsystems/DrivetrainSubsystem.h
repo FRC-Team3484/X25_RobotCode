@@ -4,6 +4,8 @@
 #include "subsystems/SwerveModule.h"
 #include "FRC3484_Lib/components/SC_Photon.h"
 
+#include "Datatypes.h"
+
 #include <studica/AHRS.h>
 
 #include <units/angle.h>
@@ -54,12 +56,43 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc2::CommandPtr GoToPose(frc::Pose2d pose);
 
         /**
-         * Returns the pose of the robot closest to the reef side
+         * Returns the nearest pose to the robot from a vector of poses
+         * 
+         * @param poses A vector of poses
+         * @return The nearest pose from the vector
+         */
+        frc::Pose2d GetNearestPose(std::vector<frc::Pose2d> poses);
+
+        /**
+         * Returns a pose that is offset from the given pose
+         * 
+         * @param pose The pose to offset
+         * @param offset The offset to apply to the pose
+         * @return A pose that is offset from the given pose
+         */
+        frc::Pose2d ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset);
+
+        /**
+         * Returns the pose of the closest reef side
          * 
          * @param reef_offset The left or the right side of the reef to align to
-         * @return The pose of the robot closest to the reef side
+         * @return The pose of the closest reef side
          */
-        frc::Pose2d GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset);
+        frc::Pose2d GetClosestReefSide(ReefAlignment reef_offset);
+        
+        /**
+         * Returns the pose of the closest feeder station, including which side (offset) is closest (either left or right)
+         * 
+         * @return The pose of the closest feeder station side
+         */
+        frc::Pose2d GetClosestFeederStation();
+
+        /**
+         * Returns the pose of the closest processor
+         * 
+         * @return The pose of the closest processor
+         */
+        frc::Pose2d GetClosestProcessor();
 
         /**
          * Checks if the robot is at the target position

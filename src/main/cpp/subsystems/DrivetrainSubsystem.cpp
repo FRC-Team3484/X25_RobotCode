@@ -258,27 +258,68 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     return pathfindingCommand;
 }
 
-frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(SwerveConstants::AutonDriveConstants::REEF_OFFSETS reef_offset) {
+frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
     frc::Pose2d current_pose = GetPose();
     std::vector<Pose2d> differences;
+
+    for (const auto& pose : poses) {
+        differences.emplace_back(Pose2d{pose.Translation() - current_pose.Translation(), pose.Rotation() - current_pose.Rotation()});
+    }
+    
+    frc::Pose2d closest = frc::Pose2d().Nearest(std::span{differences});
+
+    return closest;
+}
+
+frc::Pose2d DrivetrainSubsystem::ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset) {
+    return frc::Pose2d{pose.Translation() + offset.Translation().RotateBy(pose.Rotation()), pose.Rotation() + offset.Rotation()};
+}
+
+frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(ReefAlignment reef_offset) {
+    std::vector<Pose2d> poses;
     frc::Pose2d offset_pose;
 
     for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
         if (std::find(std::begin(REEF_APRIL_TAGS), std::end(REEF_APRIL_TAGS), tag.ID) != std::end(REEF_APRIL_TAGS)) {
-            differences.emplace_back(Pose2d{tag.pose.ToPose2d().Translation() - current_pose.Translation(), tag.pose.ToPose2d().Rotation() - current_pose.Rotation()});
+            poses.emplace_back(tag.pose.ToPose2d());
         }
     }
 
-    frc::Pose2d closest = frc::Pose2d().Nearest(std::span{differences});
-    frc::Pose2d april_tag = Pose2d{current_pose.Translation() + closest.Translation(), current_pose.Rotation() + closest.Rotation()};
+    frc::Pose2d closest = GetNearestPose(poses);
 
-    if (reef_offset == REEF_OFFSETS::left) {
-        offset_pose = Pose2d{april_tag.Translation() + LEFT_REEF_OFFSET, april_tag.Rotation()};
-    } else if (reef_offset == REEF_OFFSETS::right) {
-        offset_pose = Pose2d{april_tag.Translation() + RIGHT_REEF_OFFSET, april_tag.Rotation()};
+    if (reef_offset == ReefAlignment::left) {
+        offset_pose = ApplyOffsetToPose(closest, LEFT_REEF_OFFSET);
+    } else if (reef_offset == ReefAlignment::right) {
+        offset_pose = ApplyOffsetToPose(closest, RIGHT_REEF_OFFSET);
     }
 
     return offset_pose;
+}
+
+frc::Pose2d DrivetrainSubsystem::GetClosestFeederStation() {
+    std::vector<Pose2d> poses;
+
+    for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+        if (std::find(std::begin(FEEDER_STATION_APRIL_TAGS), std::end(FEEDER_STATION_APRIL_TAGS), tag.ID) != std::end(FEEDER_STATION_APRIL_TAGS)) {
+            poses.emplace_back(ApplyOffsetToPose(tag.pose.ToPose2d(), LEFT_FEEDER_STATION_OFFSET));
+            poses.emplace_back(ApplyOffsetToPose(tag.pose.ToPose2d(), RIGHT_FEEDER_STATION_OFFSET));
+        }
+    }
+
+    return GetNearestPose(poses);
+}
+
+frc::Pose2d DrivetrainSubsystem::GetClosestProcessor() {
+    // TODO: Are we facing the correct direction?
+    std::vector<Pose2d> poses;
+
+    for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+        if (std::find(std::begin(PROCESSOR_APRIL_TAGS), std::end(PROCESSOR_APRIL_TAGS), tag.ID) != std::end(PROCESSOR_APRIL_TAGS)) {
+            poses.emplace_back(ApplyOffsetToPose(tag.pose.ToPose2d(), PROCESSOR_OFFSET));
+        }
+    }
+
+    return GetNearestPose(poses);
 }
 
 bool DrivetrainSubsystem::GetAtTargetPosition() {

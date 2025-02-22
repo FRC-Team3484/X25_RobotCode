@@ -40,7 +40,7 @@ Operator_Interface::Operator_Interface(){}
 void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
 bool Operator_Interface::IgnoreVision(){return false;} /*Make this a button later*/
 
-Alignment Operator_Interface::GetReefAllignmet() {if (CORAL_LEVEL_4_LEFT, CORAL_LEVEL_3_LEFT, CORAL_LEVEL_2_LEFT){return left;} else if (CORAL_LEVEL_4_RIGHT, CORAL_LEVEL_3_RIGHT, CORAL_LEVEL_2_RIGHT){return right;} else {return center;}};
+ReefAlignment Operator_Interface::GetReefAlignment() {if (CORAL_LEVEL_4_LEFT, CORAL_LEVEL_3_LEFT, CORAL_LEVEL_2_LEFT){return left;} else if (CORAL_LEVEL_4_RIGHT, CORAL_LEVEL_3_RIGHT, CORAL_LEVEL_2_RIGHT){return right;} else {return center;}};
 int Operator_Interface::GetReefLevel() {if (CORAL_LEVEL_4_LEFT,CORAL_LEVEL_4_RIGHT){return 4;} else if(CORAL_LEVEL_3_LEFT, CORAL_LEVEL_3_RIGHT, ALGAE_LEVEL_3){return 3;} else if(CORAL_LEVEL_2_LEFT, CORAL_LEVEL_2_RIGHT, ALGAE_LEVEL_2){ return 2;} else if (CORAL_LEVEL_1){return 1;} else {return 0;}}
 
 bool Operator_Interface::GetGround() {return _operator_controller.GetRawButton(GROUND);}

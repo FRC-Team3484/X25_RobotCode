@@ -48,7 +48,7 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
-        Alignment GetReefAllignmet();
+        ReefAlignment GetReefAlignment();
         int GetReefLevel();
         
         bool GetGround();

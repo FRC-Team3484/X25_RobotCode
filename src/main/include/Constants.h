@@ -116,9 +116,16 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{6_in, 0_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{-6_in, 0_in}, frc::Rotation2d{0_deg}};
 
-        constexpr frc::Translation2d LEFT_REEF_OFFSET = frc::Translation2d{6_in, 0_in};
-        constexpr frc::Translation2d RIGHT_REEF_OFFSET = frc::Translation2d{-6_in, 0_in};
+        constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
+        // TODO: Fix later when we know where we want to align
+        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{-0_in, 0_in}, frc::Rotation2d{180_deg}};
+
+        constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
+        constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
     }
 
     namespace PathDrivePIDConstants {
