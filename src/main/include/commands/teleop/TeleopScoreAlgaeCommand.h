@@ -11,9 +11,19 @@
 
 #include "OI.h"
 
+/**
+ * Scores algae into the reef by setting the height of the elevator, extending the pivot, and running the intake
+ */
 class TeleopScoreAlgaeCommand
 	: public frc2::CommandHelper<frc2::Command, TeleopScoreAlgaeCommand> {
 	public:
+		/**
+         * @param pivot A pointer to the pivot subsystem
+         * @param elevator A pointer to the elevator interface
+		 * @param intake A pointer to the intake subsystem
+		 * @param drivetrain A pointer to the drivetrain subsystem
+		 * @param oi A pointer to the operator interface
+         */
 		TeleopScoreAlgaeCommand(
 			DrivetrainSubsystem* drivetrain,
 			ElevatorSubsystem* elevator,
