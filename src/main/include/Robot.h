@@ -22,6 +22,8 @@
 
 #include "commands/teleop/TeleopDriveCommand.h"
 
+#include "commands/teleop/ClimbUpCommand.h"
+#include "commands/teleop/ClimbDownCommand.h"
 #include "commands/teleop/StowArmCommand.h"
 #include "commands/teleop/TeleopProcessorCommand.h"
 #include "commands/teleop/TeleopScoreCoralCommand.h"
@@ -92,6 +94,19 @@ class Robot : public frc::TimedRobot {
         Testing_Interface _oi_testing{};
 
         // Command Groups
+        frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
+            #ifdef ELEVATOR_ENABLED
+            ClimbUpCommand{&_elevator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+        frc2::CommandPtr _climb_down_state_commands = frc2::cmd::Parallel(
+            #ifdef ELEVATOR_ENABLED
+            ClimbDownCommand{&_elevator}.ToPtr(),
+            #endif
+            frc2::cmd::None()
+        );
+        
         frc2::CommandPtr _stow_state_commands = frc2::cmd::Parallel(
             #if defined (ELEVATOR_ENABLED) && defined (PIVOT_ENABLED)
             StowArmCommand{&_pivot, &_elevator}.ToPtr(),
@@ -166,7 +181,8 @@ class Robot : public frc::TimedRobot {
             manual_score_coral,
             manual_score_processor, 
             manual_remove_algae,
-            climb
+            climb_up,
+            climb_down
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;
 

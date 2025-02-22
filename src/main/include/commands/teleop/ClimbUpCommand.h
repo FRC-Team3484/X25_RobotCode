@@ -1,5 +1,5 @@
-#ifndef STOW_ARM_COMMAND_H
-#define STOW_ARM_COMMAND_H
+#ifndef CLIMB_UP_COMMAND_H
+#define CLIMB_UP_COMMAND_H
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
