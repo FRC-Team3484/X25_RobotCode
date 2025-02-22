@@ -116,7 +116,6 @@ namespace SwerveConstants {
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
 
-        enum class REEF_OFFSETS {left, right};
         constexpr frc::Translation2d LEFT_REEF_OFFSET = frc::Translation2d{6_in, 0_in};
         constexpr frc::Translation2d RIGHT_REEF_OFFSET = frc::Translation2d{-6_in, 0_in};
     }
