@@ -40,17 +40,9 @@ Operator_Interface::Operator_Interface(){}
 void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
 bool Operator_Interface::IgnoreVision(){return false;} /*Make this a button later*/
 
+Alignment Operator_Interface::GetReefAllignmet() {if (CORAL_LEVEL_4_LEFT, CORAL_LEVEL_3_LEFT, CORAL_LEVEL_2_LEFT){return left;} else if (CORAL_LEVEL_4_RIGHT, CORAL_LEVEL_3_RIGHT, CORAL_LEVEL_2_RIGHT){return right;} else {return center;}};
+int Operator_Interface::GetReefLevel() {if (CORAL_LEVEL_4_LEFT,CORAL_LEVEL_4_RIGHT){return 4;} else if(CORAL_LEVEL_3_LEFT, CORAL_LEVEL_3_RIGHT, ALGAE_LEVEL_3){return 3;} else if(CORAL_LEVEL_2_LEFT, CORAL_LEVEL_2_RIGHT, ALGAE_LEVEL_2){ return 2;} else if (CORAL_LEVEL_1){return 1;} else {return 0;}}
 
-bool Operator_Interface::GetCoralLevel4Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT);}
-bool Operator_Interface::GetCoralLevel4Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_4_RIGHT);}
-bool Operator_Interface::GetCoralLevel3Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT);}
-bool Operator_Interface::GetCoralLevel3Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_3_RIGHT);}
-bool Operator_Interface::GetCoralLevel2Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT);}
-bool Operator_Interface::GetCoralLevel2Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_2_RIGHT);}
-bool Operator_Interface::GetCoralLevel1() {return _operator_controller.GetRawButton(CORAL_LEVEL_1);}
-
-bool Operator_Interface::GetAlgaeLevel3() {return _operator_controller.GetRawButton(ALGAE_LEVEL_3);}
-bool Operator_Interface::GetAlgaeLevel2() {return _operator_controller.GetRawButton(ALGAE_LEVEL_2);}
 bool Operator_Interface::GetGround() {return _operator_controller.GetRawButton(GROUND);}
 bool Operator_Interface::GetProcessor() {return _operator_controller.GetRawButton(PROCESSOR);}
 bool Operator_Interface::GetClimbUp() {return _operator_controller.GetRawButton(CLIMB_UP);}

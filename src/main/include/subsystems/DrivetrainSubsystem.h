@@ -17,10 +17,11 @@
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc2/command/CommandPtr.h>
+#include <ctre/phoenix6/Pigeon2.hpp>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -84,8 +85,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
     private:
         SwerveModule* _modules[4];
             
-        studica::AHRS* _gyro;
-        units::degree_t _gyro_offset = 0_deg;
+        ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
         frc::SwerveDriveOdometry<4>* _odometry;
 

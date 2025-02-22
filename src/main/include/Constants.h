@@ -78,6 +78,9 @@ namespace SwerveConstants {
         constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
         constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
 
+        constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "canivore";
+        constexpr int PIGEON_ID = 22;
+
 // Check For Autons
         namespace DrivePIDConstants {
             // Check SC_Datatypes for the struct
@@ -114,7 +117,6 @@ namespace SwerveConstants {
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
 
-        enum class REEF_OFFSETS {left, right};
         constexpr frc::Translation2d LEFT_REEF_OFFSET = frc::Translation2d{6_in, 0_in};
         constexpr frc::Translation2d RIGHT_REEF_OFFSET = frc::Translation2d{-6_in, 0_in};
     }

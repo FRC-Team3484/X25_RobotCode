@@ -14,7 +14,7 @@
 
 class SwerveModule {
     public:
-        SwerveModule(SC::SC_SwerveConfigs corner, SC::SC_SwervePID pid_struct);
+        SwerveModule(SC::SC_SwerveConfigs corner, SC::SC_SwervePID pid_struct, std::string_view drivetrain_canbus_name);
         void SetDesiredState(frc::SwerveModuleState state, bool open_loop, bool optimize=true);
         frc::SwerveModuleState GetState();
         frc::SwerveModulePosition GetPosition();
