@@ -78,6 +78,8 @@ namespace SwerveConstants {
         constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
         constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
 
+        constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "canivore";
+
 // Check For Autons
         namespace DrivePIDConstants {
             // Check SC_Datatypes for the struct

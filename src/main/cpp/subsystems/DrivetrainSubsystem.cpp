@@ -23,9 +23,9 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
         wpi::array<frc::Rotation2d, 4> headings{wpi::empty_array};
         for (int i = 0; i < 4; i++) {
             if (FL == i || BL == i) {
-                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::LeftPID);
+                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::LeftPID, DRIVETRAIN_CANBUS_NAME);
             } else {
-                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::RightPID);
+                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::RightPID, DRIVETRAIN_CANBUS_NAME);
             }
             headings[i] = _modules[i]->GetPosition().angle;
         }
