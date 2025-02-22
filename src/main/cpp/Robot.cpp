@@ -37,12 +37,12 @@ void Robot::TeleopPeriodic() {
                 _drive_state_commands.Schedule();
             } else if (_oi_driver.GetAlgaePickup()) {
                 _driver_robot_state = auto_pickup_algae;
-                _drive_state_commands.Cancel();
-                _drive_state_commands.Schedule();
+                _drive_to_reef= _drivetrain.GoToPose(_drivetrain.GetClosestReefSide(center));
+                _drive_to_reef.Schedule();
             } else if (_oi_driver.GetScoreReef()) {
                 _driver_robot_state = auto_score_reef;
-                _drive_state_commands.Cancel();
-                _drive_state_commands.Schedule();
+                _drive_to_reef= _drivetrain.GoToPose(_drivetrain.GetClosestReefSide(_oi_operator.GetReefAlignment()));
+                _drive_to_reef.Schedule();
             } else if (_oi_driver.GetScoreProcessor()) {
                 _driver_robot_state = auto_score_processor;
                 _drive_state_commands.Cancel();
@@ -85,7 +85,22 @@ void Robot::OperatorPeriodic() {
             _score_coral_commands.Cancel();
             break;
         case manual_score_coral:
-
+            
+            if (_oi_operator.GetReefLevel() == 0) {
+                _operator_drive_robot_state = stow;
+            } else if (_oi_operator.GetReefLevel() == 1) {
+                _score_coral_commands.Cancel();
+                _score_coral_commands.Schedule();
+            } else if (_oi_operator.GetReefLevel() == 2) {
+                _score_coral_commands.Cancel();
+                _score_coral_commands.Schedule();
+            } else if (_oi_operator.GetReefLevel() == 3) {
+                _score_coral_commands.Cancel();
+                _score_coral_commands.Schedule();
+            } else if (_oi_operator.GetReefLevel() == 4) {
+                _score_coral_commands.Cancel();
+                _score_coral_commands.Schedule();
+            }
             break;
         case manual_score_algae:
         

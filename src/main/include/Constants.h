@@ -207,10 +207,7 @@ namespace ElevatorConstants {
     constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
-    constexpr units::inch_t HOME_POSITION = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_1 = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_2 = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
+
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
 
     constexpr double RATCHET_ENGAGED = 1.0;
@@ -220,6 +217,18 @@ namespace ElevatorConstants {
 
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
+
+    // elevator positions
+    constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION = 0_in;
+    
+    constexpr units::inch_t CORAL_LEVEL_1 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 0_in;
+
+    constexpr units::inch_t ALGAE_LEVEL_2 = 0_in;
+    constexpr units::inch_t ALGAE_LEVEL_3 = 0_in;
 }
 
 namespace IntakeConstants {
@@ -256,7 +265,10 @@ namespace PivotConstants {
 
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 0_deg;
-    constexpr units::degree_t TARGET_POSITION = 0_deg;
+    constexpr units::degree_t PROCESSOR_POSITION = 0_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
+    constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
     constexpr double HOME_POWER = -0.2;
 }
 

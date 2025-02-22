@@ -30,14 +30,26 @@ void TeleopScoreCoralCommand::Execute() {
             }
             break;
         case extend_elevator:
-            _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_3);
+            if (_oi->GetReefLevel() == 1) {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_1);
+            } else if (_oi->GetReefLevel() == 2) {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_2);
+            } else if (_oi->GetReefLevel() == 3) {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
+            } else if (_oi->GetReefLevel() == 4) {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
+            }
 
             if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auto_score_coral_state = extend_pivot;
             }
             break;
         case extend_pivot:
-            _pivot->SetPivotAngle(PivotConstants::TARGET_POSITION);
+            if (_oi->GetReefLevel() == 1 || _oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
+            } else if (_oi->GetReefLevel() == 4) {
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
+            }
 
             if(_pivot->AtTargetPosition()) {
                 _auto_score_coral_state = eject_piece;

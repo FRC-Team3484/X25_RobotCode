@@ -30,15 +30,19 @@ void TeleopScoreAlgaeCommand::Execute() {
             }
 			break;
 		case extend_elevator:
-            _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_2);
+            if (_oi->GetReefLevel() == 2) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
+            } else if (_oi->GetReefLevel() == 3) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_3);
+            }
 
             if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auto_score_algae_state = extend_pivot;
             }
             break;
         case extend_pivot:
-            _pivot->SetPivotAngle(PivotConstants::TARGET_POSITION);
-
+            _pivot->SetPivotAngle(PivotConstants::TARGET_ALGAE_ANGLE);
+            
             if(_pivot->AtTargetPosition()) {
                 _auto_score_algae_state = eject_piece;
             }
