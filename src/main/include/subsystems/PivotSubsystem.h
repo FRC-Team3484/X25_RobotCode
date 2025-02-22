@@ -87,8 +87,12 @@ class PivotSubsystem : public frc2::SubsystemBase {
 
         ctre::phoenix6::hardware::TalonFX _pivot_motor;
 
-        enum State {home, ready, test};
-        State _pivot_state = home;
+        enum state {
+            home, 
+            ready, 
+            test
+        };
+        state _pivot_state = home;
 
         frc::DigitalInput _pivot_home;
         

@@ -25,7 +25,10 @@
 #define XBOX_R3		10
 
 // D-Pad
-
+#define XBOX_DPAD_UP     0
+#define XBOX_DPAD_RIGHT  90
+#define XBOX_DPAD_DOWN   180
+#define XBOX_DPAD_LEFT   270
 
 /* DualShock 4 Controller Map */
 /*============================*/

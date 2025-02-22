@@ -18,22 +18,45 @@ double Driver_Interface::GetRotation() {return frc::ApplyDeadband(_driver_contro
 //     Settings Drive
 bool Driver_Interface::GetResetHeading() {return _driver_controller.GetRawButton(RESET_HEADING);}
 bool Driver_Interface::GetBrake() {return _driver_controller.GetRawButton(BRAKE);}
-bool Driver_Interface::GetSetBrakeMode() {return _driver_controller.GetRawButtonPressed(BRAKE_MODE);}
-bool Driver_Interface::GetDisableBrakeMode() {return _driver_controller.GetRawButtonPressed(DISABLE_BRAKE_MODE);}
+bool Driver_Interface::GetSetCoastMode() {return _driver_controller.GetRawButtonPressed(TOGGLE_COAST_MODE);}
 bool Driver_Interface::LowSpeed() {return _driver_controller.GetRawAxis(LOW_SPEED) > 0.5;}
 bool Driver_Interface::GetDynamicPivot() {return _driver_controller.GetRawButton(DYNAMIC_PIVOT);}
+
+bool Driver_Interface::GetCoralPickup() {return _driver_controller.GetRawButton(AUTO_CORAL_PICKUP);}
+bool Driver_Interface::GetAlgaePickup() {return _driver_controller.GetRawButton(AUTO_ALGAE_PICKUP);}
+bool Driver_Interface::GetScoreReef() {return _driver_controller.GetRawButton(AUTO_SCORE_REEF);}
+bool Driver_Interface::GetScoreProcessor() {return _driver_controller.GetRawButton(AUTO_SCORE_PROCESSOR);}
 
 void Driver_Interface::SetRumble(double Rumble) {
     _driver_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
 }
 
+bool Driver_Interface::DriverOverride(){return _driver_controller.GetPOV(DRIVER_OVERRIDE);}
+
 // ----------
 // Operator
 // ----------
 Operator_Interface::Operator_Interface(){}
-void Operator_Interface::SetRumble(double Rumble) {
-    _operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
-}
+void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
+bool Operator_Interface::IgnoreVision(){return false;} /*Make this a button later*/
+
+
+bool Operator_Interface::GetCoralLevel4Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT);}
+bool Operator_Interface::GetCoralLevel4Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_4_RIGHT);}
+bool Operator_Interface::GetCoralLevel3Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT);}
+bool Operator_Interface::GetCoralLevel3Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_3_RIGHT);}
+bool Operator_Interface::GetCoralLevel2Left() {return _operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT);}
+bool Operator_Interface::GetCoralLevel2Right() {return _operator_controller.GetRawButton(CORAL_LEVEL_2_RIGHT);}
+bool Operator_Interface::GetCoralLevel1() {return _operator_controller.GetRawButton(CORAL_LEVEL_1);}
+
+bool Operator_Interface::GetAlgaeLevel3() {return _operator_controller.GetRawButton(ALGAE_LEVEL_3);}
+bool Operator_Interface::GetAlgaeLevel2() {return _operator_controller.GetRawButton(ALGAE_LEVEL_2);}
+bool Operator_Interface::GetGround() {return _operator_controller.GetRawButton(GROUND);}
+bool Operator_Interface::GetProcessor() {return _operator_controller.GetRawButton(PROCESSOR);}
+bool Operator_Interface::GetClimbUp() {return _operator_controller.GetRawButton(CLIMB_UP);}
+bool Operator_Interface::GetClimbDown() {return _operator_controller.GetRawButton(CLIMB_DOWN);}
+bool Operator_Interface::GetNet() {return _operator_controller.GetRawButton(NET);}
+bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 
 int Operator_Interface::RawPOV() {
 

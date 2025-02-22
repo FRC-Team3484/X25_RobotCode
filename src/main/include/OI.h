@@ -19,8 +19,7 @@ class Driver_Interface {
         bool GetBrake();
         bool GetBrakePressed();
 
-        bool GetSetBrakeMode();
-        bool GetDisableBrakeMode();
+        bool GetSetCoastMode();
         
         bool GetDynamicPivot();
 
@@ -28,6 +27,11 @@ class Driver_Interface {
         void SetRumble(double Rumble);
 
         bool DriverOverride();
+
+        bool GetCoralPickup();
+        bool GetAlgaePickup();
+        bool GetScoreReef();
+        bool GetScoreProcessor();
 
 
     private:
@@ -43,10 +47,30 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
+        bool GetCoralLevel4Left();
+        bool GetCoralLevel4Right();
+        bool GetCoralLevel3Left();
+        bool GetCoralLevel3Right();
+        bool GetCoralLevel2Left();
+        bool GetCoralLevel2Right();
+        bool GetCoralLevel1();
+
+        bool GetAlgaeLevel3();
+        bool GetAlgaeLevel2();
+
+        bool GetGround();
+        bool GetProcessor();
+        bool GetClimbUp();
+        bool GetClimbDown();
+        bool GetNet();
+        bool GetIgnoreVision();
+
         int RawPOV();
 
+        bool IgnoreVision();
+
     private:
-        frc::XboxController _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
+        frc::GenericHID _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };
 
 /**

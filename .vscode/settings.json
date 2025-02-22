@@ -18,6 +18,10 @@
   "C_Cpp.default.compilerPath": "/usr/bin/clang",
   "files.associations": {
     "*.tcc": "cpp",
-    "numeric": "cpp"
+    "numeric": "cpp",
+    "chrono": "cpp",
+    "memory": "cpp",
+    "functional": "cpp",
+    "type_traits": "cpp"
   }
 }

@@ -5,11 +5,11 @@
 using namespace ctre::phoenix6;
 using namespace ElevatorConstants;
 using namespace units;
-
 ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
     int home_sensor_di_ch,
+    int brake_servo_port,
     SC::SC_PIDConstants elevator_pidc,
     feet_per_second_t max_velocity,
     feet_per_second_squared_t max_acceleration,
@@ -25,7 +25,9 @@ ElevatorSubsystem::ElevatorSubsystem(
         feed_forward_constants.G,
         feed_forward_constants.V,
         feed_forward_constants.A
-    }
+    },
+    _brake_servo{brake_servo_port}
+
     {
         configs::TalonFXConfiguration motor_config{};
         motor_config.MotorOutput.Inverted = INVERT_MOTORS;
@@ -53,10 +55,16 @@ void ElevatorSubsystem::Periodic() {
             }
             break;
         case ready:
-            current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
-            feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
-            pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
-            _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            if (_target_state.position == HOME_POSITION && _HomeSensor()) {
+                _primary_motor.SetPosition(0_tr);
+                _elevator_pid_controller.Reset();
+                SetHeight(HOME_POSITION);
+            } else {
+                current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+                feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
+                pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+                _primary_motor.SetVoltage(feed_forward_output+pid_output);
+            }
             break;
         case test:
             PrintTestInfo();
@@ -65,10 +73,20 @@ void ElevatorSubsystem::Periodic() {
             _elevator_state = home;
             break;
     }
+    if (_climbing) {
+        _brake_servo.Set(RATCHET_ENGAGED);
+    } else {
+        _brake_servo.Set(RATCHET_DISENGAGED);
+    }
 }
 
 void ElevatorSubsystem::SetHeight(inch_t height) {
     if (height != _target_state.position) {
+        if (height == HOME_POSITION && _target_state.position == CLIMB_HEIGHT) {
+            _climbing = true;
+        } else {
+            _climbing = false;
+        }
         _target_state.position = height;
         _target_state.velocity = 0_fps;
         _initial_state.position = _GetElevatorHeight();

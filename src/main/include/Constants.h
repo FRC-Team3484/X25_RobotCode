@@ -144,19 +144,39 @@ namespace UserInterface {
         constexpr int ROTATION = XBOX_RS_X;
         // Settings
         constexpr int RESET_HEADING = XBOX_BACK;
-        constexpr int BRAKE = XBOX_X;
-        constexpr int BRAKE_MODE = XBOX_LT;
-        constexpr int DISABLE_BRAKE_MODE = XBOX_LB;
+        constexpr int BRAKE = XBOX_LB;
+        constexpr int TOGGLE_COAST_MODE = XBOX_START;
         constexpr int LOW_SPEED = XBOX_RT;
         constexpr int DYNAMIC_PIVOT = XBOX_RB;
 
+        constexpr int AUTO_CORAL_PICKUP = XBOX_A; //change once dpad exists
+        constexpr int AUTO_ALGAE_PICKUP = XBOX_X;
+        constexpr int AUTO_SCORE_REEF = XBOX_B;
+        constexpr int AUTO_SCORE_PROCESSOR = XBOX_Y;
+
         // Override
-        constexpr int DRIVER_OVERRIDE = XBOX_Y;
+        constexpr int DRIVER_OVERRIDE = XBOX_DPAD_UP;
 
     }
     namespace Operator {
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
+        constexpr int CORAL_LEVEL_4_LEFT = 0;
+        constexpr int CORAL_LEVEL_4_RIGHT = 0;
+        constexpr int CORAL_LEVEL_3_LEFT = 0;
+        constexpr int CORAL_LEVEL_3_RIGHT = 0;
+        constexpr int CORAL_LEVEL_2_LEFT = 0;
+        constexpr int CORAL_LEVEL_2_RIGHT = 0;
+        constexpr int CORAL_LEVEL_1 = 0;
 
+        constexpr int ALGAE_LEVEL_3 = 0;
+        constexpr int ALGAE_LEVEL_2 = 0;
+
+        constexpr int GROUND = 0;
+        constexpr int PROCESSOR = 0;
+        constexpr int CLIMB_UP = 0;
+        constexpr int CLIMB_DOWN = 0;
+        constexpr int NET = 0;
+        constexpr int IGNORE_VISION = 0;
     }
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
@@ -171,6 +191,7 @@ namespace ElevatorConstants {
     constexpr int PRIMARY_MOTOR_CAN_ID = 30;
     constexpr int SECONDARY_MOTOR_CAN_ID = 31;
     constexpr int HOME_SENSOR_DI_CH = 0;
+    constexpr int BRAKE_SERVO = 0;
 
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
@@ -180,7 +201,15 @@ namespace ElevatorConstants {
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
     constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_1 = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_2 = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
+
+    constexpr double RATCHET_ENGAGED = 1.0;
+    constexpr double RATCHET_DISENGAGED = 0.0; 
+
+    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
 
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
@@ -192,6 +221,14 @@ namespace IntakeConstants {
         constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
+
+        constexpr double EJECT_POWER = 1.0;
+        constexpr double STOP_POWER = 0.0;
+        constexpr double INTAKE_POWER = 2.0;
+        
+        // constexpr int ROLLER_STOP = 0;
+        // // constexpr double ROLLER_EJECT = -1.0;
+        // // constexpr double ROLLER_INTAKE = 0.4;
 }
 
 namespace PivotConstants {
@@ -202,7 +239,7 @@ namespace PivotConstants {
     constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
-
+    
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
 
@@ -216,7 +253,7 @@ namespace PivotConstants {
     constexpr double HOME_POWER = -0.2;
 }
 
-namespace FunnelSubsystemConstants {
+namespace FunnelConstants {
     constexpr int MOTOR_CAN_ID = 0;
     constexpr int CORAL_SENSOR_DI_CH = 0;
 
