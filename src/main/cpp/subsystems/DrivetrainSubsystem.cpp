@@ -16,16 +16,16 @@ using namespace frc;
 using namespace units;
 using namespace pathplanner;
 
-DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision)
-        : _vision{vision}
+DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name)
+        : _vision{vision}, _pigeon{pigeon_id, drivetrain_canbus_name}
 {
     if (NULL != swerve_config_array) {
         wpi::array<frc::Rotation2d, 4> headings{wpi::empty_array};
         for (int i = 0; i < 4; i++) {
             if (FL == i || BL == i) {
-                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::LeftPID, DRIVETRAIN_CANBUS_NAME);
+                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::LeftPID, drivetrain_canbus_name);
             } else {
-                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::RightPID, DRIVETRAIN_CANBUS_NAME);
+                _modules[i] = new SwerveModule(swerve_config_array[i], DrivePIDConstants::RightPID, drivetrain_canbus_name);
             }
             headings[i] = _modules[i]->GetPosition().angle;
         }
@@ -62,7 +62,8 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
         SmartDashboard::PutBoolean("Drivetrain Diagnostics", false);
     }
 
-    _gyro = new studica::AHRS{studica::AHRS::NavXComType::kMXP_SPI};
+    _pigeon.GetConfigurator().Apply(ctre::phoenix6::configs::Pigeon2Configuration{});
+
     _odometry = new SwerveDriveOdometry<4>{kinematics, GetHeading(), GetModulePositions()};
     SetBrakeMode();
 
@@ -122,13 +123,7 @@ void DrivetrainSubsystem::SetModuleStates(wpi::array<SwerveModuleState, 4> desir
 }
 
 Rotation2d DrivetrainSubsystem::GetHeading() {
-    if (_gyro == NULL) {
-        fmt::print("Error: gyro accessed in GetHeading before initialization");
-        return Rotation2d{0_deg};
-
-    } else {
-        return degree_t{-_gyro->GetAngle()} + _gyro_offset;
-    }
+    return _pigeon.GetRotation2d();
 }
 
 void DrivetrainSubsystem::SetHeading(degree_t heading) {
@@ -137,12 +132,7 @@ void DrivetrainSubsystem::SetHeading(degree_t heading) {
 }
 
 degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
-    if (_gyro == NULL) {
-        fmt::print("Error: gyro accessed in GetTurnRate before initialization");
-        return 0_deg_per_s;
-    } else {
-        return degrees_per_second_t{_gyro->GetRate()};
-    }
+    return degrees_per_second_t{_pigeon.GetRate()};
 }
 
 Pose2d DrivetrainSubsystem::GetPose() {
@@ -157,14 +147,10 @@ Pose2d DrivetrainSubsystem::GetPose() {
 void DrivetrainSubsystem::ResetOdometry(Pose2d pose) {
     if (_odometry == NULL) {
         fmt::print("Error: odometry accesed in ResetOdometry before initialization");
-
-    } else if (_gyro == NULL) {
-        fmt::print("Error: gyro accessed in ZeroHeading before initialization");
         
     } else {
-        //fmt::print("Resetting Pose: X ({0}), Y({1}), Rotation({2})", pose.X().value(), pose.Y().value(), pose.Rotation().Degrees().value());
-        _gyro_offset = pose.Rotation().Degrees() + degree_t{_gyro->GetAngle()};
-        //_gyro->ZeroYaw();
+        _pigeon.GetConfigurator().SetYaw(pose.Rotation().Degrees());
+
         _odometry->ResetPosition(GetHeading(), GetModulePositions(), pose);
     }
 }
