@@ -26,7 +26,6 @@
 #include "commands/teleop/TeleopProcessorCommand.h"
 #include "commands/teleop/TeleopScoreCoralCommand.h"
 #include "commands/teleop/TeleopIntakeCoralCommand.h"
-#include "commands/teleop/TeleopScoreAlgaeCommand.h"
 #include "commands/teleop/TeleopIntakeAlgaeCommand.h"
 
 #include "commands/testing/TestElevatorCommand.h"
@@ -52,6 +51,8 @@ class Robot : public frc::TimedRobot {
 
         void OperatorPeriodic();
         void StartDriveState();
+        void CancelDriverStates();
+        void CancelOperatorStates();
         void StartOperatorState();
 
     private:
@@ -106,7 +107,8 @@ class Robot : public frc::TimedRobot {
         );
 
         frc2::CommandPtr _drive_to_reef = frc2::cmd::None();
-        frc2::CommandPtr _drive_to_processor = frc2::cmd::None(); //need to make more
+        frc2::CommandPtr _drive_to_feeder_station = frc2::cmd::None();
+        frc2::CommandPtr _drive_to_processor = frc2::cmd::None();
 
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
@@ -125,13 +127,6 @@ class Robot : public frc::TimedRobot {
         frc2::CommandPtr _processor_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
             TeleopProcessorCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
-            #endif
-            frc2::cmd::None()
-        );
-
-        frc2::CommandPtr _score_algae_commands = frc2::cmd::Parallel(
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopScoreAlgaeCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
@@ -168,13 +163,9 @@ class Robot : public frc::TimedRobot {
 
         enum operator_states {
             stow,
-            manual_score_coral, 
-            manual_score_algae, 
+            manual_score_coral,
             manual_score_processor, 
-            manual_remove_algae, 
-            manual_remove_coral, 
-            ground_pickup, 
-            score_net, 
+            manual_remove_algae,
             climb
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;

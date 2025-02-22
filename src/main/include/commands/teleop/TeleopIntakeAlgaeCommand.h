@@ -41,7 +41,7 @@ class TeleopIntakeAlgaeCommand
         Operator_Interface* _oi;
 
         
-        enum State {wait, intake, done};
+        enum State {wait, extend_elevator, extend_pivot, intake, done};
         State _auto_intake_algae_state = wait;
 
 };

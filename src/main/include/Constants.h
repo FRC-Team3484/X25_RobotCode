@@ -184,6 +184,7 @@ namespace UserInterface {
         constexpr int CLIMB_DOWN = 0;
         constexpr int NET = 0;
         constexpr int IGNORE_VISION = 0;
+        constexpr int LOAD_CORAL = 0;
     }
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;

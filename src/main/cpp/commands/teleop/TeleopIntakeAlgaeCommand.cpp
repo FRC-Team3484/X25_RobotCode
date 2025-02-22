@@ -31,6 +31,26 @@ void TeleopIntakeAlgaeCommand::Execute() {
                _auto_intake_algae_state = intake;
             }
             break;
+        case extend_elevator:
+            if (_oi->GetReefLevel() == 2) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
+            } else if (_oi->GetReefLevel() == 3) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_3);
+            }
+
+            if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
+                _auto_intake_algae_state = extend_pivot;
+            }
+            break;
+        case extend_pivot:
+            if (_oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
+                _pivot->SetPivotAngle(PivotConstants::TARGET_ALGAE_ANGLE);
+            } 
+
+            if(_pivot->AtTargetPosition()) {
+                _auto_intake_algae_state = intake;
+            }
+            break;
         case intake:
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
 

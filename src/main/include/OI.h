@@ -51,12 +51,12 @@ class Operator_Interface {
         ReefAlignment GetReefAlignment();
         int GetReefLevel();
         
-        bool GetGround();
         bool GetProcessor();
         bool GetClimbUp();
         bool GetClimbDown();
         bool GetNet();
         bool GetIgnoreVision();
+        bool GetLoadCoral();
 
         int RawPOV();
 
