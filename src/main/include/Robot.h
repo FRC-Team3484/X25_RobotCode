@@ -53,8 +53,8 @@ class Robot : public frc::TimedRobot {
 
         void OperatorPeriodic();
         void StartDriveState();
-        void CancelDriverStates();
-        void CancelOperatorStates();
+        void CancelDriverCommands();
+        void CancelOperatorCommands();
         void StartOperatorState();
 
     private:
@@ -169,10 +169,10 @@ class Robot : public frc::TimedRobot {
         // State machine
         enum driver_states {
             drive,
-            auto_pickup_coral, 
-            auto_pickup_algae,
-            auto_score_reef, 
-            auto_score_processor
+            auto_pickup_coral_driver, 
+            auto_pickup_algae_driver,
+            auto_score_reef_driver, 
+            auto_score_processor_driver
         }; //main state
         driver_states _driver_robot_state = drive;
 
@@ -181,8 +181,13 @@ class Robot : public frc::TimedRobot {
             manual_score_coral,
             manual_score_processor, 
             manual_remove_algae,
+            manual_pickup_coral,
             climb_up,
-            climb_down
+            climb_down,
+            auto_pickup_coral_operator, 
+            auto_pickup_algae_operator,
+            auto_score_reef_operator, 
+            auto_score_processor_operator
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;
 
