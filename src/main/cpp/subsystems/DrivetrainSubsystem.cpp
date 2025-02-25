@@ -289,6 +289,8 @@ frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(ReefAlignment reef_offset) {
 
     if (reef_offset == ReefAlignment::left) {
         offset_pose = ApplyOffsetToPose(closest, LEFT_REEF_OFFSET);
+    } else if (reef_offset == ReefAlignment::center) {
+        offset_pose = ApplyOffsetToPose(closest, CENTER_REEF_OFFSET);
     } else if (reef_offset == ReefAlignment::right) {
         offset_pose = ApplyOffsetToPose(closest, RIGHT_REEF_OFFSET);
     }
