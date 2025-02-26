@@ -74,7 +74,9 @@ class Testing_Interface {
     public:
         Testing_Interface();
 
-        double GetMotor1();
+        double GetRawPivot();
+        double GetRawElevator();
+        double GetRawIntake();
 
     private:
         frc::XboxController _testing_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};

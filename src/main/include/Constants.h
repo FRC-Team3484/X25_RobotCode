@@ -175,7 +175,10 @@ namespace UserInterface {
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
         constexpr int TESTING_OPEN_LOOP_RIGHT = XBOX_RS_Y;
-        constexpr int TESTING_GET_MOTOR = XBOX_LS_Y;
+        constexpr int PIVOT_GET_MOTOR = XBOX_RS_Y;
+        constexpr int ELEVATOR_GET_MOTOR = XBOX_LS_Y;
+        constexpr int INTAKE_GET_FORWARD_MOTOR = XBOX_RT;
+        constexpr int INTAKE_GET_BACKWARD_MOTOR = XBOX_LT;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }

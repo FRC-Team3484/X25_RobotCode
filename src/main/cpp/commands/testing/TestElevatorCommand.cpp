@@ -16,7 +16,7 @@ void TestElevatorCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void TestElevatorCommand::Execute() {
     if (frc::SmartDashboard::GetBoolean("Test Elevator", false)) {
-        _elevator_subsystem->SetPower(_testing_interface->GetMotor1());
+        _elevator_subsystem->SetPower(_testing_interface->GetRawElevator());
         _elevator_subsystem->PrintTestInfo();
     }
 }
