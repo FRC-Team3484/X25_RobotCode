@@ -61,7 +61,6 @@ class Operator_Interface {
         int RawPOV();
 
         bool IgnoreVision();
-
     private:
         frc::GenericHID _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };
@@ -73,7 +72,9 @@ class Testing_Interface {
     public:
         Testing_Interface();
 
-        double GetMotor1();
+        double GetRawPivot();
+        double GetRawElevator();
+        double GetRawIntake();
 
     private:
         frc::XboxController _testing_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};

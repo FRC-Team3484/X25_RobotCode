@@ -17,6 +17,8 @@
 #include <units/angular_velocity.h>
 #include <units/angular_acceleration.h>
 
+#include "Config.h"
+
 namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape);
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
@@ -167,6 +169,7 @@ namespace UserInterface {
 
     }
     namespace Operator {
+        #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
         constexpr int CORAL_LEVEL_4_LEFT = 0;
         constexpr int CORAL_LEVEL_4_RIGHT = 0;
@@ -186,11 +189,40 @@ namespace UserInterface {
         constexpr int NET = 0;
         constexpr int IGNORE_VISION = 0;
         constexpr int LOAD_CORAL = 0;
+        #else
+
+        constexpr int OPERATOR_CONTROLLER_PORT = 0;
+        constexpr double OPERATOR_JOYSTICK_DEADBAND = 0.02;
+
+        constexpr int CORAL_LEVEL_4_LEFT = XBOX_A;
+        constexpr int CORAL_LEVEL_4_RIGHT = XBOX_B;
+        constexpr int CORAL_LEVEL_3_LEFT = XBOX_X;
+        constexpr int CORAL_LEVEL_3_RIGHT = XBOX_Y;
+        constexpr int CORAL_LEVEL_2_LEFT = XBOX_LB;
+        constexpr int CORAL_LEVEL_2_RIGHT = XBOX_RB;
+        constexpr int CORAL_LEVEL_1 = XBOX_DPAD_RIGHT;
+
+        constexpr int ALGAE_LEVEL_3 = XBOX_R3;
+        constexpr int ALGAE_LEVEL_2 = XBOX_L3;
+
+        constexpr int GROUND = XBOX_LT;
+        constexpr int PROCESSOR = XBOX_RT;
+        constexpr int CLIMB_UP = XBOX_DPAD_UP;
+        constexpr int CLIMB_DOWN = XBOX_DPAD_DOWN;
+        constexpr int NET = XBOX_START;
+        constexpr int IGNORE_VISION = XBOX_BACK;
+        constexpr int LOAD_CORAL = XBOX_DPAD_RIGHT;
+
+
+        #endif
     }
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
         constexpr int TESTING_OPEN_LOOP_RIGHT = XBOX_RS_Y;
-        constexpr int TESTING_GET_MOTOR = XBOX_LS_Y;
+        constexpr int PIVOT_GET_MOTOR = XBOX_RS_Y;
+        constexpr int ELEVATOR_GET_MOTOR = XBOX_LS_Y;
+        constexpr int INTAKE_GET_FORWARD_MOTOR = XBOX_RT;
+        constexpr int INTAKE_GET_BACKWARD_MOTOR = XBOX_LT;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
     }
