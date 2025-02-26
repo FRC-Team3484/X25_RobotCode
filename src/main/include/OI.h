@@ -61,7 +61,6 @@ class Operator_Interface {
         int RawPOV();
 
         bool IgnoreVision();
-
     private:
         frc::GenericHID _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };
