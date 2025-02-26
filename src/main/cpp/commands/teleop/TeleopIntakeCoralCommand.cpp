@@ -35,8 +35,8 @@ void TeleopIntakeCoralCommand::Execute() {
             }
             break;
         case intake:
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::INTAKE_POWER);
+            _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->CoralHigh() && _intake->CoralLow()) {
                _auto_intake_coral_state = done;
@@ -44,7 +44,7 @@ void TeleopIntakeCoralCommand::Execute() {
             break;
         case done:
             _intake->SetPower(IntakeConstants::STOP_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
+            _funnel->SetPower(FunnelConstants::STOP_POWER);
             break;
         default:
            _auto_intake_coral_state = wait;
@@ -55,7 +55,7 @@ void TeleopIntakeCoralCommand::Execute() {
 // Called once the command ends or is interrupted.
 void TeleopIntakeCoralCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
-    _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
+    _funnel->SetPower(FunnelConstants::STOP_POWER);
 }
 
 // Returns true when the command should end.

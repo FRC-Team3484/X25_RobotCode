@@ -25,37 +25,29 @@ void TeleopProcessorCommand::Initialize() {}
 void TeleopProcessorCommand::Execute() {
     switch (_auto_processor_state) {
         case wait:
-            // if drivetrain is near target position, go to extend_elevator
             if (_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
                 _auto_processor_state = extend_elevator;
             }
             break; 
         case extend_elevator:
-            // extend elevator to score in the processor
-            // if elevator is at target height, go to extend_pivot
-            _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_1);
+            _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION);
             if (_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auto_processor_state = extend_pivot;
             }
             break;
         case extend_pivot:
-            // set pivot for scoring in the processor
-            // if pivot is at target angle, go to eject_algae
-            _pivot->SetPivotAngle(PivotConstants::TARGET_POSITION);
+            _pivot->SetPivotAngle(PivotConstants::PROCESSOR_POSITION);
             if (_pivot->AtTargetPosition()) {
                 _auto_processor_state = eject_algae;
             }
             break;
         case eject_algae:
-            // eject algae from intake
-            // when intake doesn't detect a piece, cancel command and stow arm and elevator
             _intake->SetPower(IntakeConstants::EJECT_POWER);
             if (_intake->AlgaeTop()) {
                 _auto_processor_state = done;
             }
             break;
         case done:
-            // stop intake
             _intake->SetPower(IntakeConstants::STOP_POWER);
             break;
         default:

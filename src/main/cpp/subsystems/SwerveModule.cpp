@@ -19,10 +19,10 @@ using namespace ctre::phoenix6;
 using namespace frc;
 
 
-SwerveModule::SwerveModule(SC_SwerveConfigs corner, SC_SwervePID pid_struct) 
-        : _drive_motor(corner.CAN_ID),
-        _steer_motor(corner.SteerMotorPort),
-        _steer_encoder(corner.EncoderPort),
+SwerveModule::SwerveModule(SC_SwerveConfigs corner, SC_SwervePID pid_struct, std::string_view drivetrain_canbus_name = "rio") 
+        : _drive_motor(corner.CAN_ID, drivetrain_canbus_name),
+        _steer_motor(corner.SteerMotorPort, drivetrain_canbus_name),
+        _steer_encoder(corner.EncoderPort, drivetrain_canbus_name),
         _drive_feed_forward{pid_struct.S, pid_struct.V, pid_struct.A}
 {
     // Load motor configs

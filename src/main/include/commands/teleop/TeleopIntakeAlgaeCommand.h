@@ -12,19 +12,18 @@
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
-#include "subsystems/FunnelSubsystem.h"
 
 #include "OI.h"
 
 /**
- * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
+ * Intakes an algae, by raising the elevator, extending the pivot, and running the intake
  */
 class TeleopIntakeAlgaeCommand
     : public frc2::CommandHelper<frc2::Command, TeleopIntakeAlgaeCommand>
     {
     
     public:
-        explicit TeleopIntakeAlgaeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
+        explicit TeleopIntakeAlgaeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, Operator_Interface* oi);
 
         void Initialize() override;
 
@@ -39,10 +38,10 @@ class TeleopIntakeAlgaeCommand
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake; 
         PivotSubsystem* _pivot;
-        FunnelSubsystem* _funnel;
         Operator_Interface* _oi;
 
-        enum State {wait, intake, done};
+        
+        enum State {wait, extend_elevator, extend_pivot, intake, done};
         State _auto_intake_algae_state = wait;
 
 };

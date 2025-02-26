@@ -28,14 +28,14 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case extend_elevator:
-            _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION_3);
+            //_elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION); FIX LATER ONCE WE ACTUALLY HAVE AUTONS
 
             if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auton_score_coral_state = extend_pivot;
             }
             break;
         case extend_pivot:
-            _pivot->SetPivotAngle(PivotConstants::TARGET_POSITION);
+            //_pivot->SetPivotAngle(PivotConstants::TARGET_POSITION); 
 
             if(_pivot->AtTargetPosition()) {
                 _auton_score_coral_state = eject_piece;

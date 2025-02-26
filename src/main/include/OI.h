@@ -2,6 +2,7 @@
 #define OI_H
 
 #include "Constants.h"
+#include "Datatypes.h"
 #include <frc/XboxController.h>
 
 /**
@@ -19,8 +20,7 @@ class Driver_Interface {
         bool GetBrake();
         bool GetBrakePressed();
 
-        bool GetSetBrakeMode();
-        bool GetDisableBrakeMode();
+        bool GetSetCoastMode();
         
         bool GetDynamicPivot();
 
@@ -28,6 +28,11 @@ class Driver_Interface {
         void SetRumble(double Rumble);
 
         bool DriverOverride();
+
+        bool GetCoralPickup();
+        bool GetAlgaePickup();
+        bool GetScoreReef();
+        bool GetScoreProcessor();
 
 
     private:
@@ -43,26 +48,19 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
-        bool GetAlgaeLevel4Left();
-        bool GetAlgaeLevel4Right();
-        bool GetAlgaeLevel3Left();
-        bool GetAlgaeLevel3Right();
-        bool GetAlgaeLevel2Left();
-        bool GetAlgaeLevel2Right();
-        bool GetAlgaeLevel1();
-        bool GetCoralLevel3();
-        bool GetCoralLevel2();
-        bool GetGround();
+        ReefAlignment GetReefAlignment();
+        int GetReefLevel();
+        
         bool GetProcessor();
         bool GetClimbUp();
         bool GetClimbDown();
         bool GetNet();
         bool GetIgnoreVision();
+        bool GetLoadCoral();
 
         int RawPOV();
 
         bool IgnoreVision();
-
     private:
         frc::GenericHID _operator_controller{UserInterface::Operator::OPERATOR_CONTROLLER_PORT};
 };

@@ -17,6 +17,8 @@
 #include <units/angular_velocity.h>
 #include <units/angular_acceleration.h>
 
+#include "Config.h"
+
 namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape);
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
@@ -78,6 +80,9 @@ namespace SwerveConstants {
         constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
         constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
 
+        constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "canivore";
+        constexpr int PIGEON_ID = 22;
+
 // Check For Autons
         namespace DrivePIDConstants {
             // Check SC_Datatypes for the struct
@@ -113,10 +118,17 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{6_in, 0_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d CENTER_REEF_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{-6_in, 0_in}, frc::Rotation2d{0_deg}};
 
-        enum class REEF_OFFSETS {left, right};
-        constexpr frc::Translation2d LEFT_REEF_OFFSET = frc::Translation2d{6_in, 0_in};
-        constexpr frc::Translation2d RIGHT_REEF_OFFSET = frc::Translation2d{-6_in, 0_in};
+        constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
+        // TODO: Fix later when we know where we want to align
+        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{-0_in, 0_in}, frc::Rotation2d{180_deg}};
+
+        constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
+        constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
     }
 
     namespace PathDrivePIDConstants {
@@ -142,28 +154,33 @@ namespace UserInterface {
         constexpr int ROTATION = XBOX_RS_X;
         // Settings
         constexpr int RESET_HEADING = XBOX_BACK;
-        constexpr int BRAKE = XBOX_X;
-        constexpr int BRAKE_MODE = XBOX_LT;
-        constexpr int DISABLE_BRAKE_MODE = XBOX_LB;
+        constexpr int BRAKE = XBOX_LB;
+        constexpr int TOGGLE_COAST_MODE = XBOX_START;
         constexpr int LOW_SPEED = XBOX_RT;
         constexpr int DYNAMIC_PIVOT = XBOX_RB;
 
+        constexpr int AUTO_CORAL_PICKUP = XBOX_A; //change once dpad exists
+        constexpr int AUTO_ALGAE_PICKUP = XBOX_X;
+        constexpr int AUTO_SCORE_REEF = XBOX_B;
+        constexpr int AUTO_SCORE_PROCESSOR = XBOX_Y;
+
         // Override
-        constexpr int DRIVER_OVERRIDE = XBOX_Y;
+        constexpr int DRIVER_OVERRIDE = XBOX_DPAD_UP;
 
     }
     namespace Operator {
+        #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
-        constexpr int ALGAE_LEVEL_4_LEFT = 0;
-        constexpr int ALGAE_LEVEL_4_RIGHT = 0;
-        constexpr int ALGAE_LEVEL_3_LEFT = 0;
-        constexpr int ALGAE_LEVEL_3_RIGHT = 0;
-        constexpr int ALGAE_LEVEL_2_LEFT = 0;
-        constexpr int ALGAE_LEVEL_2_RIGHT = 0;
-        constexpr int ALGAE_LEVEL_1 = 0;
+        constexpr int CORAL_LEVEL_4_LEFT = 0;
+        constexpr int CORAL_LEVEL_4_RIGHT = 0;
+        constexpr int CORAL_LEVEL_3_LEFT = 0;
+        constexpr int CORAL_LEVEL_3_RIGHT = 0;
+        constexpr int CORAL_LEVEL_2_LEFT = 0;
+        constexpr int CORAL_LEVEL_2_RIGHT = 0;
+        constexpr int CORAL_LEVEL_1 = 0;
 
-        constexpr int CORAL_LEVEL_3 = 0;
-        constexpr int CORAL_LEVEL_2 = 0;
+        constexpr int ALGAE_LEVEL_3 = 0;
+        constexpr int ALGAE_LEVEL_2 = 0;
 
         constexpr int GROUND = 0;
         constexpr int PROCESSOR = 0;
@@ -171,6 +188,33 @@ namespace UserInterface {
         constexpr int CLIMB_DOWN = 0;
         constexpr int NET = 0;
         constexpr int IGNORE_VISION = 0;
+        constexpr int LOAD_CORAL = 0;
+        #else
+
+        constexpr int OPERATOR_CONTROLLER_PORT = 0;
+        constexpr double OPERATOR_JOYSTICK_DEADBAND = 0.02;
+
+        constexpr int CORAL_LEVEL_4_LEFT = XBOX_A;
+        constexpr int CORAL_LEVEL_4_RIGHT = XBOX_B;
+        constexpr int CORAL_LEVEL_3_LEFT = XBOX_X;
+        constexpr int CORAL_LEVEL_3_RIGHT = XBOX_Y;
+        constexpr int CORAL_LEVEL_2_LEFT = XBOX_LB;
+        constexpr int CORAL_LEVEL_2_RIGHT = XBOX_RB;
+        constexpr int CORAL_LEVEL_1 = XBOX_DPAD_RIGHT;
+
+        constexpr int ALGAE_LEVEL_3 = XBOX_R3;
+        constexpr int ALGAE_LEVEL_2 = XBOX_L3;
+
+        constexpr int GROUND = XBOX_LT;
+        constexpr int PROCESSOR = XBOX_RT;
+        constexpr int CLIMB_UP = XBOX_DPAD_UP;
+        constexpr int CLIMB_DOWN = XBOX_DPAD_DOWN;
+        constexpr int NET = XBOX_START;
+        constexpr int IGNORE_VISION = XBOX_BACK;
+        constexpr int LOAD_CORAL = XBOX_DPAD_RIGHT;
+
+
+        #endif
     }
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
@@ -188,6 +232,7 @@ namespace ElevatorConstants {
     constexpr int PRIMARY_MOTOR_CAN_ID = 30;
     constexpr int SECONDARY_MOTOR_CAN_ID = 31;
     constexpr int HOME_SENSOR_DI_CH = 0;
+    constexpr int BRAKE_SERVO = 0;
 
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
@@ -196,14 +241,28 @@ namespace ElevatorConstants {
     constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
-    constexpr units::inch_t HOME_POSITION = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_1 = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_2 = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION_3 = 0_in;
+
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
+
+    constexpr double RATCHET_ENGAGED = 1.0;
+    constexpr double RATCHET_DISENGAGED = 0.0; 
+
+    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
 
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
+
+    // elevator positions
+    constexpr units::inch_t HOME_POSITION = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION = 0_in;
+    
+    constexpr units::inch_t CORAL_LEVEL_1 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 0_in;
+
+    constexpr units::inch_t ALGAE_LEVEL_2 = 0_in;
+    constexpr units::inch_t ALGAE_LEVEL_3 = 0_in;
 }
 
 namespace IntakeConstants {
@@ -215,6 +274,7 @@ namespace IntakeConstants {
 
         constexpr double EJECT_POWER = 1.0;
         constexpr double STOP_POWER = 0.0;
+        constexpr double INTAKE_POWER = 2.0;
         
         // constexpr int ROLLER_STOP = 0;
         // // constexpr double ROLLER_EJECT = -1.0;
@@ -239,11 +299,14 @@ namespace PivotConstants {
 
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 0_deg;
-    constexpr units::degree_t TARGET_POSITION = 0_deg;
+    constexpr units::degree_t PROCESSOR_POSITION = 0_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
+    constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
     constexpr double HOME_POWER = -0.2;
 }
 
-namespace FunnelSubsystemConstants {
+namespace FunnelConstants {
     constexpr int MOTOR_CAN_ID = 0;
     constexpr int CORAL_SENSOR_DI_CH = 0;
 

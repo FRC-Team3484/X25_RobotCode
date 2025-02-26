@@ -4,20 +4,17 @@ TeleopIntakeAlgaeCommand::TeleopIntakeAlgaeCommand(
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator, 
     IntakeSubsystem* intake, 
-    PivotSubsystem* pivot, 
-    FunnelSubsystem* funnel, 
+    PivotSubsystem* pivot,
     Operator_Interface* oi) : 
     _drivetrain(drivetrain),
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot),
-    _funnel(funnel),
     _oi(oi) {
     AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);
-    AddRequirements(_funnel);
 }
 
 // Called when the command is initially scheduled.
@@ -34,9 +31,28 @@ void TeleopIntakeAlgaeCommand::Execute() {
                _auto_intake_algae_state = intake;
             }
             break;
+        case extend_elevator:
+            if (_oi->GetReefLevel() == 2) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
+            } else if (_oi->GetReefLevel() == 3) {
+                _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_3);
+            }
+
+            if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
+                _auto_intake_algae_state = extend_pivot;
+            }
+            break;
+        case extend_pivot:
+            if (_oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
+                _pivot->SetPivotAngle(PivotConstants::TARGET_ALGAE_ANGLE);
+            } 
+
+            if(_pivot->AtTargetPosition()) {
+                _auto_intake_algae_state = intake;
+            }
+            break;
         case intake:
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::INTAKE_POWER);
+            _intake->SetPower(IntakeConstants::INTAKE_POWER);
 
             if (_intake->AlgaeTop() && _intake->AlgaeBottom()) {
                _auto_intake_algae_state = done;
@@ -44,7 +60,6 @@ void TeleopIntakeAlgaeCommand::Execute() {
             break;
         case done:
             _intake->SetPower(IntakeConstants::STOP_POWER);
-            _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
             break;
         default:
            _auto_intake_algae_state = wait;
@@ -55,7 +70,6 @@ void TeleopIntakeAlgaeCommand::Execute() {
 // Called once the command ends or is interrupted.
 void TeleopIntakeAlgaeCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
-    _funnel->SetPower(FunnelSubsystemConstants::STOP_POWER);
 }
 
 // Returns true when the command should end.

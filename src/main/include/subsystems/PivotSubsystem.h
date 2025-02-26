@@ -87,8 +87,12 @@ class PivotSubsystem : public frc2::SubsystemBase {
 
         ctre::phoenix6::hardware::TalonFX _pivot_motor;
 
-        enum State {home, ready, test};
-        State _pivot_state = home;
+        enum state {
+            home, 
+            ready, 
+            test
+        };
+        state _pivot_state = home;
 
         frc::DigitalInput _pivot_home;
         
@@ -97,7 +101,7 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::TrapezoidProfile<units::degree> _pivot_trapezoid;
 
         frc::TrapezoidProfile<units::degree>::State _intitial_state{PivotConstants::HOME_POSITION, 0_deg_per_s};
-        frc::TrapezoidProfile<units::degree>::State _target_state{PivotConstants::TARGET_POSITION, 0_deg_per_s};
+        frc::TrapezoidProfile<units::degree>::State _target_state{PivotConstants::HOME_POSITION /*this gets changes based apon user input*/, 0_deg_per_s};
         frc::Timer _trapezoid_timer;
 
         frc::ArmFeedforward _pivot_feed_forward;
