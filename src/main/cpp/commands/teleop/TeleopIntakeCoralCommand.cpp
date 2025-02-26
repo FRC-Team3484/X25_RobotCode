@@ -38,7 +38,7 @@ void TeleopIntakeCoralCommand::Execute() {
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
             _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
-            if (_intake->CoralHigh() && _intake->CoralLow()) {
+            if (_intake->HasCoral()) {
                _auto_intake_coral_state = done;
             }
             break;

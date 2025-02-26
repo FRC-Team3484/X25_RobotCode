@@ -54,7 +54,7 @@ void TeleopIntakeAlgaeCommand::Execute() {
         case intake:
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
 
-            if (_intake->AlgaeTop() && _intake->AlgaeBottom()) {
+            if (_intake->HasAlgae()) {
                _auto_intake_algae_state = done;
             }
             break;

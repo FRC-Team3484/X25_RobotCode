@@ -43,7 +43,7 @@ void TeleopProcessorCommand::Execute() {
             break;
         case eject_algae:
             _intake->SetPower(IntakeConstants::EJECT_POWER);
-            if (_intake->AlgaeTop()) {
+            if (_intake->HasAlgae()) {
                 _auto_processor_state = done;
             }
             break;

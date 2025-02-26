@@ -35,14 +35,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
          * 
          * @return Returns true if the sensor detects the Alage
         */
-        bool AlgaeTop(); 
-
-         /** 
-         * Checks to see if the bottom sensor is detecting the Algae 
-         * 
-         * @return Returns true if the sensor detects the Alage
-        */
-        bool AlgaeBottom(); 
+        bool HasAlgae(); 
 
         /** 
          * Checks to see if the higher sensor is detecting the Coral
@@ -57,6 +50,13 @@ class IntakeSubsystem : public frc2::SubsystemBase {
          * @return Returns true if the sensor detects Coral
          */
         bool CoralLow();
+
+        /**
+         *  Checks to see if the intake has the Coral
+         * 
+         * @return Returns true if the intake has the Coral 
+         */
+        bool HasCoral();
 
         /**
          * Prints the test info for this subsystem to SmartDashboard 

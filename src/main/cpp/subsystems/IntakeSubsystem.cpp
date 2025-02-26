@@ -22,12 +22,8 @@ void IntakeSubsystem::SetPower(double power) {
     _intake_motor.Set(power);
 }
 
-bool IntakeSubsystem::AlgaeTop() {
-    return !_algae_top_sensor.Get();
-}
-
-bool IntakeSubsystem::AlgaeBottom() {
-    return !_algae_bottom_sensor.Get();
+bool IntakeSubsystem::HasAlgae() {
+    return !_algae_top_sensor.Get() || !_algae_bottom_sensor.Get();
 }
 
 bool IntakeSubsystem::CoralHigh() {
@@ -38,9 +34,12 @@ bool IntakeSubsystem::CoralLow() {
     return !_coral_low_sensor.Get();
 }
 
+bool IntakeSubsystem::HasCoral() {
+    return CoralHigh() || CoralLow();
+}
+
 void IntakeSubsystem::PrintTestInfo() {
-    frc::SmartDashboard::PutBoolean("Have Algae Top", AlgaeTop());
-    frc::SmartDashboard::PutBoolean("Have Algae Bottom", AlgaeBottom());
+    frc::SmartDashboard::PutBoolean("Has Algae", HasAlgae());
     frc::SmartDashboard::PutBoolean("Have Coral High", CoralHigh());
     frc::SmartDashboard::PutBoolean("Have Coral Low", CoralLow());
 }

@@ -40,7 +40,7 @@ void AutonFeederCoralCommand::Execute() {
             _intake->SetPower(IntakeConstants::EJECT_POWER);
             _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
-            if (_intake->CoralHigh() && _intake->CoralLow()) {
+            if (_intake->HasCoral()) {
                _auton_feeder_coral_state = done;
             }
             break;

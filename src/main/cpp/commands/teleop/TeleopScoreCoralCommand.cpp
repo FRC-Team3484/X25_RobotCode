@@ -58,7 +58,7 @@ void TeleopScoreCoralCommand::Execute() {
         case eject_piece:
             _intake->SetPower(IntakeConstants::EJECT_POWER);
 
-            if(!_intake->CoralHigh() && !_intake->CoralLow()) {
+            if(!_intake->HasCoral()) {
                 _auto_score_coral_state = done;
             }
             break;
