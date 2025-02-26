@@ -11,7 +11,17 @@ SysIdRoutineBot::SysIdRoutineBot() {
 }
 
 void SysIdRoutineBot::_ConfigureBindings() {
-    _m_elevator.SetDefaultCommand(_m_elevator.PsuedoSetHeight(
+    _elevator.SetDefaultCommand(_elevator.PsuedoSetPower(
         [this] {return -_driver_controller.GetLeftY();}
     ));
+    
+    (_driver_controller.A())
+        .WhileTrue(_elevator.SysIdQuasistatic(frc2::sysid::Direction::kForward));
+    (_driver_controller.B())
+        .WhileTrue(_elevator.SysIdQuasistatic(frc2::sysid::Direction::kReverse));
+    (_driver_controller.X())
+        .WhileTrue(_elevator.SysIdDynamic(frc2::sysid::Direction::kForward));
+    (_driver_controller.Y())
+        .WhileTrue(_elevator.SysIdDynamic(frc2::sysid::Direction::kReverse));
+
 }

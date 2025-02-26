@@ -22,7 +22,7 @@ class SysIdRoutineBot {
         void _ConfigureBindings();
         frc2::CommandXboxController _driver_controller{UserInterface::Driver::DRIVER_CONTROLLER_PORT};
         
-        ElevatorSubsystem _m_elevator{
+        ElevatorSubsystem _elevator{
             Elevator::PRIMARY_MOTOR_CAN_ID,
             Elevator::SECONDARY_MOTOR_CAN_ID,
             Elevator::HOME_SENSOR_DI_CH,

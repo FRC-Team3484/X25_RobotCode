@@ -19,6 +19,7 @@
 
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
+#include "OI.h"
 
 class ElevatorSubsystem : public frc2::SubsystemBase {
     public:
@@ -41,7 +42,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
 
 
-        frc2::CommandPtr PsuedoSetHeight(std::function<double()> height);
+        frc2::CommandPtr PsuedoSetPower(std::function<double()> height);
 
         frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
         frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
@@ -70,12 +71,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::TrapezoidProfile<units::feet>::State _initial_state {Elevator::HOME_POSITION, 0_fps};
         frc::TrapezoidProfile<units::feet>::State _target_state {Elevator::HOME_POSITION, 0_fps};
         frc::Timer _trapezoid_timer;
+        Testing_Interface* _testing_interface;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
 
 
 
-    frc2::sysid::SysIdRoutine m_sysIdRoutine{
+    frc2::sysid::SysIdRoutine _sysIdRoutine{
         frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr},
         frc2::sysid::Mechanism{
             [this](units::volt_t driveVoltage) {

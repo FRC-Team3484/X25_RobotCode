@@ -7,6 +7,7 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
 
+
 using namespace ctre::phoenix6;
 using namespace Elevator;
 using namespace units;
@@ -77,9 +78,18 @@ void ElevatorSubsystem::Periodic() {
     // up above is a big switch statement that contains the different states of the elevator.
 }
 
-frc2::CommandPtr ElevatorSubsystem::PsuedoSetHeight(std::function<double()> height) {
-    return frc2::cmd::Run([this, height] {SetHeight(inch_t{height()});});
+frc2::CommandPtr ElevatorSubsystem::PsuedoSetPower(std::function<double()> height) {
+    return frc2::cmd::Run([this, height] {SetPower(_testing_interface->GetMotorOne());});
 }
+
+frc2::CommandPtr ElevatorSubsystem::SysIdQuasistatic(frc2::sysid::Direction direction) {
+    return _sysIdRoutine.Quasistatic(direction);
+}
+
+frc2::CommandPtr ElevatorSubsystem::SysIdDynamic(frc2::sysid::Direction direction) {
+    return _sysIdRoutine.Dynamic(direction);
+}
+
 
 void ElevatorSubsystem::SetHeight(inch_t height) {
     if (height != _target_state.position) {
