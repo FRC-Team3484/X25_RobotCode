@@ -11,6 +11,7 @@ StowArmCommand::StowArmCommand(
 
 void StowArmCommand::Initialize() {
     _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
+    _stow_arm_state = stow_arm;
 }
 
 void StowArmCommand::Execute() {
