@@ -23,7 +23,6 @@
 #include "commands/teleop/TeleopDriveCommand.h"
 
 #include "commands/teleop/ClimbUpCommand.h"
-#include "commands/teleop/ClimbDownCommand.h"
 #include "commands/teleop/StowArmCommand.h"
 #include "commands/teleop/TeleopProcessorCommand.h"
 #include "commands/teleop/TeleopScoreCoralCommand.h"
@@ -56,6 +55,17 @@ class Robot : public frc::TimedRobot {
         void CancelDriverCommands();
         void CancelOperatorCommands();
         void StartOperatorState();
+
+        bool AutoGetLoadCoralCondition();
+        bool AutoGetRemoveAlgaeCondition();
+        bool AutoGetScoreReefCondition();
+        bool AutoGetScoreProcessorCondition();
+
+        bool ManualGetLoadCoralCondition();
+        bool ManualGetRemoveAlgaeCondition();
+        bool ManualGetScoreReefCondition();
+        bool ManualGetScoreProcessorCondition();
+        bool ManualGetClimbUpCondition();
 
     private:
         // Subsystems
@@ -97,12 +107,6 @@ class Robot : public frc::TimedRobot {
         frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
             ClimbUpCommand{&_elevator}.ToPtr(),
-            #endif
-            frc2::cmd::None()
-        );
-        frc2::CommandPtr _climb_down_state_commands = frc2::cmd::Parallel(
-            #ifdef ELEVATOR_ENABLED
-            ClimbDownCommand{&_elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
@@ -170,8 +174,7 @@ class Robot : public frc::TimedRobot {
         enum driver_states {
             drive,
             auto_pickup_coral_driver, 
-            auto_pickup_algae_driver,
-            auto_score_reef_driver, 
+            auto_reef_driver,
             auto_score_processor_driver
         }; //main state
         driver_states _driver_robot_state = drive;

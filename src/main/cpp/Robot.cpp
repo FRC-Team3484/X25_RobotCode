@@ -36,20 +36,13 @@ void Robot::TeleopPeriodic() {
                 _drive_to_feeder_station = _drivetrain.GoToPose(_drivetrain.GetClosestFeederStation());
                 _drive_to_feeder_station.Schedule();
 
-            } else if (_oi_driver.GetAlgaePickup()) {
-                _driver_robot_state = auto_pickup_algae_driver;
-                CancelDriverCommands();
-
-                _drive_to_reef = _drivetrain.GoToPose(_drivetrain.GetClosestReefSide(ReefAlignment::center));
-                _drive_to_reef.Schedule();
-
-            } else if (_oi_driver.GetScoreReef()) {
-                _driver_robot_state = auto_score_reef_driver;
+            } else if ((_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup()) && !_oi_operator.GetReefLevel() == 0) {
+                _driver_robot_state = auto_reef_driver;
                 CancelDriverCommands();
 
                 _drive_to_reef = _drivetrain.GoToPose(_drivetrain.GetClosestReefSide(_oi_operator.GetReefAlignment()));
                 _drive_to_reef.Schedule();
-                
+
             } else if (_oi_driver.GetScoreProcessor()) {
                 _driver_robot_state = auto_score_processor_driver;
                 
@@ -64,13 +57,9 @@ void Robot::TeleopPeriodic() {
             
             if (!_oi_driver.GetCoralPickup() && !_oi_operator.GetLoadCoral()) {CancelDriverCommands(); StartDriveState(); }
             break;
-        case auto_pickup_algae_driver:
+        case auto_reef_driver:
             
-            if (!_oi_driver.GetAlgaePickup() && _oi_operator.GetReefLevel() == 0) { CancelDriverCommands(); StartDriveState(); }
-            break;
-        case auto_score_reef_driver:
-            
-            if (!_oi_driver.GetScoreReef() && _oi_operator.GetReefLevel() == 0) { CancelDriverCommands(); StartDriveState(); }
+            if (!(_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup()) && _oi_operator.GetReefLevel() == 0) { CancelDriverCommands(); StartDriveState(); }
             break;
         case auto_score_processor_driver:
             
@@ -86,94 +75,86 @@ void Robot::OperatorPeriodic() {
         case stow:
             
             //auto 
-            if (_oi_operator.GetLoadCoral() && _driver_robot_state == auto_pickup_coral_driver) {
+            if (AutoGetLoadCoralCondition()) {
                 _intake_coral_commands.Schedule();
 
                 _operator_drive_robot_state = auto_pickup_coral_operator;
-            } else if (((_oi_operator.GetReefLevel() == 2 || _oi_operator.GetReefLevel() == 3) && _oi_operator.GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == auto_pickup_algae_driver) {
+            } else if (AutoGetRemoveAlgaeCondition()) {
                 _intake_algae_commands.Schedule();
 
                 _operator_drive_robot_state = auto_pickup_algae_operator;
-            } else if ((!(_oi_operator.GetReefLevel() == 0) && (_oi_operator.GetReefAlignment() == ReefAlignment::left || _oi_operator.GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == auto_score_reef_driver) {
+            } else if (AutoGetScoreReefCondition()) {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = auto_score_reef_operator;
-            } else if (_oi_operator.GetProcessor() && _driver_robot_state == auto_score_processor_driver) {
+            } else if (AutoGetScoreProcessorCondition()) {
                 _processor_commands.Schedule();
 
                 _operator_drive_robot_state = auto_score_processor_operator;
             }
             
             //manual
-            else if (_oi_operator.GetLoadCoral() && _driver_robot_state == drive) {
+            else if (ManualGetLoadCoralCondition()) {
                 _intake_coral_commands.Schedule();
 
                 _operator_drive_robot_state = manual_pickup_coral;
-            } else if (_oi_operator.GetReefLevel() != 0 && _driver_robot_state == drive) {
+            } else if (ManualGetScoreReefCondition()) {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = manual_score_coral;
-            } else if (_oi_operator.GetProcessor() && _driver_robot_state == drive) {
+            } else if (ManualGetScoreProcessorCondition()) {
                 _processor_commands.Schedule();
 
                 _operator_drive_robot_state = manual_score_processor;
-            } else if (((_oi_operator.GetReefLevel() == 2 || _oi_operator.GetReefLevel() == 3) && _oi_operator.GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == drive) {
+            } else if (ManualGetRemoveAlgaeCondition()) {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = manual_remove_algae;
-            } else if (_oi_operator.GetClimbUp() && _driver_robot_state == drive) {
+            } else if (ManualGetClimbUpCondition()) {
                 _climb_up_state_commands.Schedule();
 
                 _operator_drive_robot_state = climb_up;
-            } else if (_oi_operator.GetClimbDown() && _driver_robot_state == drive) {
-                _climb_down_state_commands.Schedule();
-
-                _operator_drive_robot_state = climb_down;
             }
             break;
 
         //auto
         case auto_pickup_coral_operator:
             
-            if (!_oi_operator.GetLoadCoral()) {CancelOperatorCommands(); StartOperatorState();}
+            if (!AutoGetLoadCoralCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case auto_pickup_algae_operator:
 
-            if (_oi_operator.GetReefLevel() == 0) {CancelOperatorCommands(); StartOperatorState();}
+            if (!AutoGetRemoveAlgaeCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case auto_score_reef_operator:
 
-            if (_oi_operator.GetReefLevel() == 0) {CancelOperatorCommands(); StartOperatorState();}
+            if (!AutoGetScoreReefCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case auto_score_processor_operator:
 
-            if (!_oi_operator.GetProcessor()) {CancelOperatorCommands(); StartOperatorState();}
+            if (!AutoGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
 
         //manual
         case manual_pickup_coral:
 
-            if (!_oi_operator.GetLoadCoral()) {CancelOperatorCommands(); StartOperatorState();}
+            if (!ManualGetLoadCoralCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case manual_score_coral:
             
-            if (_oi_operator.GetReefLevel() == 0) {CancelOperatorCommands(); StartOperatorState();}
+            if (!ManualGetScoreReefCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case manual_score_processor:
 
-            if (!_oi_operator.GetProcessor()) {CancelOperatorCommands(); StartOperatorState();}
+            if (!ManualGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case manual_remove_algae:
 
-            if (_oi_operator.GetReefLevel() == 0) {CancelOperatorCommands(); StartOperatorState();}
+            if (!ManualGetRemoveAlgaeCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case climb_up:
 
-            if (!_oi_operator.GetClimbUp()) {CancelOperatorCommands(); StartOperatorState();}
-            break;
-        case climb_down:
-
-            if (!_oi_operator.GetClimbDown()) {CancelOperatorCommands(); StartOperatorState();}
+            if (!ManualGetClimbUpCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         default:
             _operator_drive_robot_state = stow;
@@ -198,18 +179,41 @@ void Robot::CancelOperatorCommands() {
     _intake_coral_commands.Cancel();
     _processor_commands.Cancel();
     _score_coral_commands.Cancel();
+    _climb_up_state_commands.Cancel();
 }
     
 void Robot::StartOperatorState() {
     _operator_drive_robot_state = stow;
     _stow_state_commands.Schedule();
-    
-    _intake_algae_commands.Cancel();
-    _intake_coral_commands.Cancel();
-    _processor_commands.Cancel();
-    _score_coral_commands.Cancel();
-    _climb_down_state_commands.Cancel();
-    _climb_up_state_commands.Cancel();
+}
+
+bool Robot::AutoGetLoadCoralCondition(){
+    return _oi_operator.GetLoadCoral() && _driver_robot_state == auto_pickup_coral_driver && (!_intake.CoralHigh() && !_intake.CoralLow());
+}
+bool Robot::AutoGetRemoveAlgaeCondition(){
+    return ((_oi_operator.GetReefLevel() == 2 || _oi_operator.GetReefLevel() == 3) && _oi_operator.GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == auto_reef_driver && (!_intake.AlgaeTop() && !_intake.AlgaeBottom());
+}
+bool Robot::AutoGetScoreReefCondition(){
+    return ((!(_oi_operator.GetReefLevel() == 0) && (_oi_operator.GetReefAlignment() == ReefAlignment::left || _oi_operator.GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == auto_reef_driver) && (_intake.CoralHigh() || _intake.CoralLow());
+}
+bool Robot::AutoGetScoreProcessorCondition(){
+    return _oi_operator.GetProcessor() && _driver_robot_state == auto_score_processor_driver && (_intake.AlgaeTop() || _intake.AlgaeBottom());
+}
+
+bool Robot::ManualGetLoadCoralCondition(){
+    return _oi_operator.GetLoadCoral() && _driver_robot_state == drive && (!_intake.CoralHigh() && !_intake.CoralLow());
+}
+bool Robot::ManualGetRemoveAlgaeCondition(){
+    return ((_oi_operator.GetReefLevel() == 2 || _oi_operator.GetReefLevel() == 3) && _oi_operator.GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == drive && (!_intake.AlgaeTop() && !_intake.AlgaeBottom());
+}
+bool Robot::ManualGetScoreReefCondition(){
+    return ((!(_oi_operator.GetReefLevel() == 0) && (_oi_operator.GetReefAlignment() == ReefAlignment::left || _oi_operator.GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == drive) && (_intake.CoralHigh() || _intake.CoralLow());
+}
+bool Robot::ManualGetScoreProcessorCondition(){
+    return _oi_operator.GetProcessor() && _driver_robot_state == drive && (_intake.AlgaeTop() || _intake.AlgaeBottom());
+}
+bool Robot::ManualGetClimbUpCondition(){
+    return _oi_operator.GetClimbUp() && _driver_robot_state == drive;
 }
 
 void Robot::TeleopExit() {
