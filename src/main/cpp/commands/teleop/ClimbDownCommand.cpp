@@ -7,6 +7,7 @@ ClimbDownCommand::ClimbDownCommand(
 }
 
 void ClimbDownCommand::Initialize() {
+    _climb_down_state = climb_down_elevator;
 }
 
 void ClimbDownCommand::Execute() {
