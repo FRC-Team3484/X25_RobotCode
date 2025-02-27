@@ -211,7 +211,7 @@ namespace UserInterface {
         constexpr int CLIMB_DOWN = XBOX_DPAD_DOWN;
         constexpr int NET = XBOX_START;
         constexpr int IGNORE_VISION = XBOX_BACK;
-        constexpr int LOAD_CORAL = XBOX_DPAD_RIGHT;
+        constexpr int LOAD_CORAL = XBOX_DPAD_LEFT;
 
 
         #endif
