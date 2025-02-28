@@ -36,7 +36,7 @@ void Robot::TeleopPeriodic() {
                 _drive_to_feeder_station = _drivetrain.GoToPose(_drivetrain.GetClosestFeederStation());
                 _drive_to_feeder_station.Schedule();
 
-            } else if ((_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup()) && !_oi_operator.GetReefLevel() == 0) {
+            } else if ((_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup()) && _oi_operator.GetReefLevel() != 0) {
                 _driver_robot_state = auto_reef_driver;
                 CancelDriverCommands();
 

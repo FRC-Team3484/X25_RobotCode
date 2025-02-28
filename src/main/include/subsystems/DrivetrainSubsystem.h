@@ -117,14 +117,14 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
     private:
         SwerveModule* _modules[4];
+
+        SC_Photon* _vision;
             
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
         frc::SwerveDriveOdometry<4>* _odometry;
 
         frc::Field2d _field;
-
-        SC_Photon* _vision;
 
         frc::Pose2d _target_position;
 };

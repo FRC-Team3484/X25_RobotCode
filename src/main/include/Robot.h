@@ -88,6 +88,8 @@ class Robot : public frc::TimedRobot {
 
         #ifdef FUNNEL_ENABLED
         FunnelSubsystem _funnel{FunnelConstants::MOTOR_CAN_ID, FunnelConstants::CORAL_SENSOR_DI_CH};
+        #else
+        FunnelSubsystem* _funnel = nullptr;
         #endif
 
         #ifdef VISION_ENABLED
@@ -139,6 +141,8 @@ class Robot : public frc::TimedRobot {
         frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (FUNNEL_ENABLED)
             TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_funnel, &_oi_operator}.ToPtr(),
+            #elif defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, _funnel, &_oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
