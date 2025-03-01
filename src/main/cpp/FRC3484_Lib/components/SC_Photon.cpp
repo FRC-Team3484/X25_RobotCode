@@ -4,7 +4,7 @@ using namespace frc;
 using namespace photon;
 
 SC_Photon::SC_Photon(std::vector<SC::SC_CameraConfig> camera_configs, frc::AprilTagFieldLayout april_tag_layout, photon::PoseStrategy pose_strategy) {
-    for (int i = 0; i < camera_configs.size(); i++) {
+    for (size_t i = 0; i < camera_configs.size(); i++) {
         _cameras.emplace_back(new PhotonCamera(camera_configs[i].Camera_Name));
         _pose_estimators.emplace_back(new PhotonPoseEstimator(april_tag_layout, pose_strategy, camera_configs[i].Camera_Position));
     }
@@ -13,7 +13,7 @@ SC_Photon::SC_Photon(std::vector<SC::SC_CameraConfig> camera_configs, frc::April
 Pose2d SC_Photon::EstimatePose(Pose2d current_pose) {
     std::vector<Pose2d> poses;
 
-    for (int i = 0; i < _pose_estimators.size(); i++) {
+    for (size_t i = 0; i < _pose_estimators.size(); i++) {
         if (_pose_estimators[i]->GetPoseStrategy() == PoseStrategy::CLOSEST_TO_REFERENCE_POSE) {
             _pose_estimators[i]->SetReferencePose(Pose3d{current_pose});
         }

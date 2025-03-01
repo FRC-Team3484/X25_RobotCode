@@ -9,7 +9,6 @@
 #include <frc/TimedRobot.h>
 #include <frc2/command/Commands.h>
 #include <frc2/command/CommandPtr.h>
-#include <frc2/command/Commands.h>
 #include <frc/PowerDistribution.h>
 
 #include "FRC3484_Lib/components/SC_Photon.h"

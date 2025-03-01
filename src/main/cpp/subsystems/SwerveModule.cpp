@@ -80,7 +80,7 @@ void SwerveModule::SetDesiredState(SwerveModuleState state, bool open_loop, bool
     // If the wheel needs to rotate over 90 degrees, rotate the other direction and flip the output
     // This prevents the wheel from ever needing to rotate more than 90 degrees
     if (optimize) {
-        state = SwerveModuleState::Optimize(state, encoder_rotation);
+        state.Optimize(encoder_rotation);
     }
 
     // Scale the wheel speed down by the cosine of the angle error
