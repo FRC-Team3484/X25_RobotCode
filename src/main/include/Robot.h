@@ -76,20 +76,29 @@ class Robot : public frc::TimedRobot {
 
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
-        DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME};
-        AutonGenerator _auton_generator{&_drivetrain};
+        DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME);
+        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain);
+        #else
+        DrivetrainSubsystem* _drivetrain = nullptr;
+        AutonGenerator* _auton_generator = nullptr;
         #endif
 
         #ifdef ELEVATOR_ENABLED
-        ElevatorSubsystem _elevator{ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::BRAKE_SERVO, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD};
+        ElevatorSubsystem* _elevator= new ElevatorSubsystem(ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::BRAKE_SERVO, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD);
+        #else
+        ElevatorSubsystem* _elevator = nullptr;
         #endif
 
         #ifdef INTAKE_ENABLED
-        IntakeSubsystem _intake{IntakeConstants::MOTOR_CAN_ID, IntakeConstants::ALGAE_TOP_SENSOR_DI_CH, IntakeConstants::ALGAE_BOTTOM_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH};
+        IntakeSubsystem* _intake = new IntakeSubsystem(IntakeConstants::MOTOR_CAN_ID, IntakeConstants::ALGAE_TOP_SENSOR_DI_CH, IntakeConstants::ALGAE_BOTTOM_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH);
+        #else
+        IntakeSubsystem* _intake = nullptr;
         #endif
 
         #ifdef PIVOT_ENABLED
-        PivotSubsystem _pivot{PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD};
+        PivotSubsystem* _pivot = new PivotSubsystem(PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD);
+        #else
+        PivotSubsystem* _pivot = nullptr;
         #endif
 
         #ifdef FUNNEL_ENABLED
@@ -100,28 +109,28 @@ class Robot : public frc::TimedRobot {
 
 
         // Operator Interfaces
-        Driver_Interface _oi_driver{};
-        Operator_Interface _oi_operator{};
-        Testing_Interface _oi_testing{};
+        Driver_Interface* _oi_driver = new Driver_Interface();
+        Operator_Interface* _oi_operator = new Operator_Interface();
+        Testing_Interface* _oi_testing = new Testing_Interface();
 
         // Command Groups
         frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
-            ClimbUpCommand{&_elevator}.ToPtr(),
+            ClimbUpCommand{_elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
         
         frc2::CommandPtr _stow_state_commands = frc2::cmd::Parallel(
             #if defined (ELEVATOR_ENABLED) && defined (PIVOT_ENABLED)
-            StowArmCommand{&_pivot, &_elevator}.ToPtr(),
+            StowArmCommand{_pivot, _elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _drive_state_commands = frc2::cmd::Parallel(
             #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{&_drivetrain, &_oi_driver}.ToPtr(),
+            TeleopDriveCommand{_drivetrain, _oi_driver}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
@@ -132,41 +141,41 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeAlgaeCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            TeleopIntakeAlgaeCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, _funnel, &_oi_operator}.ToPtr(),
+            TeleopIntakeCoralCommand{_drivetrain, _elevator, _intake, _pivot, _funnel, _oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _processor_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopProcessorCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            TeleopProcessorCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _score_coral_commands = frc2::cmd::Parallel(
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
-            TeleopScoreCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_oi_operator}.ToPtr(),
+            TeleopScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _test_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
-            TestElevatorCommand{&_elevator, &_oi_testing}.ToPtr(),
+            TestElevatorCommand{_elevator, _oi_testing}.ToPtr(),
             #endif
             #ifdef INTAKE_ENABLED
-            TestIntakeCommand{&_intake, &_oi_testing}.ToPtr(),
+            TestIntakeCommand{_intake, _oi_testing}.ToPtr(),
             #endif
             #ifdef PIVOT_ENABLED
-            TestPivotCommand{&_pivot, &_oi_testing}.ToPtr(),
+            TestPivotCommand{_pivot, _oi_testing}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
