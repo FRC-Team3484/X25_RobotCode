@@ -41,7 +41,7 @@ class TeleopProcessorCommand
         bool IsFinished() override;
 
     private:
-        enum State {wait, extend_elevator, extend_pivot, eject_algae, done};
+        enum State {wait, traveling_pivot, extend_elevator, extend_pivot, eject_algae, done};
         State _auto_processor_state = wait;
 
         DrivetrainSubsystem* _drivetrain;

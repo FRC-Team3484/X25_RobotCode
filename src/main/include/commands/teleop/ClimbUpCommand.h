@@ -22,7 +22,7 @@ class ClimbUpCommand
          * 
          * @param elevator A pointer to the elevator interface
          */
-        ClimbUpCommand(ElevatorSubsystem* elevator);
+        ClimbUpCommand(ElevatorSubsystem* elevator, PivotSubsystem* pivot);
 
         void Initialize() override;
         void Execute() override;
@@ -30,10 +30,11 @@ class ClimbUpCommand
         bool IsFinished() override;
 
     private:
-        enum State {climb_up_elevator, done};
-        State _climb_up_state = climb_up_elevator;
+        enum State {traveling_pivot, climb_up_elevator, done};
+        State _climb_up_state = traveling_pivot;
 
         ElevatorSubsystem* _elevator;
+        PivotSubsystem* _pivot;
 };
 
 #endif

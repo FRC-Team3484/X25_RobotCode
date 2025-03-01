@@ -27,11 +27,14 @@ void TeleopIntakeCoralCommand::Initialize() {}
 void TeleopIntakeCoralCommand::Execute() {
     switch(_auto_intake_coral_state) {
         case wait:
-            _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
-            _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
-
             if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
-               _auto_intake_coral_state = intake;
+               _auto_intake_coral_state = ready_intake;
+            }
+            break;
+        case ready_intake:
+            _pivot->SetPivotAngle(PivotConstants::INTAKE_POSITION);
+            if (_pivot->AtTargetPosition()) {
+                _auto_intake_coral_state = intake;
             }
             break;
         case intake:

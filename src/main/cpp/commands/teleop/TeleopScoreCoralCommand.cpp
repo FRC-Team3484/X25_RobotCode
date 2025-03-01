@@ -29,6 +29,12 @@ void TeleopScoreCoralCommand::Execute() {
                 _auto_score_coral_state = extend_elevator;
             }
             break;
+        case traveling_pivot:
+            _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
+            if (_pivot->AtTargetPosition()) {
+                _auto_score_coral_state = extend_elevator;
+            }
+            break;
         case extend_elevator:
             if (_oi->GetReefLevel() == 1) {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_1);

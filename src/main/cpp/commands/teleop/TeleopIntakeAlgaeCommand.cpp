@@ -24,11 +24,14 @@ void TeleopIntakeAlgaeCommand::Initialize() {}
 void TeleopIntakeAlgaeCommand::Execute() {
     switch(_auto_intake_algae_state) {
         case wait:
-            _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
-            _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
-
             if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
-               _auto_intake_algae_state = intake;
+               _auto_intake_algae_state = traveling_pivot;
+            }
+            break;
+        case traveling_pivot:
+            _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
+            if (_pivot->AtTargetPosition()) {
+                _auto_intake_algae_state = extend_elevator;
             }
             break;
         case extend_elevator:

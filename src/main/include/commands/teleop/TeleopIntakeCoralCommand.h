@@ -42,7 +42,7 @@ class TeleopIntakeCoralCommand
         FunnelSubsystem* _funnel;
         Operator_Interface* _oi;
 
-        enum State {wait, intake, done};
+        enum State {wait, ready_intake, intake, done};
         State _auto_intake_coral_state = wait;
 
 };

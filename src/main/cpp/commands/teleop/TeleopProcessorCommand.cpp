@@ -26,9 +26,15 @@ void TeleopProcessorCommand::Execute() {
     switch (_auto_processor_state) {
         case wait:
             if (_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
-                _auto_processor_state = extend_elevator;
+                _auto_processor_state = traveling_pivot;
             }
             break; 
+        case traveling_pivot:
+            _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
+            if (_pivot->AtTargetPosition()) {
+                _auto_processor_state = extend_elevator;
+            }
+            break;
         case extend_elevator:
             _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION);
             if (_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {

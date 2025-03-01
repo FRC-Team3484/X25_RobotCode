@@ -255,14 +255,13 @@ namespace ElevatorConstants {
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
-    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
-
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
 
     // elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 0_in;
+    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 0_in;
     constexpr units::inch_t CORAL_LEVEL_2 = 0_in;
@@ -308,6 +307,8 @@ namespace PivotConstants {
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 0_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 0_deg;
+    constexpr units::degree_t TRAVEL_POSITION = 0_deg;
+    constexpr units::degree_t INTAKE_POSITION = 0_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
