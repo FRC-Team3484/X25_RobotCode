@@ -55,15 +55,15 @@ void Robot::TeleopPeriodic() {
         //auto
         case auto_pickup_coral_driver:
             
-            if (!_oi_driver.GetCoralPickup() && !_oi_operator.GetLoadCoral()) {CancelDriverCommands(); StartDriveState(); }
+            if (!_oi_driver.GetCoralPickup()) {CancelDriverCommands(); StartDriveState(); }
             break;
         case auto_reef_driver:
             
-            if (!(_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup()) && _oi_operator.GetReefLevel() == 0) { CancelDriverCommands(); StartDriveState(); }
+            if (!(_oi_driver.GetScoreReef() || _oi_driver.GetAlgaePickup())) { CancelDriverCommands(); StartDriveState(); }
             break;
         case auto_score_processor_driver:
             
-            if (!_oi_driver.GetScoreProcessor() && !_oi_operator.GetProcessor()) { CancelDriverCommands(); StartDriveState(); }
+            if (!_oi_driver.GetScoreProcessor()) { CancelDriverCommands(); StartDriveState(); }
             break;
         default:
             _driver_robot_state = drive;
