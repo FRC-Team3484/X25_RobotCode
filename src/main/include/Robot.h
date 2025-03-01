@@ -68,6 +68,12 @@ class Robot : public frc::TimedRobot {
         bool ManualGetClimbUpCondition();
 
     private:
+        #ifdef VISION_ENABLED
+        SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_NAME, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY, VisionConstants::CAMERA_POSITION);
+        #else
+        SC_Photon* _vision_ptr = nullptr;
+        #endif
+
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
         DrivetrainSubsystem _drivetrain{SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME};
@@ -87,15 +93,9 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #ifdef FUNNEL_ENABLED
-        FunnelSubsystem _funnel{FunnelConstants::MOTOR_CAN_ID, FunnelConstants::CORAL_SENSOR_DI_CH};
+        FunnelSubsystem* _funnel = new FunnelSubsystem(FunnelConstants::MOTOR_CAN_ID, FunnelConstants::CORAL_SENSOR_DI_CH);
         #else
         FunnelSubsystem* _funnel = nullptr;
-        #endif
-
-        #ifdef VISION_ENABLED
-        SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_NAME, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY, VisionConstants::CAMERA_POSITION);
-        #else
-        SC_Photon* _vision_ptr = nullptr;
         #endif
 
         
@@ -139,9 +139,7 @@ class Robot : public frc::TimedRobot {
         );
 
         frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (FUNNEL_ENABLED)
-            TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, &_funnel, &_oi_operator}.ToPtr(),
-            #elif defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
             TeleopIntakeCoralCommand{&_drivetrain, &_elevator, &_intake, &_pivot, _funnel, &_oi_operator}.ToPtr(),
             #endif
             frc2::cmd::None()
