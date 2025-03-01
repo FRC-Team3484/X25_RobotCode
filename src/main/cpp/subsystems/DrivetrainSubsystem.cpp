@@ -132,7 +132,7 @@ void DrivetrainSubsystem::SetHeading(degree_t heading) {
 }
 
 degrees_per_second_t DrivetrainSubsystem::GetTurnRate() {
-    return degrees_per_second_t{_pigeon.GetRate()};
+    return degrees_per_second_t{-_pigeon.GetAngularVelocityZWorld().GetValue()};
 }
 
 Pose2d DrivetrainSubsystem::GetPose() {

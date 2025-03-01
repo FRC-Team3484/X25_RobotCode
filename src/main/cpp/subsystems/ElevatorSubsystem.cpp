@@ -18,6 +18,7 @@ ElevatorSubsystem::ElevatorSubsystem(
     _primary_motor(primary_motor_can_id),
     _secondary_motor(secondary_motor_can_id),
     _home_sensor(home_sensor_di_ch),
+    _brake_servo{brake_servo_port},
     _elevator_pid_controller{elevator_pidc.Kp, elevator_pidc.Ki, elevator_pidc.Kd},
     _elevator_trapezoid{{max_velocity, max_acceleration}},
     _elevator_feed_forward{
@@ -25,8 +26,7 @@ ElevatorSubsystem::ElevatorSubsystem(
         feed_forward_constants.G,
         feed_forward_constants.V,
         feed_forward_constants.A
-    },
-    _brake_servo{brake_servo_port}
+    }
 
     {
         configs::TalonFXConfiguration motor_config{};
