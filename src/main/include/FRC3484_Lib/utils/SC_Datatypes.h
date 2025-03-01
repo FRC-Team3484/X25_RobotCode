@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <frc/PneumaticsModuleType.h>
+#include <frc/geometry/Transform3d.h>
 
 #include <units/math.h>
 #include <units/time.h>
@@ -84,6 +85,13 @@ namespace SC
 		int EncoderPort;
 		units::degree_t EncoderOffset;
 	} SC_SwerveConfigs;
+
+
+	// Vision Configurations
+	typedef struct {
+		std::string_view Camera_Name;
+		frc::Transform3d Camera_Position;
+	} SC_CameraConfig;
 
 	// Amp Configurations
 	typedef struct {

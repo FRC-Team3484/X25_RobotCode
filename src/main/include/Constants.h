@@ -23,8 +23,16 @@ namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape);
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
 
-    constexpr std::string_view CAMERA_NAME = "Camera_1";
-    const frc::Transform3d CAMERA_POSITION = frc::Transform3d{frc::Translation3d{12_in, 0_in, 12_in}, frc::Rotation3d{0_deg, -30_deg, 0_deg}};
+    const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
+        SC::SC_CameraConfig{
+            "Camera_1",
+            frc::Transform3d{frc::Translation3d{12_in, 0_in, 12_in}, frc::Rotation3d{0_deg, -30_deg, 0_deg}},
+        },
+        SC::SC_CameraConfig{
+            "Camera_2",
+            frc::Transform3d{frc::Translation3d{12_in, 0_in, 12_in}, frc::Rotation3d{0_deg, -30_deg, 0_deg}},
+        }
+    };
 }
 
 namespace SwerveConstants {

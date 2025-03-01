@@ -93,7 +93,7 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #ifdef VISION_ENABLED
-        SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_NAME, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY, VisionConstants::CAMERA_POSITION);
+        SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_CONFIGS, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY);
         #else
         SC_Photon* _vision_ptr = nullptr;
         #endif
