@@ -14,6 +14,15 @@
  */
 class IntakeSubsystem : public frc2::SubsystemBase {
     public:
+        /**
+         * Creates an instance of the intake subsystem, which controls the intake, allowing the robot to pickup and eject coral and algae
+         * 
+         * @param motor_can_id The CAN ID for the motor
+         * @param algae_top_sensor_di_ch The ID for the top sensor which detects the algae
+         * @param algae_bottom_sensor_di_ch The ID for the bottom sensor which detects the algae
+         * @param coral_high_sensor_di_ch The ID for the higher sensor which detects the coral
+         * @param coral_low_sensor_di_ch The ID for the lower sensor which detects the coral
+         */
         IntakeSubsystem(
             int motor_can_id,
             int algae_top_sensor_di_ch,

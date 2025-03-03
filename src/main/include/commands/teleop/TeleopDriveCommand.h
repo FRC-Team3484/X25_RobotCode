@@ -10,14 +10,11 @@
 #include <frc/DriverStation.h>
 #include <frc/geometry/Translation2d.h>
 
-/**
- * Controls the drivetrain in teleop
- * Turns the button inputs from the driver controller into actions to drive the robot around
- */
 class TeleopDriveCommand: public frc2::CommandHelper<frc2::Command, TeleopDriveCommand> {
     public:
         /**
-         * Creates an instnce of TeleopDriveCommand
+         * Controls the drivetrain in teleop
+         * Turns the button inputs from the driver controller into actions to drive the robot around
          * 
          * @param drivetrain A pointer to the drivetrain subsystem
          * @param oi A pointer to the driver interface

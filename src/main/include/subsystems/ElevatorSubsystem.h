@@ -15,13 +15,10 @@
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
 
-/**
- * The elevator subsystem controls the elevator, allowing it to move up and down, and prints test mode data
- */
 class ElevatorSubsystem : public frc2::SubsystemBase {
     public:
         /**
-         * Creates an instance of the elevator subsystem
+         * Creates an instance of the elevator subsystem which controls the elevator, allowing it to move up and down
          * 
          * @param primary_motor_can_id The CAN ID for the primary motor
          * @param secondary_motor_can_id The CAN ID for the secondary motor
@@ -41,10 +38,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             units::feet_per_second_t max_velocity,
             units::feet_per_second_squared_t max_acceleration,
             SC::SC_LinearFeedForward feed_forward_constants
-            );
-        
-        //
-
+        );
 
         /**
          * Sets the height of the elevator

@@ -197,8 +197,8 @@ namespace UserInterface {
         constexpr int NET = 0;
         constexpr int IGNORE_VISION = 0;
         constexpr int LOAD_CORAL = 0;
+        
         #else
-
         constexpr int OPERATOR_CONTROLLER_PORT = 0;
         constexpr double OPERATOR_JOYSTICK_DEADBAND = 0.02;
 
@@ -221,9 +221,9 @@ namespace UserInterface {
         constexpr int IGNORE_VISION = XBOX_BACK;
         constexpr int LOAD_CORAL = XBOX_DPAD_LEFT;
 
-
         #endif
     }
+
     namespace Testing {
         constexpr int TESTING_OPEN_LOOP_LEFT = XBOX_LS_Y;
         constexpr int TESTING_OPEN_LOOP_RIGHT = XBOX_RS_Y;
@@ -258,7 +258,7 @@ namespace ElevatorConstants {
     constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
 
-    // elevator positions
+    // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 0_in;
     constexpr units::inch_t CLIMB_HEIGHT = 0_in;
@@ -284,8 +284,8 @@ namespace IntakeConstants {
         constexpr double INTAKE_POWER = 2.0;
         
         // constexpr int ROLLER_STOP = 0;
-        // // constexpr double ROLLER_EJECT = -1.0;
-        // // constexpr double ROLLER_INTAKE = 0.4;
+        // constexpr double ROLLER_EJECT = -1.0;
+        // constexpr double ROLLER_INTAKE = 0.4;
 }
 
 namespace PivotConstants {

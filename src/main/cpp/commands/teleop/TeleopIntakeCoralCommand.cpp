@@ -20,48 +20,50 @@ TeleopIntakeCoralCommand::TeleopIntakeCoralCommand(
     AddRequirements(_funnel);
 }
 
-// Called when the command is initially scheduled.
 void TeleopIntakeCoralCommand::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
 void TeleopIntakeCoralCommand::Execute() {
     switch(_auto_intake_coral_state) {
         case wait:
+            // Wait until the robot is near the target position, then go to the next state
             if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
-               _auto_intake_coral_state = ready_intake;
+                _auto_intake_coral_state = ready_intake;
             }
             break;
         case ready_intake:
+            // Set the pivot to the intake position
+            // Once the pivot is at it's target position, go to the next state
             _pivot->SetPivotAngle(PivotConstants::INTAKE_POSITION);
             if (_pivot->AtTargetPosition()) {
                 _auto_intake_coral_state = intake;
             }
             break;
         case intake:
+            // Run the intake
+            // Once the intake has coral, go to the next state
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->HasCoral()) {
-               _auto_intake_coral_state = done;
+                _auto_intake_coral_state = done;
             }
             break;
         case done:
+            // Stop the intake and funnel
             _intake->SetPower(IntakeConstants::STOP_POWER);
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::STOP_POWER);
             break;
         default:
-           _auto_intake_coral_state = wait;
+            _auto_intake_coral_state = wait;
             break;
     }
 }
 
-// Called once the command ends or is interrupted.
 void TeleopIntakeCoralCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
     if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::STOP_POWER);
 }
 
-// Returns true when the command should end.
 bool TeleopIntakeCoralCommand::IsFinished() {
     return _auto_intake_coral_state == done;
 }

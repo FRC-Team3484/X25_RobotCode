@@ -17,24 +17,27 @@ TeleopIntakeAlgaeCommand::TeleopIntakeAlgaeCommand(
     AddRequirements(_pivot);
 }
 
-// Called when the command is initially scheduled.
 void TeleopIntakeAlgaeCommand::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
 void TeleopIntakeAlgaeCommand::Execute() {
     switch(_auto_intake_algae_state) {
         case wait:
+            // Wait unitl the robot is near the target position, then go to the next state
             if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
-               _auto_intake_algae_state = traveling_pivot;
+                _auto_intake_algae_state = traveling_pivot;
             }
             break;
         case traveling_pivot:
+            // Set the pivot to the travel position
+            // Once the pivot is at it's target position, go to the next state
             _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
             if (_pivot->AtTargetPosition()) {
                 _auto_intake_algae_state = extend_elevator;
             }
             break;
         case extend_elevator:
+            // Set the height of the elevator, based off of the selected reef level
+            // Once the elevator is at the target height and the drivetrain has reached the target position, go to the next state
             if (_oi->GetReefLevel() == 2) {
                 _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
             } else if (_oi->GetReefLevel() == 3) {
@@ -46,6 +49,8 @@ void TeleopIntakeAlgaeCommand::Execute() {
             }
             break;
         case extend_pivot:
+            // Set the angle of the pivot
+            // Once the pivot is at the target angle, go to the next state
             if (_oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
                 _pivot->SetPivotAngle(PivotConstants::TARGET_ALGAE_ANGLE);
             } 
@@ -55,27 +60,28 @@ void TeleopIntakeAlgaeCommand::Execute() {
             }
             break;
         case intake:
+            // Run the intake to intake an algae
+            // Once the intake has the algae, go to the next state
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
 
             if (_intake->HasAlgae()) {
-               _auto_intake_algae_state = done;
+                _auto_intake_algae_state = done;
             }
             break;
         case done:
+            // Stop the intake
             _intake->SetPower(IntakeConstants::STOP_POWER);
             break;
         default:
-           _auto_intake_algae_state = wait;
+            _auto_intake_algae_state = wait;
             break;
     }
 }
 
-// Called once the command ends or is interrupted.
 void TeleopIntakeAlgaeCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
 }
 
-// Returns true when the command should end.
 bool TeleopIntakeAlgaeCommand::IsFinished() {
     return _auto_intake_algae_state == done;
 }

@@ -6,24 +6,19 @@
 #include "subsystems/ElevatorSubsystem.h"
 #include "OI.h"
 
-/**
- * Test Elevator Command
- * 
- * This command allows the elevator to be tested using the controller buttons
- */
 class TestElevatorCommand
     : public frc2::CommandHelper<frc2::Command, TestElevatorCommand> {
     public:
         
         /**
-         * Creates an instance of the test elevator command
+         * Allows the elevator to be tested using the controller buttons
          * 
-         * @param elevator_subsystem The elevator subsystme needed for this command
-         * @param testing_interface The testing interface from OI
+         * @param elevator_subsystem A pointer to the elevator subsystem
+         * @param testing_interface A pointer to the testing interface
          */
         TestElevatorCommand(
-        ElevatorSubsystem* elevator_subsystem,
-        Testing_Interface* testing_interface 
+            ElevatorSubsystem* elevator_subsystem,
+            Testing_Interface* testing_interface 
         );
 
         void Initialize() override;
