@@ -16,6 +16,8 @@ class ColorStack {
 
         void ApplyTo(std::span<frc::AddressableLED::LEDData> data);
 
+        void Reset();
+
     private:
         size_t _GetColorIndex(size_t offset);
         double _PositiveFmod(double numerator, double denominator);

@@ -1,4 +1,4 @@
-#include "subsystems/ColorWave.h"
+#include "subsystems/LEDs/ColorWave.h"
 
 ColorWave::ColorWave(std::vector<frc::Color> colors, units::meter_t led_spacing, units::meter_t wavelength, double gamma, units::meters_per_second_t velocity) {
     _colors = colors;

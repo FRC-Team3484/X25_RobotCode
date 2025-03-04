@@ -16,7 +16,8 @@ class FallingSand {
         FallingSand(std::vector<frc::Color> colors, int bar_size, units::meter_t led_spacing, units::meters_per_second_t intake_velocity, units::meters_per_second_squared_t exit_acceleration, size_t fill_size, double gamma);
 
         void ApplyTo(std::span<frc::AddressableLED::LEDData> data);
-        void Reser();
+        void Reset();
+
 
     private:
         size_t _GetColorIndex(size_t offset);

@@ -6,7 +6,7 @@
 #include "Config.h"
 
 #include "subsystems/ElevatorSubsystem.h"
-#include "subsystems/LEDSubsystem.h"
+#include "subsystems/LEDs/LEDSubsystem.h"
 #include "OI.h"
 #include "commands/testing/TestElevatorCommand.h"
 

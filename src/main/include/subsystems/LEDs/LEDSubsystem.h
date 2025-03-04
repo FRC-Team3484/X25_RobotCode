@@ -5,7 +5,10 @@
 #include <array>
 #include <frc/AddressableLED.h>
 #include <frc/LEDPattern.h>
-#include "subsystems/ColorWave.h"
+#include "ColorWave.h"
+#include "FallingSand.h"
+#include "Fire.h"
+#include "ColorStack.h"
 #include "Constants.h"
 #include <frc/Timer.h>
 
@@ -18,7 +21,13 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void Periodic() override;
 
-        void IdleAnimation();
+        void WaveAnimation();
+
+        void TetrisAnimation();
+
+        void SandAnimation();
+
+        void FireAnimation();
 
         void DrivingAnimation();
 
@@ -36,13 +45,17 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
     private:
 
-        enum State {idle, driving, path, pivot, scoring, has_algae, has_coral};
-        State _led_state = idle;
+        enum State {wave, tetris, sand, fire, driving, path, pivot, scoring, has_algae, has_coral};
+        State _led_state = tetris;
 
         frc::AddressableLED _leds;
         std::vector<frc::AddressableLED::LEDData> _led_buffer;
 
         ColorWave _colorwave{LEDConstants::COLORS, LEDConstants::LED_SPACING, LEDConstants::WAVELENGTH, LEDConstants::GAMMA, LEDConstants::SCROLLING_SPEED};
+        ColorStack _tetris{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::FILL_SIZE, LEDConstants::EMPTY_SIZE, LEDConstants::GAMMA};
+        FallingSand _sand{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::EXIT_ACCELERATION, LEDConstants::FILL_SIZE, LEDConstants::GAMMA};
+        Fire _fire{LEDConstants::FIRE_HEIGHT, LEDConstants::SPARKS, LEDConstants::DELAY, LEDConstants::LED_STRIP_LENGTH};
+        
 
         frc::LEDPattern _solid_orange;
         frc::LEDPattern _solid_green;
