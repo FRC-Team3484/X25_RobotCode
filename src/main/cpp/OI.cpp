@@ -77,6 +77,6 @@ int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 // ----------
 Testing_Interface::Testing_Interface() {}
 
-double Testing_Interface::GetRawPivot() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(PIVOT_GET_MOTOR), TESTING_DEADBAND);}
-double Testing_Interface::GetRawElevator() {return frc::ApplyDeadband(_testing_controller.GetRawAxis(ELEVATOR_GET_MOTOR), TESTING_DEADBAND);}
-double Testing_Interface::GetRawIntake() {return _testing_controller.GetRawAxis(INTAKE_GET_FORWARD_MOTOR) - _testing_controller.GetRawAxis(INTAKE_GET_BACKWARD_MOTOR);}
+double Testing_Interface::GetRawPivot() {return POWER_LIMIT*frc::ApplyDeadband(_testing_controller.GetRawAxis(PIVOT_GET_MOTOR), TESTING_DEADBAND);}
+double Testing_Interface::GetRawElevator() {return POWER_LIMIT*frc::ApplyDeadband(_testing_controller.GetRawAxis(ELEVATOR_GET_MOTOR), TESTING_DEADBAND);}
+double Testing_Interface::GetRawIntake() {return POWER_LIMIT*_testing_controller.GetRawAxis(INTAKE_GET_FORWARD_MOTOR) - _testing_controller.GetRawAxis(INTAKE_GET_BACKWARD_MOTOR);}
