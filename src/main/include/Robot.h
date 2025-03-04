@@ -15,6 +15,7 @@
 
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
+#include "subsystems/LEDs/LEDSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/FunnelSubsystem.h"
@@ -106,6 +107,7 @@ class Robot : public frc::TimedRobot {
         FunnelSubsystem* _funnel = nullptr;
         #endif
 
+        LEDSubsystem _leds{LEDConstants::LED_PWM_PORT, LEDConstants::LED_STRIP_LENGTH};
 
         // Operator Interfaces
         Driver_Interface* _oi_driver = new Driver_Interface();

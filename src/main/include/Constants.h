@@ -16,6 +16,8 @@
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/angular_acceleration.h>
+#include <frc/LEDPattern.h>
+#include <vector>
 
 #include "Config.h"
 
