@@ -16,14 +16,10 @@
 
 #include <units/angle.h>
 
-/**
- * The pivot subsystem controls the pivot motion of the intake, allowing it to turn up and down, and prints test mode data 
- */
-
 class PivotSubsystem : public frc2::SubsystemBase {
     public:
         /**
-         * Creates an instance of the pivot subsystem
+         * Creates an instance of the pivot subsystem, which controls the up and down pivot motion to move the intake
          * 
          * @param pivot_motor_can_id The CAN ID for the only pivot motor
          * @param pivot_home_di_ch The ID for the home sensor
@@ -77,7 +73,6 @@ class PivotSubsystem : public frc2::SubsystemBase {
         void Periodic() override;
 
     private:
-
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();

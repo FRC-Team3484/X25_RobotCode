@@ -33,6 +33,7 @@ void Driver_Interface::SetRumble(double Rumble) {
 
 bool Driver_Interface::DriverOverride(){return _driver_controller.GetPOV(DRIVER_OVERRIDE);}
 
+
 // ----------
 // Operator
 // ----------
@@ -72,6 +73,8 @@ bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButto
 int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 
 #endif
+
+
 // ----------
 // Testing
 // ----------

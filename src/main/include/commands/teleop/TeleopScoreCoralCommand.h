@@ -11,14 +11,12 @@
 
 #include "OI.h"
 
-/**
- * Scores coral into the reef by setting the height of the elevator, extending the pivot, and running the intake
- */
 class TeleopScoreCoralCommand
     : public frc2::CommandHelper<frc2::Command, TeleopScoreCoralCommand> {
 	public:
 		/**
-         * 
+         * Scores coral into the reef by setting the height of the elevator, extending the pivot, and running the intake
+		 * 
          * @param pivot A pointer to the pivot subsystem
          * @param elevator A pointer to the elevator interface
 		 * @param intake A pointer to the intake subsystem

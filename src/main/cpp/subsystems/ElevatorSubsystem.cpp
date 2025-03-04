@@ -5,6 +5,7 @@
 using namespace ctre::phoenix6;
 using namespace ElevatorConstants;
 using namespace units;
+
 ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
@@ -44,6 +45,7 @@ void ElevatorSubsystem::Periodic() {
     volt_t pid_output;
     switch (_elevator_state) {
         case home:
+            // Set the elevator to the home position
             feed_forward_output = _elevator_feed_forward.Calculate(HOME_VELOCITY);
             _primary_motor.SetVoltage(feed_forward_output);
             if (_HomeSensor() || _GetStalled() ) {
@@ -55,6 +57,7 @@ void ElevatorSubsystem::Periodic() {
             }
             break;
         case ready:
+            // Set the elevator to the target position given by SetHeight()
             if (_target_state.position == HOME_POSITION && _HomeSensor()) {
                 _primary_motor.SetPosition(0_tr);
                 _elevator_pid_controller.Reset();
@@ -73,6 +76,8 @@ void ElevatorSubsystem::Periodic() {
             _elevator_state = home;
             break;
     }
+
+    // If we're climbing, engage the elevator brake
     if (_climbing) {
         _brake_servo.Set(RATCHET_ENGAGED);
     } else {
@@ -130,8 +135,7 @@ bool ElevatorSubsystem::_GetStalled() {
 }
 
 double ElevatorSubsystem::_GetStallPercentage() {
-    if (abs(_primary_motor.Get()) > STALL_TRIGGER)
-    {
+    if (abs(_primary_motor.Get()) > STALL_TRIGGER) {
         return (_primary_motor.GetSupplyCurrent().GetValue()/(_primary_motor.GetMotorStallCurrent().GetValue()*abs(_primary_motor.Get())));
     } else {
         return 0;

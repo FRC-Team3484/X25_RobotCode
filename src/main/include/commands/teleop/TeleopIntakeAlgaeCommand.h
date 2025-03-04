@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 #ifndef TELEOP_INTAKE_ALGAE_COMMAND_H
 #define TELEOP_INTAKE_ALGAE_COMMAND_H
 
@@ -23,7 +19,22 @@ class TeleopIntakeAlgaeCommand
     {
     
     public:
-        explicit TeleopIntakeAlgaeCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, Operator_Interface* oi);
+        /**
+         * Intakes an algae by raising the elevator, extending the pivot, and running the intake
+         * 
+         * @param drivetrain A pointer to the drivetrain subsystem
+         * @param elevator A pointer to the elevator subsystem
+         * @param intake A pointer to the intake subsystem
+         * @param pivot A pointer to the pivot subsystem
+         * @param oi A pointer to the operator interface
+         */
+        explicit TeleopIntakeAlgaeCommand(
+            DrivetrainSubsystem* drivetrain, 
+            ElevatorSubsystem* elevator, 
+            IntakeSubsystem* intake, 
+            PivotSubsystem* pivot, 
+            Operator_Interface* oi
+        );
 
         void Initialize() override;
 
@@ -40,10 +51,8 @@ class TeleopIntakeAlgaeCommand
         PivotSubsystem* _pivot;
         Operator_Interface* _oi;
 
-        
         enum State {wait, traveling_pivot, extend_elevator, extend_pivot, intake, done};
         State _auto_intake_algae_state = wait;
-
 };
 
 #endif

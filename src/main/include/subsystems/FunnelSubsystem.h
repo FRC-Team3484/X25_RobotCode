@@ -7,13 +7,10 @@
 #include <frc2/command/SubsystemBase.h>
 #include <ctre/phoenix6/TalonFX.hpp>
 
-/**
- * The funnel subsystem sets the power of the indexer on the robot, helping to guide the Coral into the intake
- */
 class FunnelSubsystem : public frc2::SubsystemBase {
     public:
         /**
-         * Creates an instance of the funnel subsystem
+         * Creates an instance of the funnel subsystem, which sets the power of the indexer on the robot, helping to guide coral into the intake
          * 
          * @param motor_can_id The CAN ID for the motor
          * @param coral_sensor_di_ch The ID for the sensor which detects the Coral

@@ -14,26 +14,26 @@
 class TestIntakeCommand
     : public frc2::CommandHelper<frc2::Command, TestIntakeCommand>
 {
-public:
-    /**
-     * Creates the test intake command
-     * 
-     * @param intake_subsystem The intake subsystem
-     * @param oi The testing interface from OI.h
-     */
-    TestIntakeCommand(IntakeSubsystem *intake_subsystem, Testing_Interface *oi);
+    public:
+        /**
+         * Allows the intake to be tested by using the controller buttons
+         * 
+         * @param intake_subsystem A pointer to the intake subsystem
+         * @param testing_interface A pointer to the testing interface
+         */
+        TestIntakeCommand(IntakeSubsystem *intake_subsystem, Testing_Interface *testing_interface);
 
-    void Initialize() override;
+        void Initialize() override;
 
-    void Execute() override;
+        void Execute() override;
 
-    void End(bool interrupted) override;
+        void End(bool interrupted) override;
 
-    bool IsFinished() override;
+        bool IsFinished() override;
 
-private:
-    IntakeSubsystem *_intake_subsystem;
-    Testing_Interface *_oi;
+    private:
+        IntakeSubsystem *_intake_subsystem;
+        Testing_Interface *_testing_interface;
 };
 
 #endif

@@ -10,19 +10,20 @@
 #include "OI.h"
 #include "Constants.h"
 
-/**
- * Moves the pivot arm to the stow/home position and lowers the elevator
- */
 class ClimbUpCommand
     : public frc2::CommandHelper<frc2::Command, ClimbUpCommand> {
 
     public:
         /**
-         * Creates an instnce of TeleopDriveCommand
+         * Moves the pivot arm to the stow/home position and lowers the elevator to climb
          * 
          * @param elevator A pointer to the elevator interface
+         * @param pivot A pointer to the pivot subsystem
          */
-        ClimbUpCommand(ElevatorSubsystem* elevator, PivotSubsystem* pivot);
+        ClimbUpCommand(
+            ElevatorSubsystem* elevator, 
+            PivotSubsystem* pivot
+        );
 
         void Initialize() override;
         void Execute() override;

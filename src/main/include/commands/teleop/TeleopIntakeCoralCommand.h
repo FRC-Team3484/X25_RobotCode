@@ -16,15 +16,28 @@
 
 #include "OI.h"
 
-/**
- * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
- */
 class TeleopIntakeCoralCommand
     : public frc2::CommandHelper<frc2::Command, TeleopIntakeCoralCommand>
     {
     
     public:
-        explicit TeleopIntakeCoralCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
+        /**
+         * Intakes a coral by raising the elevator, extending the pivot, and running the intake
+         * 
+         * @param drivetrain A pointer to the drivetrain subsystem
+         * @param elevator A pointer to the elevator subsystem
+         * @param intake A pointer to the intake subsystem
+         * @param pivot A pointer to the pivot subsystem
+         * @param oi A pointer to the operator interface
+         */
+        explicit TeleopIntakeCoralCommand(
+            DrivetrainSubsystem* drivetrain, 
+            ElevatorSubsystem* elevator, 
+            IntakeSubsystem* intake, 
+            PivotSubsystem* pivot, 
+            FunnelSubsystem* funnel, 
+            Operator_Interface* oi
+        );
 
         void Initialize() override;
 
