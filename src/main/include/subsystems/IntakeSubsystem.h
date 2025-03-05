@@ -5,7 +5,7 @@
 #include "frc/DigitalInput.h"
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/TalonFXS.hpp>
 
 /**
  * Subsystem class to handle control for the Intake. 
@@ -73,7 +73,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         void PrintTestInfo();
         
     private:
-        ctre::phoenix6::hardware::TalonFX _intake_motor;
+        ctre::phoenix6::hardware::TalonFXS _intake_motor;
         frc::DigitalInput _algae_top_sensor;
         frc::DigitalInput _algae_bottom_sensor;
         frc::DigitalInput _coral_high_sensor;

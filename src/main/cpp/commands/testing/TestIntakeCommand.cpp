@@ -11,8 +11,9 @@ void TestIntakeCommand::Initialize() {
 }
 
 void TestIntakeCommand::Execute() {
+    _intake_subsystem->PrintTestInfo();
+
     if (frc::SmartDashboard::GetBoolean("Test Intake", false)) {
-        _intake_subsystem->PrintTestInfo();
         _intake_subsystem->SetPower(_testing_interface->GetRawIntake());
     }
 }

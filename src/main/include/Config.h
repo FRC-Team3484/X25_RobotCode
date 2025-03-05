@@ -8,7 +8,7 @@
 
 // Subsystems
 #define PIVOT_ENABLED
-//#define ELEVATOR_ENABLED
+#define ELEVATOR_ENABLED
 #define INTAKE_ENABLED
 //#define FUNNEL_ENABLED
 

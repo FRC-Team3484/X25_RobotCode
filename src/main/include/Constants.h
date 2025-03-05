@@ -236,7 +236,9 @@ namespace UserInterface {
         constexpr int INTAKE_GET_BACKWARD_MOTOR = XBOX_LT;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
-        constexpr double POWER_LIMIT = 0;
+        constexpr double PIVOT_POWER_LIMIT = 0.3;
+        constexpr double ELEVATOR_POWER_LIMIT = 0.3;
+        constexpr double INTAKE_POWER_LIMIT = 0.6;
     }
 }
 
@@ -278,14 +280,16 @@ namespace ElevatorConstants {
 
 namespace IntakeConstants {
         constexpr int MOTOR_CAN_ID = 40;
-        constexpr int ALGAE_TOP_SENSOR_DI_CH = 1;
-        constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
-        constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
-        constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
+        constexpr int ALGAE_TOP_SENSOR_DI_CH = 3;
+        constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 5;
+        constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
+        constexpr int CORAL_LOW_SENSOR_DI_CH = 2;
 
         constexpr double EJECT_POWER = 1.0;
         constexpr double STOP_POWER = 0.0;
         constexpr double INTAKE_POWER = 2.0;
+
+        constexpr bool INVERT_MOTOR = false;
         
         // constexpr int ROLLER_STOP = 0;
         // constexpr double ROLLER_EJECT = -1.0;
