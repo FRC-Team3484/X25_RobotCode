@@ -4,12 +4,12 @@
 
 // Drivetrain and odometry
 #define DRIVETRAIN_ENABLED
-#define VISION_ENABLED
+//#define VISION_ENABLED
 
 // Subsystems
-//#define PIVOT_ENABLED
-//#define ELEVATOR_ENABLED
-//#define INTAKE_ENABLED
+#define PIVOT_ENABLED
+#define ELEVATOR_ENABLED
+#define INTAKE_ENABLED
 //#define FUNNEL_ENABLED
 
 // Button Box (Disabling uses a controller for the operator instead)

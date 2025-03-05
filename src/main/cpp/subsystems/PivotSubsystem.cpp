@@ -40,7 +40,7 @@ void PivotSubsystem::Periodic() {
     switch(_pivot_state){
     case home:
         // Homes the pivot
-        _pivot_motor.Set(HOME_POWER);
+        // _pivot_motor.Set(HOME_POWER);
         if (_HomeSensor()||_GetStalled()){
             SetPower(0);
             _pivot_motor.SetPosition(0_tr);
@@ -54,7 +54,7 @@ void PivotSubsystem::Periodic() {
         current_state = _pivot_trapezoid.Calculate(_trapezoid_timer.Get(), _intitial_state, _target_state);
         feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, radians_per_second_t{_GetPivotVelocity()}, radians_per_second_t{current_state.velocity});
         pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
-        _pivot_motor.SetVoltage(feed_forward_output+pid_output);
+        // _pivot_motor.SetVoltage(feed_forward_output+pid_output);
         break;
     case test:
         PrintTestInfo();
@@ -102,7 +102,7 @@ bool PivotSubsystem::_HomeSensor() {
 void PivotSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutNumber("Pivot Angle (deg)", _GetPivotAngle().value());
     frc::SmartDashboard::PutNumber("Pivot Stall", _GetStallPercentage());
-    frc::SmartDashboard::PutNumber("Home Sensor", _HomeSensor());
+    frc::SmartDashboard::PutBoolean("Pivot Home Sensor", _HomeSensor());
 }
 
 void PivotSubsystem::SetTestMode(bool test_mode) {

@@ -117,7 +117,7 @@ class Robot : public frc::TimedRobot {
         // Command Groups
         frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
-            ClimbUpCommand{_elevator}.ToPtr(),
+            ClimbUpCommand{_elevator, _pivot}.ToPtr(),
             #endif
             frc2::cmd::None()
         );

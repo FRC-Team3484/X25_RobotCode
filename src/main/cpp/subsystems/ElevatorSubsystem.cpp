@@ -123,7 +123,7 @@ void ElevatorSubsystem::SetTestMode(bool test_mode) {
 void ElevatorSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
     frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
-    frc::SmartDashboard::PutBoolean("Home Sensor", _HomeSensor());
+    frc::SmartDashboard::PutBoolean("Elevator Home Sensor", _HomeSensor());
 }
 
 bool ElevatorSubsystem::_HomeSensor() {

@@ -8,13 +8,12 @@ TestElevatorCommand::TestElevatorCommand(ElevatorSubsystem* elevator_subsystem, 
 
 void TestElevatorCommand::Initialize() {
     _elevator_subsystem->SetTestMode(true);
-    frc::SmartDashboard::PutBoolean("Test Elevator", true);
+    frc::SmartDashboard::PutBoolean("Test Elevator", false);
 }
 
 void TestElevatorCommand::Execute() {
     if (frc::SmartDashboard::GetBoolean("Test Elevator", false)) {
         _elevator_subsystem->SetPower(_testing_interface->GetRawElevator());
-        _elevator_subsystem->PrintTestInfo();
     }
 }
 
