@@ -61,10 +61,10 @@ namespace SwerveConstants {
         // DO NOT REMOVE STATIC CALLS
 
         // Drive, steer, encoder, magnet offset
-        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{10,11,20, -90.527_deg}; //-92.505
-        static SC::SC_SwerveConfigs SWERVE_FRONT_RIGHT{12,13,21, -58.096_deg}; //-60.205
-        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{14,15,22, 160.225_deg}; //160.654
-        static SC::SC_SwerveConfigs SWERVE_BACK_RIGHT{16,17,23, -55.898_deg}; //-55.283
+        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{12,13,18, -90.527_deg}; //-92.505
+        static SC::SC_SwerveConfigs SWERVE_FRONT_RIGHT{10,11,19, -58.096_deg}; //-60.205
+        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{16,17,21, 160.225_deg}; //160.654
+        static SC::SC_SwerveConfigs SWERVE_BACK_RIGHT{14,15,20, -55.898_deg}; //-55.283
 
         static SC::SC_SwerveConfigs SWERVE_CONFIGS_ARRAY[4] = {
             SWERVE_FRONT_LEFT,
@@ -90,7 +90,7 @@ namespace SwerveConstants {
         constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
         constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
 
-        constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "canivore";
+        constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
         constexpr int PIGEON_ID = 22;
 
 // Check For Autons
@@ -201,7 +201,8 @@ namespace UserInterface {
         constexpr int LOAD_CORAL = 0;
         
         #else
-        constexpr int OPERATOR_CONTROLLER_PORT = 0;
+
+        constexpr int OPERATOR_CONTROLLER_PORT = 1;
         constexpr double OPERATOR_JOYSTICK_DEADBAND = 0.02;
 
         constexpr int CORAL_LEVEL_4_LEFT = XBOX_A;
@@ -235,6 +236,9 @@ namespace UserInterface {
         constexpr int INTAKE_GET_BACKWARD_MOTOR = XBOX_LT;
         constexpr double TESTING_DEADBAND = 0.02;
         constexpr int TESTING_CONTROLLER_PORT = 2;
+        constexpr double PIVOT_POWER_LIMIT = 0.3;
+        constexpr double ELEVATOR_POWER_LIMIT = 0.3;
+        constexpr double INTAKE_POWER_LIMIT = 0.6;
     }
 }
 
@@ -276,14 +280,16 @@ namespace ElevatorConstants {
 
 namespace IntakeConstants {
         constexpr int MOTOR_CAN_ID = 40;
-        constexpr int ALGAE_TOP_SENSOR_DI_CH = 1;
-        constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 2;
-        constexpr int CORAL_HIGH_SENSOR_DI_CH = 3;
-        constexpr int CORAL_LOW_SENSOR_DI_CH = 5;
+        constexpr int ALGAE_TOP_SENSOR_DI_CH = 3;
+        constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 5;
+        constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
+        constexpr int CORAL_LOW_SENSOR_DI_CH = 2;
 
         constexpr double EJECT_POWER = 1.0;
         constexpr double STOP_POWER = 0.0;
         constexpr double INTAKE_POWER = 2.0;
+
+        constexpr bool INVERT_MOTOR = false;
         
         // constexpr int ROLLER_STOP = 0;
         // constexpr double ROLLER_EJECT = -1.0;
@@ -292,7 +298,7 @@ namespace IntakeConstants {
 
 namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
-    constexpr int PIVOT_HOME_DI_CH = 3;
+    constexpr int PIVOT_HOME_DI_CH = 4;
 
     constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
     constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
@@ -318,8 +324,8 @@ namespace PivotConstants {
 }
 
 namespace FunnelConstants {
-    constexpr int MOTOR_CAN_ID = 0;
-    constexpr int CORAL_SENSOR_DI_CH = 0;
+    constexpr int MOTOR_CAN_ID = 50;
+    constexpr int CORAL_SENSOR_DI_CH = 6;
 
     constexpr double STOP_POWER = 0.0;
     constexpr double INTAKE_POWER = 0.5;
