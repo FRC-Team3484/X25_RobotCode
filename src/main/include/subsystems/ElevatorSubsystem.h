@@ -76,10 +76,12 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
     private:
         bool _climbing = false;
+        units::inch_t _offset = 0_in;
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
-
+        void _SetPosition(units::inch_t offset);
+        // offset = position - (motor.getPosition() / gear ratio)
         units::inch_t _GetElevatorHeight();
         units::feet_per_second_t _GetElevatorVelocity();
 

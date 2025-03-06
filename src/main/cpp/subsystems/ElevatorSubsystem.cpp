@@ -44,6 +44,13 @@ void ElevatorSubsystem::Periodic() {
     volt_t feed_forward_output;
     frc::TrapezoidProfile<units::feet>::State current_state;
     volt_t pid_output;
+    
+    if (_HomeSensor()) {
+                SetPower(0);
+                _primary_motor.SetPosition(0_tr);
+                _elevator_pid_controller.Reset();
+    }
+    
     switch (_elevator_state) {
         case home:
             // Set the elevator to the home position
@@ -144,9 +151,13 @@ double ElevatorSubsystem::_GetStallPercentage() {
 }
 
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
-    return _primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO;
+    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) + _offset;
 }
 
 feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
     return _primary_motor.GetVelocity().GetValue() * ELEVATOR_RATIO;
+}
+
+void ElevatorSubsystem::_SetPosition(inch_t offset) {
+    _offset = offset - (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
 }
