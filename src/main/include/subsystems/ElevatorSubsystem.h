@@ -2,6 +2,7 @@
 #define ELEVATOR_SUBSYSTEM_H
 
 #include <frc2/command/SubsystemBase.h>
+#include <frc2/command/sysid/SysIdRoutine.h>
 #include <frc/DigitalInput.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
@@ -9,6 +10,7 @@
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
 #include <frc/Servo.h>
+#include <frc/RobotController.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 
@@ -23,23 +25,16 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @param primary_motor_can_id The CAN ID for the primary motor
          * @param secondary_motor_can_id The CAN ID for the secondary motor
          * @param home_sensor_di_ch The ID for the home sensor
-         * @param brake_servo The ID for the brake servo
-         * @param elevator_pidc The elevator PID constants
-         * @param max_velocity The maximum velocity the elevator can move
-         * @param max_acceleration The maxium acceleration the elevator can move
-         * @param feed_forward_constants The elevator feed forward constants
          */
         ElevatorSubsystem(
             int primary_motor_can_id,
             int secondary_motor_can_id,
-            int home_sensor_di_ch,
-            int brake_servo,
-            SC::SC_PIDConstants elevator_pidc,
-            units::feet_per_second_t max_velocity,
-            units::feet_per_second_squared_t max_acceleration,
-            SC::SC_LinearFeedForward feed_forward_constants
+            int home_sensor_di_ch
         );
 
+        frc2::CommandPtr PseudoMoveCommand(std::function<double()> power);
+        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
         /**
          * Sets the height of the elevator
          * 
@@ -52,6 +47,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @return True if the elevator has reached the target
          */
         bool AtTargetHeight();
+
+        void SetVoltage(units::volt_t voltage);
 
         /**
          * Sets the power of the elevator
@@ -86,25 +83,23 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         ctre::phoenix6::hardware::TalonFX _primary_motor;
         ctre::phoenix6::hardware::TalonFX _secondary_motor;
 
-        enum state {
-            home, 
-            ready, 
-            test
-        };
-        state _elevator_state = home;
-
         frc::DigitalInput _home_sensor;
 
-        frc::Servo _brake_servo;
+        frc2::sysid::SysIdRoutine _sysid_routine{
+            frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr}, 
+            frc2::sysid::Mechanism{
+                [this](units::volt_t voltage){  
+                _primary_motor.SetVoltage(voltage);
+                },
 
-        frc::PIDController _elevator_pid_controller{0,0,0};
-
-        frc::TrapezoidProfile<units::feet> _elevator_trapezoid;
-        frc::TrapezoidProfile<units::feet>::State _initial_state {ElevatorConstants::HOME_POSITION, 0_fps};
-        frc::TrapezoidProfile<units::feet>::State _target_state {ElevatorConstants::HOME_POSITION, 0_fps};
-        frc::Timer _trapezoid_timer;
-
-        frc::ElevatorFeedforward _elevator_feed_forward;
+                [this](frc::sysid::SysIdRoutineLog* log){
+                    log->Motor("primary_motor")
+                    .voltage(_primary_motor.Get() * frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{_GetElevatorHeight()})
+                    .velocity(units::meters_per_second_t{_GetElevatorVelocity()});
+                },
+            this}
+        };
 
 };
 

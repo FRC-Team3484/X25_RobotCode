@@ -251,6 +251,7 @@ namespace ElevatorConstants {
     constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
     constexpr bool INVERT_MOTORS = false;
+    constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 1_in/1_tr;
@@ -310,7 +311,7 @@ namespace PivotConstants {
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
-    constexpr double GEAR_RATIO = 1/1; // edit later
+    constexpr double GEAR_RATIO = 45/1; // edit later
 
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 0_deg;
