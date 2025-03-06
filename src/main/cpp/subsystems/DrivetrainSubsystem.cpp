@@ -91,7 +91,22 @@ void DrivetrainSubsystem::Periodic() {
 
     _field.SetRobotPose(GetPose());
 }
+/*
+frc2::CommandPtr DrivetrainSubsystem::PseudoDriveCommand(std::function<double()> fwd,
+                                           std::function<double()> rot) {
+  return frc2::cmd::Run([this, fwd, rot] { m_drive.ArcadeDrive(fwd(), rot()); },
+                        {this})
+      .WithName("Psuedo Testing Arcade Drive");
+}
 
+frc2::CommandPtr DrivetrainSubsystem::SysIdQuasistatic(frc2::sysid::Direction direction) {
+  return m_sysIdRoutine.Quasistatic(direction);
+}
+
+frc2::CommandPtr DrivetrainSubsystem::SysIdDynamic(frc2::sysid::Direction direction) {
+  return m_sysIdRoutine.Dynamic(direction);
+}
+*/
 void DrivetrainSubsystem::Drive(meters_per_second_t x_speed, meters_per_second_t y_speed, radians_per_second_t rotation, bool open_loop) {
     DriveRobotcentric(ChassisSpeeds::FromFieldRelativeSpeeds(x_speed, y_speed, rotation, GetHeading()), open_loop);
 }

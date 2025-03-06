@@ -51,6 +51,11 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         int CheckNotNullModule();
 
+        frc2::CommandPtr PseudoDriveCommand(std::function<double()> fwd,
+                                      std::function<double()> rot);
+        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
+
         /**
          * Returns a command that will drive the robot to the given pose
          * 
@@ -131,6 +136,42 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Field2d _field;
 
         frc::Pose2d _target_position;
+
+        /*
+        frc2::sysid::SysIdRoutine m_sysIdRoutine{
+            frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt,
+                                nullptr},
+            frc2::sysid::Mechanism{
+                [this](units::volt_t driveVoltage) {
+                _drive_motor_FL.SetVoltage(driveVoltage);
+                _drive_motor_FR.SetVoltage(driveVoltage);
+                _drive_motor_BL.SetVoltage(driveVoltage);
+                _drive_motor_BR.SetVoltage(driveVoltage);
+                },
+                [this](frc::sysid::SysIdRoutineLog* log) {
+                log->Motor("drive-fl")
+                    .voltage(_drive_motor_FL.Get() *
+                                frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FL.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FL.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                log->Motor("drive-fr")
+                    .voltage(_drive_motor_FR.Get() *
+                                frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FR.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FR.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                log->Motor("drive-bl")
+                    .voltage(_drive_motor_BL.Get() *
+                                frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_BL.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_BL.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                log->Motor("drive-br")
+                    .voltage(_drive_motor_BR.Get() *
+                                frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_BR.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
+                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_BR.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                },
+            this}};
+            */
 };
 
 #endif
