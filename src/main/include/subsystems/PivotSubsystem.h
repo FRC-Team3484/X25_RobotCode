@@ -4,6 +4,11 @@
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
 
+
+#include <frc2/command/sysid/SysIdRoutine.h>
+#include <frc2/command/Commands.h>
+#include <frc/RobotController.h>
+
 #include <frc/DigitalInput.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
@@ -23,19 +28,15 @@ class PivotSubsystem : public frc2::SubsystemBase {
          * 
          * @param pivot_motor_can_id The CAN ID for the only pivot motor
          * @param pivot_home_di_ch The ID for the home sensor
-         * @param pivot_pidc The pivot PID constants
-         * @param max_velocity The maximum velocity the pivot can move
-         * @param max_acceleration The maxium acceleration the pivot can move
-         * @param feed_forward_constants The pivot feed forward constants
          */
         PivotSubsystem(
             int pivot_motor_can_id,
-            int pivot_home_di_ch,
-            SC::SC_PIDConstants pivot_pidc,
-            units::radians_per_second_t max_velocity,
-            units::radians_per_second_squared_t max_acceleration,
-            SC::SC_AngularFeedForward feed_forward_constants
+            int pivot_home_di_ch
         );
+
+        frc2::CommandPtr PseudoMoveCommand(std::function<double()> power);
+        frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
+        frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
 
         /**
          * Sets the angle of the pivot
@@ -82,24 +83,23 @@ class PivotSubsystem : public frc2::SubsystemBase {
 
         ctre::phoenix6::hardware::TalonFX _pivot_motor;
 
-        enum state {
-            home, 
-            ready, 
-            test
-        };
-        state _pivot_state = home;
-
         frc::DigitalInput _pivot_home;
-        
-        frc::PIDController _pivot_pid_controller{0,0,0};
 
-        frc::TrapezoidProfile<units::degree> _pivot_trapezoid;
+        frc2::sysid::SysIdRoutine _sysid_routine{
+            frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr}, 
+            frc2::sysid::Mechanism{
+                [this](units::volt_t voltage){  
+                _pivot_motor.SetVoltage(voltage);
+                },
 
-        frc::TrapezoidProfile<units::degree>::State _intitial_state{PivotConstants::HOME_POSITION, 0_deg_per_s};
-        frc::TrapezoidProfile<units::degree>::State _target_state{PivotConstants::HOME_POSITION /*this gets changes based apon user input*/, 0_deg_per_s};
-        frc::Timer _trapezoid_timer;
-
-        frc::ArmFeedforward _pivot_feed_forward;
+                [this](frc::sysid::SysIdRoutineLog* log){
+                    log->Motor("pivot motor")
+                    .voltage(_pivot_motor.Get() * frc::RobotController::GetBatteryVoltage())
+                    .position(units::turn_t{_GetPivotAngle()})
+                    .velocity(units::turns_per_second_t{_GetPivotVelocity()});
+                },
+            this}
+        };
 };
 
 #endif

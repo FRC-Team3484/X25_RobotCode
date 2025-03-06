@@ -12,6 +12,8 @@
 #include <frc/Servo.h>
 #include <frc/RobotController.h>
 
+#include <frc2/command/Commands.h>
+
 #include <ctre/phoenix6/TalonFX.hpp>
 
 #include "Constants.h"

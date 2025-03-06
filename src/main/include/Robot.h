@@ -64,7 +64,7 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #ifdef PIVOT_ENABLED
-        PivotSubsystem* _pivot = new PivotSubsystem(PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD);
+        PivotSubsystem* _pivot = new PivotSubsystem(PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH);
         #else
         PivotSubsystem* _pivot = nullptr;
         #endif

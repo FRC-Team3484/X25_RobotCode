@@ -4,6 +4,10 @@
 #include "subsystems/SwerveModule.h"
 #include "FRC3484_Lib/components/SC_Photon.h"
 
+
+#include <frc2/command/sysid/SysIdRoutine.h>
+#include <frc2/command/Commands.h>
+
 #include "Datatypes.h"
 
 #include <studica/AHRS.h>
