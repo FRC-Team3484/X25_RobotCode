@@ -13,6 +13,7 @@
 #include "FRC3484_Lib/components/SC_Photon.h"
 
 #include "subsystems/DrivetrainSubsystem.h"
+#include "subsystems/DrivetrainSideways.h"
 #include "subsystems/ElevatorSubsystem.h"
 #include "subsystems/LEDs/LEDSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
@@ -48,7 +49,12 @@ class Robot : public frc::TimedRobot {
         DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem();
         #else
         DrivetrainSubsystem* _drivetrain = nullptr;
-        AutonGenerator* _auton_generator = nullptr;
+        #endif
+
+        #ifdef DRIVETRAIN_SIDEWAYS_ENABLED
+        DrivetrainSideways* _drivetrain_sideways = new DrivetrainSideways();
+        #else
+        DrivetrainSideways* _drivetrain_sideways = nullptr;
         #endif
 
         #ifdef ELEVATOR_ENABLED

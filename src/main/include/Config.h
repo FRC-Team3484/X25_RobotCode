@@ -4,6 +4,7 @@
 
 // Drivetrain and odometry
 #define DRIVETRAIN_ENABLED
+#define DRIVETRAIN_SIDEWAYS_ENABLED
 //#define VISION_ENABLED
 
 // Subsystems
