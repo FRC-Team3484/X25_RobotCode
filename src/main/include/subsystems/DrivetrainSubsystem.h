@@ -1,8 +1,12 @@
 #ifndef DRIVETRAINSUBSYSTEM_H
 #define DRIVETRAINSUBSYSTEM_H
 
-#include "subsystems/SwerveModule.h"
-#include "FRC3484_Lib/components/SC_Photon.h"
+#include <frc/drive/DifferentialDrive.h>
+#include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/CANCoder.hpp>
+#include <frc/RobotController.h>
+
+#include "Constants.h"
 
 
 #include <frc2/command/sysid/SysIdRoutine.h>
@@ -27,7 +31,7 @@
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name);
+        DrivetrainSubsystem();
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -49,6 +53,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Rotation2d GetHeadingAuto();
         void ResetOdometryAuto(frc::Pose2d pose);
 
+        void ResetEncoder();
+
         int CheckNotNullModule();
 
         frc2::CommandPtr PseudoDriveCommand(std::function<double()> fwd,
@@ -56,122 +62,80 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction);
         frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction);
 
-        /**
-         * Returns a command that will drive the robot to the given pose
-         * 
-         * @param pose The pose to drive to
-         * @return A command that will drive the robot to the given pose
-         */
-        frc2::CommandPtr GoToPose(frc::Pose2d pose);
-
-        /**
-         * Returns the nearest pose to the robot from a vector of poses
-         * 
-         * @param poses A vector of poses
-         * @return The nearest pose from the vector
-         */
-        frc::Pose2d GetNearestPose(std::vector<frc::Pose2d> poses);
-
-        /**
-         * Returns a pose that is offset from the given pose
-         * 
-         * @param pose The pose to offset
-         * @param offset The offset to apply to the pose
-         * @return A pose that is offset from the given pose
-         */
-        frc::Pose2d ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset);
-
-        /**
-         * Returns the pose of the closest reef side
-         * 
-         * @param reef_offset The left or the right side of the reef to align to
-         * @return The pose of the closest reef side
-         */
-        frc::Pose2d GetClosestReefSide(ReefAlignment reef_offset);
-        
-        /**
-         * Returns the pose of the closest feeder station, including which side (offset) is closest (either left or right)
-         * 
-         * @return The pose of the closest feeder station side
-         */
-        frc::Pose2d GetClosestFeederStation();
-
-        /**
-         * Returns the pose of the closest processor
-         * 
-         * @return The pose of the closest processor
-         */
-        frc::Pose2d GetClosestProcessor();
-
-        /**
-         * Checks if the robot is at the target position
-         * 
-         * @return True if the robot is at the target position
-         */
-        bool GetAtTargetPosition();
-
-        /**
-         * Checks if the robot is near the target position
-         * 
-         * @return True if the robot is near the target position
-         */
-        bool GetNearTargetPosition();
-        
-        frc::SwerveDriveKinematics<4> kinematics{
-            frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{-SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
-            frc::Translation2d{-SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, -SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2}
-        };
+        units::degree_t GetSteerAngleFL();
+        units::degree_t GetSteerAngleFR();
+        units::degree_t GetSteerAngleBL();
+        units::degree_t GetSteerAngleBR();
 
     private:
-        SwerveModule* _modules[4];
 
-        SC_Photon* _vision;
-            
-        ctre::phoenix6::hardware::Pigeon2 _pigeon;
+        
 
-        frc::SwerveDriveOdometry<4>* _odometry;
 
-        frc::Field2d _field;
+        ctre::phoenix6::hardware::TalonFX _drive_motor_FL{10};
+        ctre::phoenix6::hardware::TalonFX _drive_motor_FR{12};
+        ctre::phoenix6::hardware::TalonFX _drive_motor_BL{14};
+        ctre::phoenix6::hardware::TalonFX _drive_motor_BR{16};
 
-        frc::Pose2d _target_position;
+        ctre::phoenix6::hardware::TalonFX _steer_motor_FL{11};
+        ctre::phoenix6::hardware::TalonFX _steer_motor_FR{13};
+        ctre::phoenix6::hardware::TalonFX _steer_motor_BL{15};
+        ctre::phoenix6::hardware::TalonFX _steer_motor_BR{17};
 
-        /*
-        frc2::sysid::SysIdRoutine m_sysIdRoutine{
+        ctre::phoenix6::hardware::CANcoder _encoder_FL{20};
+        ctre::phoenix6::hardware::CANcoder _encoder_FR{21};
+        ctre::phoenix6::hardware::CANcoder _encoder_BL{22};
+        ctre::phoenix6::hardware::CANcoder _encoder_BR{23};
+
+        ctre::phoenix6::configs::TalonFXConfiguration _drive_motor_config{};
+        ctre::phoenix6::configs::TalonFXConfiguration _steer_motor_config{};
+        ctre::phoenix6::configs::CANcoderConfiguration _encoder_config{};
+
+        // PID Loops
+
+        // frc::PIDController _drive_pid_controller{1.0,0.0,0.0};
+
+        SC::SC_SwerveCurrents _swerve_current_constants;
+
+        frc::DifferentialDrive _drive{[this](auto val) { _drive_motor_FL.Set(val); },
+                                    [this](auto val) { _drive_motor_FR.Set(val); }
+        };
+
+
+        frc2::sysid::SysIdRoutine _sysIdRoutine{
             frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt,
                                 nullptr},
             frc2::sysid::Mechanism{
                 [this](units::volt_t driveVoltage) {
                 _drive_motor_FL.SetVoltage(driveVoltage);
                 _drive_motor_FR.SetVoltage(driveVoltage);
-                _drive_motor_BL.SetVoltage(driveVoltage);
-                _drive_motor_BR.SetVoltage(driveVoltage);
+                // _drive_motor_BL.SetVoltage(driveVoltage);
+                // _drive_motor_BR.SetVoltage(driveVoltage);
                 },
                 [this](frc::sysid::SysIdRoutineLog* log) {
                 log->Motor("drive-fl")
                     .voltage(_drive_motor_FL.Get() *
                                 frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FL.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
-                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FL.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t(_drive_motor_FL.GetPosition().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angular_velocity::radians_per_second_t(_drive_motor_BR.GetVelocity().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)));
                 log->Motor("drive-fr")
                     .voltage(_drive_motor_FR.Get() *
                                 frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_FR.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
-                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_FR.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t(_drive_motor_FL.GetPosition().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angular_velocity::radians_per_second_t(_drive_motor_BR.GetVelocity().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)));
                 log->Motor("drive-bl")
                     .voltage(_drive_motor_BL.Get() *
                                 frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_BL.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
-                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_BL.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t(_drive_motor_FL.GetPosition().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angular_velocity::radians_per_second_t(_drive_motor_BR.GetVelocity().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)));
                 log->Motor("drive-br")
-                    .voltage(_drive_motor_BR.Get() *
-                                frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t{2_in * units::radian_t{360_deg * _drive_motor_BR.GetSelectedSensorPosition() / 2048.0 /(36000.0/5880.0)} / 1_rad})
-                    .velocity(units::meters_per_second_t{2_in * units::radians_per_second_t{_drive_motor_BR.GetSelectedSensorVelocity()*10.0*360_deg_per_s/2048.0/(36000.0/5880.0)} / 1_rad});
+                    .voltage(_drive_motor_BR.Get() * frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t(_drive_motor_FL.GetPosition().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angular_velocity::radians_per_second_t(_drive_motor_BR.GetVelocity().GetValue()) / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)));
                 },
-            this}};
-            */
+                this}};
+
+            
 };
 
 #endif

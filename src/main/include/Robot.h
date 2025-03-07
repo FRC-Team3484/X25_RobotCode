@@ -45,7 +45,7 @@ class Robot : public frc::TimedRobot {
 
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
-        DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME);
+        DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem();
         #else
         DrivetrainSubsystem* _drivetrain = nullptr;
         AutonGenerator* _auton_generator = nullptr;
