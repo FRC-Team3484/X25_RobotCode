@@ -37,6 +37,7 @@ void PivotSubsystem::Periodic() {
     volt_t feed_forward_output;
     frc::TrapezoidProfile<deg>::State current_state;
     volt_t pid_output;
+
     switch(_pivot_state){
     case home:
         // Homes the pivot
@@ -76,11 +77,11 @@ void PivotSubsystem::SetPivotAngle(degree_t angle) {
 }
 
 degree_t PivotSubsystem::_GetPivotAngle() {
-    return _pivot_motor.GetPosition().GetValue() * GEAR_RATIO; // Type casts revolutions into degrees
+    return _pivot_motor.GetPosition().GetValue() / GEAR_RATIO; // Type casts revolutions into degrees
 }
 
 degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
-    return _pivot_motor.GetVelocity().GetValue() * GEAR_RATIO;
+    return _pivot_motor.GetVelocity().GetValue() / GEAR_RATIO;
 }
 
 double PivotSubsystem::_GetStallPercentage() {

@@ -34,9 +34,8 @@ ElevatorSubsystem::ElevatorSubsystem(
         motor_config.MotorOutput.Inverted = INVERT_MOTORS;
         motor_config.MotorOutput.NeutralMode = signals::NeutralModeValue::Brake;
         _primary_motor.GetConfigurator().Apply(motor_config);
-        motor_config.MotorOutput.Inverted = INVERT_MOTORS ^ MIRROR_MOTORS;
         _secondary_motor.GetConfigurator().Apply(motor_config);
-        _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), false});
+        _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), MIRROR_MOTORS});
         _trapezoid_timer.Start();
 }
 
