@@ -314,7 +314,7 @@ namespace PivotConstants {
     constexpr double GEAR_RATIO = 45/1; // edit later
 
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
-    constexpr units::degree_t HOME_POSITION = 0_deg;
+    constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 0_deg;
     constexpr units::degree_t TRAVEL_POSITION = 0_deg;
     constexpr units::degree_t INTAKE_POSITION = 0_deg;
