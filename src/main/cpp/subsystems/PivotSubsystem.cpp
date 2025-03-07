@@ -37,16 +37,23 @@ frc2::CommandPtr PivotSubsystem::SysIdDynamic(frc2::sysid::Direction direction) 
 
 }
 void PivotSubsystem::Periodic() {
+    if (_HomeSensor()){
+            _SetPivotAngle(HOME_POSITION);
+    }
     PrintTestInfo();
 }
 
 
 degree_t PivotSubsystem::_GetPivotAngle() {
-    return _pivot_motor.GetPosition().GetValue() * GEAR_RATIO; // Type casts revolutions into degrees
+        return (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO) + _offset; // Type casts revolutions into degrees
+}
+
+void PivotSubsystem::_SetPivotAngle(degree_t angle) {
+    _offset = angle - (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO);
 }
 
 degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
-    return _pivot_motor.GetVelocity().GetValue() * GEAR_RATIO;
+    return _pivot_motor.GetVelocity().GetValue() / GEAR_RATIO;
 }
 
 double PivotSubsystem::_GetStallPercentage() {

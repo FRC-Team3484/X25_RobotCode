@@ -78,6 +78,10 @@ class PivotSubsystem : public frc2::SubsystemBase {
         bool _GetStalled();
         double _GetStallPercentage();
         
+        void _SetPivotAngle(units::degree_t angle);
+
+        units::degree_t _offset = 0_deg;
+        
         units::degree_t _GetPivotAngle();
         units::degrees_per_second_t _GetPivotVelocity();
 

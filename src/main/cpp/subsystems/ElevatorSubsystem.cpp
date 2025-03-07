@@ -43,6 +43,9 @@ frc2::CommandPtr ElevatorSubsystem::SysIdDynamic(frc2::sysid::Direction directio
 
 
 void ElevatorSubsystem::Periodic() {
+    if (_HomeSensor()) {
+                _SetPosition(HOME_POSITION);
+    }
     PrintTestInfo();
 }
 
@@ -77,9 +80,13 @@ double ElevatorSubsystem::_GetStallPercentage() {
 }
 
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
-    return _primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO;
+    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) + _offset;
 }
 
 feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
     return _primary_motor.GetVelocity().GetValue() * ELEVATOR_RATIO;
+}
+
+void ElevatorSubsystem::_SetPosition(inch_t offset) {
+    _offset = offset - (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
 }
