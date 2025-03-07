@@ -116,21 +116,22 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
                                 frc::RobotController::GetBatteryVoltage())
                     .position(units::meter_t{SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_FL.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)})
                     .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::radians_per_second_t{_drive_motor_FL.GetVelocity().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)));
-                /*log->Motor("drive-fr")
+                log->Motor("drive-fr")
                     .voltage(_drive_motor_FR.Get() *
                                 frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_FR.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO )))
+                    .position(units::meter_t{SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_FR.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)})
                     .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::radians_per_second_t{_drive_motor_FR.GetVelocity().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)));
                 log->Motor("drive-bl")
                     .voltage(_drive_motor_BL.Get() *
                                 frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_BL.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .position(units::meter_t{SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_BL.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)})
                     .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::radians_per_second_t{_drive_motor_BL.GetVelocity().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)));
                 log->Motor("drive-br")
-                    .voltage(_drive_motor_BR.Get() * frc::RobotController::GetBatteryVoltage())
-                    .position(units::meter_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_BR.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO)))
+                    .voltage(_drive_motor_BR.Get() *
+                                frc::RobotController::GetBatteryVoltage())
+                    .position(units::meter_t{SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::angle::radian_t{_drive_motor_BR.GetPosition().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)})
                     .velocity(units::meters_per_second_t(SwerveConstants::DrivetrainConstants::WHEEL_RADIUS * (units::radians_per_second_t{_drive_motor_BR.GetVelocity().GetValue()} / SwerveConstants::DrivetrainConstants::DRIVE_GEAR_RATIO / 1_rad)));
-                */},
+                },
                 this}};
 
             
