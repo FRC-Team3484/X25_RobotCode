@@ -77,7 +77,7 @@ void PivotSubsystem::SetPivotAngle(degree_t angle) {
 }
 
 degree_t PivotSubsystem::_GetPivotAngle() {
-    return _pivot_motor.GetPosition().GetValue() / GEAR_RATIO; // Type casts revolutions into degrees
+    return (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO) + _offset; // Type casts revolutions into degrees
 }
 
 degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
@@ -124,4 +124,8 @@ void PivotSubsystem::SetPower(double power) {
 
 bool PivotSubsystem::AtTargetPosition() {
     return math::abs(_target_state.position - _GetPivotAngle()) < ANGLE_TOLERANCE;
+}
+
+void PivotSubsystem::_SetPivotAngle(degree_t angle) {
+    _offset = angle - (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO);
 }

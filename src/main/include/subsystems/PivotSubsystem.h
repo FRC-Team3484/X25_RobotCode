@@ -76,6 +76,7 @@ class PivotSubsystem : public frc2::SubsystemBase {
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
+        void _SetPivotAngle(units::degree_t angle);
         
         units::degree_t _GetPivotAngle();
         units::degrees_per_second_t _GetPivotVelocity();
@@ -88,6 +89,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
             test
         };
         state _pivot_state = home;
+
+        units::inch_t _offset = 0_in;
 
         frc::DigitalInput _pivot_home;
         
