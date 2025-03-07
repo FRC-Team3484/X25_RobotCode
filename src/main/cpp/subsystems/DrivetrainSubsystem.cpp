@@ -60,17 +60,25 @@ void DrivetrainSubsystem::Periodic() {
 
 frc2::CommandPtr DrivetrainSubsystem::PseudoDriveCommand(std::function<double()> fwd,
                                            std::function<double()> rot) {
-  return frc2::cmd::Run([this, fwd, rot] { _drive.ArcadeDrive(fwd(), rot()); },
+  	return frc2::cmd::Run([this, fwd, rot] { _drive.ArcadeDrive(fwd(), rot()); },
                         {this})
-      .WithName("Psuedo Testing Arcade Drive");
+      	.WithName("Psuedo Testing Arcade Drive");
 }
 
 frc2::CommandPtr DrivetrainSubsystem::SysIdQuasistatic(frc2::sysid::Direction direction) {
-  return _sysIdRoutine.Quasistatic(direction);
+  	return _sysIdRoutine.Quasistatic(direction);
 }
 
 frc2::CommandPtr DrivetrainSubsystem::SysIdDynamic(frc2::sysid::Direction direction) {
-  return _sysIdRoutine.Dynamic(direction);
+  	return _sysIdRoutine.Dynamic(direction);
+}
+
+void DrivetrainSubsystem::SetBrakeMode() {
+    _drive_motor_config.MotorOutput.NeutralMode = ctre::phoenix6::signals::NeutralModeValue::Brake;
+    _drive_motor_FL.GetConfigurator().Apply(_drive_motor_config);
+    _drive_motor_FR.GetConfigurator().Apply(_drive_motor_config);
+    _drive_motor_BL.GetConfigurator().Apply(_drive_motor_config);
+    _drive_motor_BR.GetConfigurator().Apply(_drive_motor_config);
 }
 
 void DrivetrainSubsystem::ResetEncoder() {
