@@ -262,8 +262,9 @@ namespace ElevatorConstants {
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
-    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
-    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
+    // P: 61.605, I: 0, D: 16.759
+    constexpr SC::SC_PIDConstants PID_C(0.125, 0, 16.759, 0);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.43085_V, 010705_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
 
     // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
@@ -306,8 +307,9 @@ namespace PivotConstants {
 
     constexpr bool INVERT_MOTOR = false;
     
-    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
-    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
+    // P: 24.275, I: 0, D: 5.9465
+    constexpr SC::SC_PIDConstants PID_C(0.05, 0, 0, 0);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.75016_V, 0.38962_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
