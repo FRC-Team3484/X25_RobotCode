@@ -275,6 +275,31 @@ frc::Pose2d DrivetrainSubsystem::ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d
     return frc::Pose2d{pose.Translation() + offset.Translation().RotateBy(pose.Rotation()), pose.Rotation() + offset.Rotation()};
 }
 
+frc::Pose2d DrivetrainSubsystem::GetReefSide(std::string letter) {
+    const auto& letter_to_id_map = (DriverStation::GetAlliance().value() == DriverStation::Alliance::kBlue) ? 
+                                    APRIL_TAG_LETTER_TO_ID_BLUE : APRIL_TAG_LETTER_TO_ID_RED;
+    auto it_id = letter_to_id_map.find(letter);
+
+    if (it_id != letter_to_id_map.end()) {
+        int id = it_id->second;
+        
+        for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+            if (tag.ID == id) {
+                auto it_offset = APRIL_TAG_LETTER_TO_OFFSET.find(letter);
+                if (it_offset != APRIL_TAG_LETTER_TO_OFFSET.end()) {
+                    ReefAlignment reef_offset = it_offset->second;
+                    if (reef_offset == ReefAlignment::left) {
+                        return ApplyOffsetToPose(tag.pose.ToPose2d(), LEFT_REEF_OFFSET);
+                    } else {
+                        return ApplyOffsetToPose(tag.pose.ToPose2d(), RIGHT_REEF_OFFSET);
+                    }
+                }
+            }
+        }
+    }
+    return frc::Pose2d{}; // Return a default pose if no match found
+}
+
 frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(ReefAlignment reef_offset) {
     std::vector<Pose2d> poses;
     frc::Pose2d offset_pose;

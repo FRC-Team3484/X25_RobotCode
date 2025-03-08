@@ -10,13 +10,14 @@
 #include "subsystems/ElevatorSubsystem.h"
 
 class AutonScoreCoralCommand
-    : public frc2::CommandHelper<frc2::Command, AutonScoreCoralCommand> {
+: public frc2::CommandHelper<frc2::Command, AutonScoreCoralCommand> {
  public:
   AutonScoreCoralCommand(
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
-    PivotSubsystem* pivot
+    PivotSubsystem* pivot,
+    std::string reef_level
   );
 
   void Initialize() override;
@@ -35,6 +36,8 @@ class AutonScoreCoralCommand
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;
+
+    std::string _reef_level;
 };
 
 #endif

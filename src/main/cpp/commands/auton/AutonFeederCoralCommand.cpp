@@ -6,20 +6,17 @@
 
 AutonFeederCoralCommand::AutonFeederCoralCommand(
     DrivetrainSubsystem* drivetrain, 
-    ElevatorSubsystem* elevator, 
+    ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
-    PivotSubsystem* pivot, 
-    FunnelSubsystem* funnel) : 
-    _drivetrain(drivetrain),
+    PivotSubsystem* pivot) : 
+    _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
-    _pivot(pivot),
-    _funnel(funnel) {
+    _pivot(pivot) {
     AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);
-    AddRequirements(_funnel);
 }
 
 // Called when the command is initially scheduled.
@@ -38,7 +35,6 @@ void AutonFeederCoralCommand::Execute() {
             break;
         case intake:
             _intake->SetPower(IntakeConstants::EJECT_POWER);
-            _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->HasCoral()) {
                _auton_feeder_coral_state = done;
@@ -46,7 +42,6 @@ void AutonFeederCoralCommand::Execute() {
             break;
         case done:
             _intake->SetPower(IntakeConstants::STOP_POWER);
-            _funnel->SetPower(FunnelConstants::STOP_POWER);
             break;
         default:
            _auton_feeder_coral_state = wait;

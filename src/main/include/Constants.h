@@ -18,6 +18,9 @@
 #include <units/angular_acceleration.h>
 
 #include "Config.h"
+#include "Datatypes.h"
+
+#include <unordered_map>
 
 namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025Reefscape);
@@ -37,9 +40,16 @@ namespace VisionConstants {
 
 namespace SwerveConstants {
     namespace AutonNames {
-        const std::string AUTON_NAMES[] = {
-            "Path1", "Path2", "Path3"
+        const std::string AUTON_SCORE_LEVEL[] = {
+            "None", "Level 1", "Level 2", "Level 3", "Level 4"
         };
+        const std::string AUTON_SCORE_ALIGNMENT[] = {
+            "None", "Left", "Right"
+        };
+    }
+
+    namespace AutonDropdowns {
+        constexpr int AUTON_DROPDOWN_COUNT = 4;
     }
 
     namespace ControllerConstants {
@@ -137,6 +147,51 @@ namespace SwerveConstants {
 
         constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
         constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+    
+        const std::unordered_map<std::string, int> APRIL_TAG_LETTER_TO_ID_BLUE = {
+            {"A", 18},
+            {"B", 18},
+            {"C", 17},
+            {"D", 17},
+            {"E", 22},
+            {"F", 22},
+            {"G", 21},
+            {"H", 21},
+            {"I", 20},
+            {"J", 20},
+            {"K", 19},
+            {"L", 19},
+        };
+
+        const std::unordered_map<std::string, int> APRIL_TAG_LETTER_TO_ID_RED = {
+            {"A", 7},
+            {"B", 7},
+            {"C", 8},
+            {"D", 8},
+            {"E", 9},
+            {"F", 9},
+            {"G", 10},
+            {"H", 10},
+            {"I", 11},
+            {"J", 11},
+            {"K", 6},
+            {"L", 6},
+        };
+
+        const std::unordered_map<std::string, ReefAlignment> APRIL_TAG_LETTER_TO_OFFSET = {
+            {"A", left},
+            {"B", right},
+            {"C", left},
+            {"D", right},
+            {"E", left},
+            {"F", right},
+            {"G", left},
+            {"H", right},
+            {"I", left},
+            {"J", right},
+            {"K", left},
+            {"L", right},
+        };
     }
 
     namespace PathDrivePIDConstants {

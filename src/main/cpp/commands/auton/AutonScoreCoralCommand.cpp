@@ -5,11 +5,13 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
-    PivotSubsystem* pivot) : 
+    PivotSubsystem* pivot,
+    std::string reef_level) : 
     _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
-    _pivot(pivot) {
+    _pivot(pivot),
+    _reef_level(reef_level) {
     AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
@@ -28,14 +30,26 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case extend_elevator:
-            //_elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION); FIX LATER ONCE WE ACTUALLY HAVE AUTONS
+            if (_reef_level == "Level 1") {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_1);
+            } else if (_reef_level == "Level 2") {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_2);
+            } else if (_reef_level == "Level 3") {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
+            } else if (_reef_level == "Level 4") {
+                _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
+            }
 
             if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
                 _auton_score_coral_state = extend_pivot;
             }
             break;
         case extend_pivot:
-            //_pivot->SetPivotAngle(PivotConstants::TARGET_POSITION); 
+            if (_reef_level == "Level 1" || _reef_level == "Level 2" || _reef_level == "Level 3") {
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
+            } else if (_reef_level == "Level 4") {
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
+            }
 
             if(_pivot->AtTargetPosition()) {
                 _auton_score_coral_state = eject_piece;
@@ -44,7 +58,7 @@ void AutonScoreCoralCommand::Execute() {
         case eject_piece:
             _intake->SetPower(IntakeConstants::EJECT_POWER);
 
-            if(!_intake->HasCoral()) {
+            if (!_intake->HasCoral()) {
                 _auton_score_coral_state = done;
             }
             break;

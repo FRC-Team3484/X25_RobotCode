@@ -6,27 +6,56 @@
 // Include other subsystems here
 
 //Auton Commands
-// Include auton commands here
+#include "commands/auton/AutonFeederCoralCommand.h"
+#include "commands/auton/AutonScoreCoralCommand.h"
+#include "commands/auton/AutonStopCommand.h"
 
 #include <frc2/command/Commands.h>
 #include <frc2/command/CommandPtr.h>
+#include <frc2/command/SequentialCommandGroup.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
 class AutonGenerator {
     public:
-        AutonGenerator(DrivetrainSubsystem* drivetrain);
+        /**
+         * Generates the autonomous commands for the robot
+         * Also displays the dropdowns in ShuffleBoard/Elastic
+         * 
+         * @param drivetrain The pointer to the drivetrain subsystem
+         * @param elevator The pointer to the elevator subsystem
+         * @param intake The pointer to the intake subsystem
+         * @param pivot The pointer to the pivot subsystem
+         */
+        AutonGenerator(
+            DrivetrainSubsystem* drivetrain, 
+            ElevatorSubsystem* elevator,
+            IntakeSubsystem* intake, 
+            PivotSubsystem* pivot
+        );
+
+        /**
+         * Gets the autonomous commands based on the selected params in the dropdowns
+         * 
+         * @return The autonomous command group
+         */
         frc2::CommandPtr GetAutonomousCommand();
         
     private:
-        std::unordered_map<std::string, frc2::CommandPtr> _auton_map;
+        /**
+         * Takes a string of the name of the command and returns the command needed
+         * 
+         * @param command_name The name of the command to get
+         * 
+         * @return The command which can now be added to a command group
+         */
         frc2::CommandPtr _GetCommand(std::string command_name);
         
         DrivetrainSubsystem* _drivetrain;
+        ElevatorSubsystem* _elevator;
+        IntakeSubsystem* _intake;
+        PivotSubsystem* _pivot;
 
-        frc::SendableChooser<std::string> _auton_chooser_initial;
-        frc::SendableChooser<std::string> _auton_chooser_path_1;
-        frc::SendableChooser<std::string> _auton_chooser_path_2;
-        frc::SendableChooser<std::string> _auton_chooser_path_3;
+        std::vector<frc::SendableChooser<std::string>> _auton_choosers;
 };
 
 #endif

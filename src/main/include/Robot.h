@@ -32,6 +32,11 @@
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
 
+#include "commands/auton/AutonFeederCoralCommand.h"
+#include "commands/auton/AutonScoreCoralCommand.h"
+#include "commands/auton/AutonStopCommand.h"
+#include "AutonGenerator.h"
+
 class Robot : public frc::TimedRobot {
     public:
         Robot();
@@ -76,10 +81,8 @@ class Robot : public frc::TimedRobot {
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
         DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME);
-        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain);
         #else
         DrivetrainSubsystem* _drivetrain = nullptr;
-        AutonGenerator* _auton_generator = nullptr;
         #endif
 
         #ifdef ELEVATOR_ENABLED
@@ -178,6 +181,13 @@ class Robot : public frc::TimedRobot {
             #endif
             frc2::cmd::None()
         );
+
+        // Autons
+        #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+        AutonGenerator* _auton_generator = new AutonGenerator{_drivetrain, _elevator, _intake, _pivot};
+        #else
+        AutonGenerator* _auton_generator = nullptr;
+        #endif
 
         // State machine
         enum driver_states {

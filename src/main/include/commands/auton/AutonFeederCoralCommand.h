@@ -18,8 +18,7 @@ class AutonFeederCoralCommand
     DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
-    PivotSubsystem* pivot,
-    FunnelSubsystem* funnel
+    PivotSubsystem* pivot
   );
 
   void Initialize() override;
@@ -38,7 +37,6 @@ class AutonFeederCoralCommand
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;
-    FunnelSubsystem* _funnel;
 };
 
 #endif

@@ -73,6 +73,15 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Pose2d ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset);
 
         /**
+         * Returns the pose of the reef side with the given letter     
+         * 
+         * @param letter The letter of the reef side to get the pose of
+         * 
+         * @return The pose of the reef side 
+         */
+        frc::Pose2d GetReefSide(std::string letter);
+
+        /**
          * Returns the pose of the closest reef side
          * 
          * @param reef_offset The left or the right side of the reef to align to
