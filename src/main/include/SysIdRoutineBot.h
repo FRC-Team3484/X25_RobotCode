@@ -13,7 +13,7 @@
 
 class SysIdRoutineBot {
     public:
-        SysIdRoutineBot(DrivetrainSubsystem* drive, ElevatorSubsystem* elevator, PivotSubsystem* pivot, frc::EventLoop* event_loop);
+        SysIdRoutineBot(DrivetrainSubsystem* drive, ElevatorSubsystem* elevator, PivotSubsystem* pivot);
 
         frc2::Command* GetAutonomousCommand();
     private:

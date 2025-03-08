@@ -3,11 +3,10 @@
 
 #include <frc2/command/Commands.h>
 
-SysIdRoutineBot::SysIdRoutineBot(DrivetrainSubsystem* drive, ElevatorSubsystem* elevator, PivotSubsystem* pivot, frc::EventLoop* event_loop) : 
+SysIdRoutineBot::SysIdRoutineBot(DrivetrainSubsystem* drive, ElevatorSubsystem* elevator, PivotSubsystem* pivot) : 
     _drive{drive},
     _elevator{elevator},
-    _pivot{pivot},
-    _event_loop{event_loop}
+    _pivot{pivot}
     {
 
     _elevator->SetDefaultCommand(_elevator->PseudoMoveCommand([this] { return _sysid_driver_testing_controller.GetLeftY() * _sysid_driver_testing_controller.GetLeftBumperButton() * !_sysid_driver_testing_controller.GetRightBumperButton(); }));
