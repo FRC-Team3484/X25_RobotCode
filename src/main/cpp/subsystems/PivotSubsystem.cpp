@@ -38,10 +38,10 @@ void PivotSubsystem::Periodic() {
     frc::TrapezoidProfile<deg>::State current_state;
     volt_t pid_output;
 
-    if (_HomeSensor()||_GetStalled()){
-            SetPower(0);
-            _pivot_motor.SetPosition(0_tr);
-            _pivot_pid_controller.Reset();
+
+
+    if (_HomeSensor()){
+            _SetPivotAngle(HOME_POSITION);
     }
 
     switch(_pivot_state){
@@ -50,7 +50,6 @@ void PivotSubsystem::Periodic() {
         // _pivot_motor.Set(HOME_POWER);
         if (_HomeSensor()||_GetStalled()){
             SetPower(0);
-            _pivot_motor.SetPosition(0_tr);
             _pivot_pid_controller.Reset();
             _pivot_state = ready;
             SetPivotAngle(HOME_POSITION);

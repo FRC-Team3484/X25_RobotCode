@@ -90,7 +90,7 @@ class PivotSubsystem : public frc2::SubsystemBase {
         };
         state _pivot_state = home;
 
-        units::inch_t _offset = 0_in;
+        units::degree_t _offset = 0_deg;
 
         frc::DigitalInput _pivot_home;
         

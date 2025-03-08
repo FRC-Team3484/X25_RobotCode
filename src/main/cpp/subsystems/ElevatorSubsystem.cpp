@@ -45,9 +45,7 @@ void ElevatorSubsystem::Periodic() {
     volt_t pid_output;
     
     if (_HomeSensor()) {
-                SetPower(0);
-                _primary_motor.SetPosition(0_tr);
-                _elevator_pid_controller.Reset();
+                _SetPosition(HOME_POSITION);
     }
     
     switch (_elevator_state) {
@@ -57,7 +55,7 @@ void ElevatorSubsystem::Periodic() {
             _primary_motor.SetVoltage(feed_forward_output);
             if (_HomeSensor() || _GetStalled() ) {
                 SetPower(0);
-                _primary_motor.SetPosition(0_tr);
+                _SetPosition(HOME_POSITION);
                 _elevator_pid_controller.Reset();
                 _elevator_state = ready;
                 SetHeight(HOME_POSITION);
@@ -66,9 +64,8 @@ void ElevatorSubsystem::Periodic() {
         case ready:
             // Set the elevator to the target position given by SetHeight()
             if (_target_state.position == HOME_POSITION && _HomeSensor()) {
-                _primary_motor.SetPosition(0_tr);
                 _elevator_pid_controller.Reset();
-                SetHeight(HOME_POSITION);
+                SetPower(0);
             } else {
                 current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
                 feed_forward_output = _elevator_feed_forward.Calculate(_GetElevatorVelocity(), meters_per_second_t{current_state.velocity});
@@ -112,9 +109,7 @@ bool ElevatorSubsystem::AtTargetHeight() {
 }
 
 void ElevatorSubsystem::SetPower(double power) {
-    if (_elevator_state == test) {
-        _primary_motor.Set(power);
-    }
+    _primary_motor.Set(power);
 }
 
 void ElevatorSubsystem::SetTestMode(bool test_mode) {
