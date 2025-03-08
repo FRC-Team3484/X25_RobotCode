@@ -5,6 +5,7 @@
 #include <ctre/phoenix6/TalonFX.hpp>
 #include <ctre/phoenix6/CANCoder.hpp>
 #include <frc/RobotController.h>
+#include <frc/controller/ProfiledPIDController.h>
 
 #include "Constants.h"
 
@@ -92,7 +93,15 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         // PID Loops
 
-        // frc::PIDController _drive_pid_controller{1.0,0.0,0.0};
+        
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_FL{.5, 0.0, 0.0, 
+            {12_rad_per_s, 100_rad_per_s_sq}};
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_FR{.5, 0.0, 0.0, 
+            {12_rad_per_s, 100_rad_per_s_sq}};
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_BL{.5, 0.0, 0.0, 
+            {12_rad_per_s, 100_rad_per_s_sq}};
+        frc::ProfiledPIDController<units::radians> _steer_pid_controller_BR{.5, 0.0, 0.0, 
+            {12_rad_per_s, 100_rad_per_s_sq}};
 
         SC::SC_SwerveCurrents _swerve_current_constants;
 

@@ -56,6 +56,17 @@ DrivetrainSideways::DrivetrainSideways()
 
 void DrivetrainSideways::Periodic() {
 
+    double steer_output_FR = _steer_pid_controller_FR.Calculate(GetSteerAngleFR(), radian_t{90_deg});
+    _steer_motor_FR.Set(steer_output_FR);
+
+    double steer_output_FL = _steer_pid_controller_FL.Calculate(GetSteerAngleFL(), radian_t{90_deg});
+    _steer_motor_FL.Set(steer_output_FL);
+
+    double steer_output_BL = _steer_pid_controller_BL.Calculate(GetSteerAngleBL(), radian_t{90_deg});
+    _steer_motor_BL.Set(steer_output_BL);
+
+    double steer_output_BR = _steer_pid_controller_BR.Calculate(GetSteerAngleBR(), radian_t{90_deg});
+    _steer_motor_BR.Set(steer_output_BR);
 }
 
 frc2::CommandPtr DrivetrainSideways::PseudoDriveCommand(std::function<double()> fwd,
@@ -82,8 +93,8 @@ void DrivetrainSideways::SetBrakeMode() {
 }
 
 void DrivetrainSideways::ResetEncoder() {
-    _drive_motor_FL.SetPosition(90_deg);
-    _drive_motor_FR.SetPosition(90_deg);
-    _drive_motor_BL.SetPosition(90_deg);
-    _drive_motor_BR.SetPosition(90_deg);
+    _drive_motor_FL.SetPosition(0_deg);
+    _drive_motor_FR.SetPosition(0_deg);
+    _drive_motor_BL.SetPosition(0_deg);
+    _drive_motor_BR.SetPosition(0_deg);
 }

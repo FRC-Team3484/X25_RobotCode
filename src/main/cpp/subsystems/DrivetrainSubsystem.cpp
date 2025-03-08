@@ -55,7 +55,17 @@ DrivetrainSubsystem::DrivetrainSubsystem()
 }
 
 void DrivetrainSubsystem::Periodic() {
+    double steer_output_FR = _steer_pid_controller_FR.Calculate(GetSteerAngleFR(), radian_t{0_deg});
+    _steer_motor_FR.Set(steer_output_FR);
 
+    double steer_output_FL = _steer_pid_controller_FL.Calculate(GetSteerAngleFL(), radian_t{0_deg});
+    _steer_motor_FL.Set(steer_output_FL);
+
+    double steer_output_BL = _steer_pid_controller_BL.Calculate(GetSteerAngleBL(), radian_t{0_deg});
+    _steer_motor_BL.Set(steer_output_BL);
+
+    double steer_output_BR = _steer_pid_controller_BR.Calculate(GetSteerAngleBR(), radian_t{0_deg});
+    _steer_motor_BR.Set(steer_output_BR);
 }
 
 frc2::CommandPtr DrivetrainSubsystem::PseudoDriveCommand(std::function<double()> fwd,
