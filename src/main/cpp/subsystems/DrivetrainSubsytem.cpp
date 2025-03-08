@@ -336,9 +336,12 @@ bool DrivetrainSubsystem::GetNearTargetPosition() {
 
 frc2::CommandPtr DrivetrainSubsystem::PseudoDriveCommand(std::function<double()> fwd,
                                            std::function<double()> side,
-                                           std::function<double()> rot) {
-  	return frc2::cmd::Run([this, fwd, side, rot] { Drive(fwd()*MAX_LINEAR_SPEED, side()*MAX_LINEAR_SPEED, rot()*MAX_ROTATION_SPEED); },
-                        {this})
+                                           std::function<double()> rot,
+                                           std::function<bool()> reset_gyro) {
+  	return frc2::cmd::Run([this, fwd, side, rot, reset_gyro] {
+                    Drive(fwd()*MAX_LINEAR_SPEED, side()*MAX_LINEAR_SPEED, rot()*MAX_ROTATION_SPEED); 
+                    if (reset_gyro()) SetHeading(0_deg);
+            }, {this})
       	.WithName("Psuedo Testing Arcade Drive");
 }
 frc2::CommandPtr DrivetrainSubsystem::SysIdQuasistatic(frc2::sysid::Direction direction, units::degree_t sysID_direction) {

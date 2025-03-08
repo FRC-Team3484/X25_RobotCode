@@ -31,7 +31,8 @@ SysIdRoutineBot::SysIdRoutineBot(DrivetrainSubsystem* drive, ElevatorSubsystem* 
 
     _drive->SetDefaultCommand(_drive->PseudoDriveCommand([this] { return _sysid_driver_testing_controller.GetLeftY() * !_sysid_driver_testing_controller.GetLeftBumperButton()* !_sysid_driver_testing_controller.GetRightBumperButton(); },
                                                          [this] { return _sysid_driver_testing_controller.GetLeftX() * !_sysid_driver_testing_controller.GetLeftBumperButton()* !_sysid_driver_testing_controller.GetRightBumperButton(); },
-                                                         [this] { return _sysid_driver_testing_controller.GetRightX() * !_sysid_driver_testing_controller.GetLeftBumperButton()* !_sysid_driver_testing_controller.GetRightBumperButton(); }));
+                                                         [this] { return _sysid_driver_testing_controller.GetRightX() * !_sysid_driver_testing_controller.GetLeftBumperButton()* !_sysid_driver_testing_controller.GetRightBumperButton(); },
+                                                         [this] { return _sysid_driver_testing_controller.GetBackButton();}));
     frc2::Trigger([this]{return (_sysid_driver_testing_controller.GetAButton() && !_sysid_driver_testing_controller.GetLeftBumperButton()) && !_sysid_driver_testing_controller.GetRightBumperButton();})
         .WhileTrue(_drive->SysIdQuasistatic(frc2::sysid::Direction::kForward, _sysid_driver_testing_controller.GetLeftTriggerAxis() > 0.5 ? 90_deg : 0_deg));
     frc2::Trigger([this]{return (_sysid_driver_testing_controller.GetBButton() && !_sysid_driver_testing_controller.GetLeftBumperButton()) && !_sysid_driver_testing_controller.GetRightBumperButton();})

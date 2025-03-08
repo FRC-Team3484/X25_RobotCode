@@ -61,9 +61,9 @@ namespace SwerveConstants {
         // DO NOT REMOVE STATIC CALLS
 
         // Drive, steer, encoder, magnet offset
-        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{12,13,18, 27.685546875000004_deg}; //-92.505
+        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{12,13,18, 27.685546875000004_deg - 180_deg}; //-92.505
         static SC::SC_SwerveConfigs SWERVE_FRONT_RIGHT{10,11,19, -167.16796875_deg}; //-60.205
-        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{16,17,21, 38.759765625_deg}; //160.654
+        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{16,17,21, 38.759765625_deg - 180_deg}; //160.654
         static SC::SC_SwerveConfigs SWERVE_BACK_RIGHT{14,15,20, -155.0390625_deg}; //-55.283
 
         static SC::SC_SwerveConfigs SWERVE_CONFIGS_ARRAY[4] = {

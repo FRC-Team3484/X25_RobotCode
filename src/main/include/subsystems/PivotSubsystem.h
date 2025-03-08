@@ -90,7 +90,7 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::DigitalInput _pivot_home;
 
         frc2::sysid::SysIdRoutine _sysid_routine{
-            frc2::sysid::Config{std::nullopt, std::nullopt, std::nullopt, nullptr}, 
+            frc2::sysid::Config{0.2_V/1.0_s, 2_V, std::nullopt, nullptr}, 
             frc2::sysid::Mechanism{
                 [this](units::volt_t voltage){  
                 _pivot_motor.SetVoltage(voltage);

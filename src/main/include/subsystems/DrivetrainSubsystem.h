@@ -114,7 +114,8 @@ class DrivetrainSubsystem: public frc2::SubsystemBase {
 
         frc2::CommandPtr PseudoDriveCommand(std::function<double()> fwd,
                                       std::function<double()> side,
-                                      std::function<double()> rot);
+                                      std::function<double()> rot,
+                                      std::function<bool()> reset_gyro);
         frc2::CommandPtr SysIdQuasistatic(frc2::sysid::Direction direction, units::degree_t sysID_direction);
         frc2::CommandPtr SysIdDynamic(frc2::sysid::Direction direction, units::degree_t sysID_direction);
         
