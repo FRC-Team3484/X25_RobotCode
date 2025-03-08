@@ -13,4 +13,4 @@
 //#define FUNNEL_ENABLED
 
 // Button Box (Disabling uses a controller for the operator instead)
-#define OPERATOR_BUTTON_BOX
+//#define OPERATOR_BUTTON_BOX
