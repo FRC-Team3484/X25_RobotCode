@@ -249,8 +249,8 @@ namespace ElevatorConstants {
     constexpr int HOME_SENSOR_DI_CH = 0;
     constexpr int BRAKE_SERVO = 0;
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 22.5_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 33.75_in / 1_s / 1_s;
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
@@ -303,8 +303,8 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 67.5_deg_per_s;
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     

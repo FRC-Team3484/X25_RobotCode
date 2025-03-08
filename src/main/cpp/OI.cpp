@@ -18,7 +18,6 @@ double Driver_Interface::GetRotation() {return frc::ApplyDeadband(_driver_contro
 //     Settings Drive
 bool Driver_Interface::GetResetHeading() {return _driver_controller.GetRawButton(RESET_HEADING);}
 bool Driver_Interface::GetBrake() {return _driver_controller.GetRawButton(BRAKE);}
-bool Driver_Interface::GetSetCoastMode() {return _driver_controller.GetRawButtonPressed(TOGGLE_COAST_MODE);}
 bool Driver_Interface::LowSpeed() {return _driver_controller.GetRawAxis(LOW_SPEED) > 0.5;}
 bool Driver_Interface::GetDynamicPivot() {return _driver_controller.GetRawButton(DYNAMIC_PIVOT);}
 

@@ -40,12 +40,6 @@ void TeleopDriveCommand::Execute() {
                     _drivetrain->SetHeading();
                 }
 
-                if (_oi->GetSetCoastMode()) {
-                    _drivetrain->SetCoastMode();
-                } else {
-                    _drivetrain->SetBrakeMode();
-                }
-
                 if (_oi->GetDynamicPivot()){
                     _drivetrain_state = pivot;
 
