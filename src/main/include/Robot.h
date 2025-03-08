@@ -114,6 +114,7 @@ class Robot : public frc::TimedRobot {
         Operator_Interface* _oi_operator = new Operator_Interface();
         Testing_Interface* _oi_testing = new Testing_Interface();
 
+        #ifdef COMMANDS_ENABLED
         // Command Groups
         frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
             #ifdef ELEVATOR_ENABLED
@@ -180,6 +181,7 @@ class Robot : public frc::TimedRobot {
             #endif
             frc2::cmd::None()
         );
+        #endif
 
         // State machine
         enum driver_states {

@@ -14,3 +14,6 @@
 
 // Button Box (Disabling uses a controller for the operator instead)
 //#define OPERATOR_BUTTON_BOX
+
+// Disable All Commands
+#define COMMANDS_ENABLED
