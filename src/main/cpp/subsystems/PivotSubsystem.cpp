@@ -24,6 +24,7 @@ PivotSubsystem::PivotSubsystem(
 frc2::CommandPtr PivotSubsystem::PseudoMoveCommand(std::function<double()> power) {
     return frc2::cmd::Run([this, power] {
         SetPower(power());
+        fmt::println("Pivot Moving: {}", power());
     }, 
     {this});
 }

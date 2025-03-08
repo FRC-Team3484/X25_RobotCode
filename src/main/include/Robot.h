@@ -9,6 +9,7 @@
 #include <frc2/command/Commands.h>
 #include <frc2/command/CommandPtr.h>
 #include <frc/PowerDistribution.h>
+#include "SysIdRoutineBot.h"
 
 #include "FRC3484_Lib/components/SC_Photon.h"
 
@@ -86,6 +87,8 @@ class Robot : public frc::TimedRobot {
 
         // Variables
         std::optional<frc2::CommandPtr> _auton_command;
+        
+        SysIdRoutineBot* m_container =  new SysIdRoutineBot(_drivetrain, _elevator, _pivot);
 };
 
 #endif
