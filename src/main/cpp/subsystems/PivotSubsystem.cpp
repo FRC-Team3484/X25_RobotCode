@@ -56,7 +56,8 @@ void PivotSubsystem::Periodic() {
         }
         break;
     case ready:
-        // Sets the pivot to the target angle given in SetPivotAngle()
+        // Sets the pisvot to the target angle given in SetPivotAngle()
+        SetPower(0);
         current_state = _pivot_trapezoid.Calculate(_trapezoid_timer.Get(), _intitial_state, _target_state);
         feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, radians_per_second_t{_GetPivotVelocity()}, radians_per_second_t{current_state.velocity});
         pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
@@ -122,9 +123,7 @@ void PivotSubsystem::SetTestMode(bool test_mode) {
 }
 
 void PivotSubsystem::SetPower(double power) {
-    if (_pivot_state == test) {
-        _pivot_motor.Set(power);
-    }
+    _pivot_motor.Set(power);
 }
 
 bool PivotSubsystem::AtTargetPosition() {

@@ -24,11 +24,11 @@ void Robot::AutonomousExit() {}
 
 void Robot::TeleopInit() {
     StartDriveState();
-    StartOperatorState();
+    // StartOperatorState();
 }
 
 void Robot::TeleopPeriodic() {
-    OperatorPeriodic();
+    // OperatorPeriodic();
     switch (_driver_robot_state) {
         case drive:
             if (_oi_driver->GetCoralPickup()) {
