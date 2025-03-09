@@ -258,7 +258,7 @@ namespace ElevatorConstants {
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.505_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
 
-    constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
+    constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
 
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
@@ -324,7 +324,7 @@ namespace PivotConstants {
     constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
-    constexpr double HOME_POWER = -0.2;
+    constexpr double HOME_POWER = -0.15;
 }
 
 namespace FunnelConstants {

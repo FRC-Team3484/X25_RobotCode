@@ -62,6 +62,7 @@ void PivotSubsystem::Periodic() {
         feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, radians_per_second_t{_GetPivotVelocity()}, radians_per_second_t{current_state.velocity});
         pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
         // _pivot_motor.SetVoltage(feed_forward_output+pid_output);
+        PrintTestInfo();
         break;
     case test:
         PrintTestInfo();
