@@ -249,8 +249,8 @@ namespace ElevatorConstants {
     constexpr int HOME_SENSOR_DI_CH = 0;
     constexpr int BRAKE_SERVO = 0;
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 1_fps;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 1_fps_sq;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 22.5_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 33.75_in / 1_s / 1_s;
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
@@ -258,13 +258,14 @@ namespace ElevatorConstants {
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.505_in/1_tr;
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
 
-    constexpr units::feet_per_second_t HOME_VELOCITY = -0.5_fps;
+    constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
 
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
-    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
-    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_mps, 0_V / 1_mps_sq);
+    // P: 61.605, I: 0, D: 16.759
+    constexpr SC::SC_PIDConstants PID_C(0.125, 0, 16.759, 0);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.43085_V, 010705_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
 
     // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
@@ -302,13 +303,14 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s;
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 67.5_deg_per_s;
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     
-    constexpr SC::SC_PIDConstants PID_C(0, 0, 0, 0);
-    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0_V, 0_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq);
+    // P: 24.275, I: 0, D: 5.9465
+    constexpr SC::SC_PIDConstants PID_C(0.05, 0, 0, 0);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.75016_V, 0.38962_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
@@ -322,7 +324,7 @@ namespace PivotConstants {
     constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
-    constexpr double HOME_POWER = -0.2;
+    constexpr double HOME_POWER = -0.15;
 }
 
 namespace FunnelConstants {

@@ -12,9 +12,9 @@
 
 ## Installation
 > [!NOTE]
-> **This project uses WPILib 2025.2.1 and includes needed vendor dependencies**
+> **This project uses WPILib 2025.3.1 and includes needed vendor dependencies**
 
-First, download the [2025.2.1 Release of WPILib](https://github.com/wpilibsuite/allwpilib/releases/tag/v2025.2.1) and install it to your computer.
+First, download the [2025.3.1 Release of WPILib](https://github.com/wpilibsuite/allwpilib/releases/tag/v2025.3.1) and install it to your computer.
 
 Next, clone this repository
 ```

@@ -19,8 +19,6 @@ class Driver_Interface {
         bool GetResetHeading();
         bool GetBrake();
         bool GetBrakePressed();
-
-        bool GetSetCoastMode();
         
         bool GetDynamicPivot();
 
