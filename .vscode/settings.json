@@ -15,5 +15,13 @@
     "**/*~": true
   },
   "C_Cpp.default.configurationProvider": "vscode-wpilib",
-  "C_Cpp.default.compilerPath": "/usr/bin/clang"
+  "C_Cpp.default.compilerPath": "/usr/bin/clang",
+  "files.associations": {
+    "span": "cpp",
+    "chrono": "cpp",
+    "limits": "cpp",
+    "memory": "cpp",
+    "functional": "cpp",
+    "type_traits": "cpp"
+  }
 }

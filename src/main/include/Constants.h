@@ -182,24 +182,24 @@ namespace UserInterface {
     namespace Operator {
         #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
-        constexpr int CORAL_LEVEL_4_LEFT = 0;
-        constexpr int CORAL_LEVEL_4_RIGHT = 0;
-        constexpr int CORAL_LEVEL_3_LEFT = 0;
-        constexpr int CORAL_LEVEL_3_RIGHT = 0;
-        constexpr int CORAL_LEVEL_2_LEFT = 0;
-        constexpr int CORAL_LEVEL_2_RIGHT = 0;
-        constexpr int CORAL_LEVEL_1 = 0;
+        constexpr int CORAL_LEVEL_4_LEFT = 1;
+        constexpr int CORAL_LEVEL_4_RIGHT = 2;
+        constexpr int CORAL_LEVEL_3_LEFT = 3;
+        constexpr int CORAL_LEVEL_3_RIGHT = 4;
+        constexpr int CORAL_LEVEL_2_LEFT = 5;
+        constexpr int CORAL_LEVEL_2_RIGHT = 6;
+        constexpr int CORAL_LEVEL_1 = 7;
 
-        constexpr int ALGAE_LEVEL_3 = 0;
-        constexpr int ALGAE_LEVEL_2 = 0;
+        constexpr int ALGAE_LEVEL_3 = 8;
+        constexpr int ALGAE_LEVEL_2 = 9;
 
-        constexpr int GROUND = 0;
-        constexpr int PROCESSOR = 0;
-        constexpr int CLIMB_UP = 0;
-        constexpr int CLIMB_DOWN = 0;
-        constexpr int NET = 0;
-        constexpr int IGNORE_VISION = 0;
-        constexpr int LOAD_CORAL = 0;
+        constexpr int GROUND = 10;
+        constexpr int PROCESSOR = 11;
+        constexpr int CLIMB_UP = 12;
+        constexpr int CLIMB_DOWN = 13;
+        constexpr int NET = 14;
+        constexpr int IGNORE_VISION = 15;
+        constexpr int LOAD_CORAL = 16;
         
         #else
 
