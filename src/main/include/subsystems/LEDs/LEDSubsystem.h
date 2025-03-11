@@ -41,12 +41,7 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void HasCoralAnimation();
 
-        void StartIdleAnimation();
-
     private:
-
-        enum State {wave, tetris, sand, fire, driving, path, pivot, scoring, has_algae, has_coral};
-        State _led_state = tetris;
 
         frc::AddressableLED _leds;
         std::vector<frc::AddressableLED::LEDData> _led_buffer;

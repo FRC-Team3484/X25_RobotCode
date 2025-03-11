@@ -18,6 +18,8 @@ class ColorStack {
 
         void Reset();
 
+        bool HasResetted();
+
     private:
         size_t _GetColorIndex(size_t offset);
         double _PositiveFmod(double numerator, double denominator);

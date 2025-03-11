@@ -25,97 +25,67 @@ LEDSubsystem::LEDSubsystem(
 
 
 void LEDSubsystem::Periodic() {
-    switch (_led_state) {
-    case wave:
-        WaveAnimation();
-        break;
-    case tetris:
-        TetrisAnimation();
-        break;
-    case sand:
-        SandAnimation();
-        break;
-    case fire:
-        FireAnimation();
-        break;
-    case driving:
-        DrivingAnimation();
-        break;
-    case path:
-        PathAnimation();
-        break;
-    case pivot:
-        PivotAnimation();
-        break;
-    case scoring:
-        ScoringAnimation();
-        break;
-    case has_algae:
-        HasAlgaeAnimation();
-        break;
-    case has_coral:
-        HasCoralAnimation();
-        break;
-    default:
-        _led_state = wave;
-        break;
-    }
     _leds.SetData(_led_buffer);
 }
 
 // scrolling custom rainbow
 void LEDSubsystem::WaveAnimation() {
     _colorwave.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // colors stacking idle
 void LEDSubsystem::TetrisAnimation() {
     _tetris.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // colors falling idle
 void LEDSubsystem::SandAnimation() {
     _sand.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 void LEDSubsystem::FireAnimation() {
     _fire.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // solid color (Orange #ff8200)
 void LEDSubsystem::DrivingAnimation() {
     _solid_orange.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 
 // panning mask
 void LEDSubsystem::PathAnimation() {
     _step_orange.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // mask
 void LEDSubsystem::PivotAnimation() {
     _progress_orange.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // Breathe (Blinks Blue #009bb4)
 void LEDSubsystem::ScoringAnimation() {
     _scoring_blue.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // Driving But Green #10f01a
 void LEDSubsystem::HasAlgaeAnimation() {
     _solid_green.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
 }
 
 // Driving But Pink #ff0091
 void LEDSubsystem::HasCoralAnimation() {
     _solid_pink.ApplyTo(_led_buffer);
-}
-
-
-void LEDSubsystem::StartIdleAnimation() {
-    _led_state = wave;
+    _leds.SetData(_led_buffer);
 }   
 
 double LEDSubsystem::_PivotAnimationProgress() {

@@ -13,9 +13,10 @@
 
 #include "FRC3484_Lib/components/SC_Photon.h"
 
+#include "subsystems/LEDs/LEDSubsystem.h"
+
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
-#include "subsystems/LEDs/LEDSubsystem.h"
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/FunnelSubsystem.h"
@@ -51,10 +52,10 @@ class Robot : public frc::TimedRobot {
         void TestExit() override;
 
         void OperatorPeriodic();
-        void StartDriveState();
-        void CancelDriverCommands();
         void CancelOperatorCommands();
         void StartOperatorState();
+        void StartDriveState();
+        void CancelDriverCommands();
 
         bool AutoGetLoadCoralCondition();
         bool AutoGetRemoveAlgaeCondition();
@@ -107,7 +108,11 @@ class Robot : public frc::TimedRobot {
         FunnelSubsystem* _funnel = nullptr;
         #endif
 
-        LEDSubsystem _leds{LEDConstants::LED_PWM_PORT, LEDConstants::LED_STRIP_LENGTH};
+        #ifdef LED_ENABLED
+        LEDSubsystem* _leds = new LEDSubsystem(LEDConstants::LED_PWM_PORT, LEDConstants::LED_STRIP_LENGTH);
+        #else
+        LEDSubsystem* _leds = nullptr;
+        #endif
 
         // Operator Interfaces
         Driver_Interface* _oi_driver = new Driver_Interface();
@@ -222,9 +227,14 @@ class Robot : public frc::TimedRobot {
 
         // Power Stuff
         frc::PowerDistribution _pdp{1, frc::PowerDistribution::ModuleType::kRev};
+        bool _low_battery = false;
+
+        bool _has_been_enabled = false;
 
         // Variables
         std::optional<frc2::CommandPtr> _auton_command;
+
+
 };
 
 #endif
