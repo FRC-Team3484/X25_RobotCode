@@ -9,6 +9,7 @@
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
 #include <frc/Servo.h>
+#include <units/velocity.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 
@@ -107,6 +108,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
+
+        units::meters_per_second_t _previous_elevator_velocity = 0_mps;
 
 };
 

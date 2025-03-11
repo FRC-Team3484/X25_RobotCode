@@ -18,14 +18,16 @@ TeleopScoreCoralCommand::TeleopScoreCoralCommand(
     AddRequirements(_pivot);
 }
 
-void TeleopScoreCoralCommand::Initialize() {}
+void TeleopScoreCoralCommand::Initialize() {
+    _auto_score_coral_state = wait;
+}
 
 void TeleopScoreCoralCommand::Execute() {
     switch(_auto_score_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to next state
             if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
-                _auto_score_coral_state = extend_elevator;
+                _auto_score_coral_state = traveling_pivot;
             }
             break;
         case traveling_pivot:
@@ -49,7 +51,7 @@ void TeleopScoreCoralCommand::Execute() {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
             }
 
-            if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
+            if(_elevator->AtTargetHeight() && (_drivetrain->GetAtTargetPosition() || _oi->IgnoreVision())) {
                 _auto_score_coral_state = extend_pivot;
             }
             break;

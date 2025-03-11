@@ -10,7 +10,7 @@ ClimbUpCommand::ClimbUpCommand(
 }
 
 void ClimbUpCommand::Initialize() {
-    _climb_up_state = climb_up_elevator;
+    _climb_up_state = traveling_pivot;
 }
 
 void ClimbUpCommand::Execute() {

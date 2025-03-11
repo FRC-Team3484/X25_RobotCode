@@ -20,7 +20,9 @@ TeleopIntakeCoralCommand::TeleopIntakeCoralCommand(
     AddRequirements(_funnel);
 }
 
-void TeleopIntakeCoralCommand::Initialize() {}
+void TeleopIntakeCoralCommand::Initialize() {
+    _auto_intake_coral_state = wait;
+}
 
 void TeleopIntakeCoralCommand::Execute() {
     switch(_auto_intake_coral_state) {
@@ -44,7 +46,7 @@ void TeleopIntakeCoralCommand::Execute() {
             _intake->SetPower(IntakeConstants::INTAKE_POWER);
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
-            if (_intake->HasCoral()) {
+            if (_intake->CoralLow()) {
                 _auto_intake_coral_state = done;
             }
             break;

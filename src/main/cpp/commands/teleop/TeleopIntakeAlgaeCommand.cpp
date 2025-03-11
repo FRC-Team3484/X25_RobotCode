@@ -17,7 +17,9 @@ TeleopIntakeAlgaeCommand::TeleopIntakeAlgaeCommand(
     AddRequirements(_pivot);
 }
 
-void TeleopIntakeAlgaeCommand::Initialize() {}
+void TeleopIntakeAlgaeCommand::Initialize() {
+    _auto_intake_algae_state = wait;
+}
 
 void TeleopIntakeAlgaeCommand::Execute() {
     switch(_auto_intake_algae_state) {

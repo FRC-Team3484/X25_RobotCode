@@ -3,11 +3,11 @@
 
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
+#include "FRC3484_Lib/components/SC_ArmFeedForward.h"
 
 #include <frc/DigitalInput.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
-#include <frc/controller/ArmFeedforward.h>
 #include <frc/controller/PIDController.h>
 
 #include <frc2/command/SubsystemBase.h>
@@ -102,7 +102,9 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::TrapezoidProfile<units::degree>::State _target_state{PivotConstants::HOME_POSITION /*this gets changes based apon user input*/, 0_deg_per_s};
         frc::Timer _trapezoid_timer;
 
-        frc::ArmFeedforward _pivot_feed_forward;
+        SC_ArmFeedForward _pivot_feed_forward;
+
+        units::radians_per_second_t _previous_pivot_velocity = 0_rad_per_s;
 };
 
 #endif

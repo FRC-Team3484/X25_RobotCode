@@ -18,7 +18,9 @@ TeleopProcessorCommand::TeleopProcessorCommand(
     AddRequirements(_pivot);
 }
 
-void TeleopProcessorCommand::Initialize() {}
+void TeleopProcessorCommand::Initialize() {
+    _auto_processor_state = wait;
+}
 
 void TeleopProcessorCommand::Execute() {
     switch (_auto_processor_state) {

@@ -249,13 +249,13 @@ namespace ElevatorConstants {
     constexpr int HOME_SENSOR_DI_CH = 0;
     constexpr int BRAKE_SERVO = 0;
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 22.5_in / 1_s;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 33.75_in / 1_s / 1_s;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 5_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 5_in / 1_s / 1_s;
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
-    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.505_in/1_tr;
+    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.6_in/1_tr; // 0.505_in
     constexpr units::inch_t POSITION_TOLERANCE = 1_in;
 
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
@@ -264,21 +264,21 @@ namespace ElevatorConstants {
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
     // P: 61.605, I: 0, D: 16.759
-    constexpr SC::SC_PIDConstants PID_C(0.125, 0, 16.759, 0);
-    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.43085_V, 010705_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
+    constexpr SC::SC_PIDConstants PID_C(0.125, 0, 0, 0);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.43085_V, 0.10705_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
 
     // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
-    constexpr units::inch_t PROCESSOR_POSITION = 0_in;
-    constexpr units::inch_t CLIMB_HEIGHT = 0_in;
+    constexpr units::inch_t PROCESSOR_POSITION = 12_in;
+    constexpr units::inch_t CLIMB_HEIGHT = 18_in;
     
-    constexpr units::inch_t CORAL_LEVEL_1 = 0_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 0_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 0_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 0_in;
+    constexpr units::inch_t CORAL_LEVEL_1 = 4_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 8_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 12_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 16_in;
 
-    constexpr units::inch_t ALGAE_LEVEL_2 = 0_in;
-    constexpr units::inch_t ALGAE_LEVEL_3 = 0_in;
+    constexpr units::inch_t ALGAE_LEVEL_2 = 6_in;
+    constexpr units::inch_t ALGAE_LEVEL_3 = 10_in;
 }
 
 namespace IntakeConstants {
@@ -288,9 +288,9 @@ namespace IntakeConstants {
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 2;
 
-        constexpr double EJECT_POWER = 1.0;
+        constexpr double EJECT_POWER = -0.2;
         constexpr double STOP_POWER = 0.0;
-        constexpr double INTAKE_POWER = 2.0;
+        constexpr double INTAKE_POWER = -1.0;
 
         constexpr bool INVERT_MOTOR = false;
         
@@ -303,8 +303,8 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 67.5_deg_per_s;
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 101.25_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 5_deg_per_s; //67.5_deg_per_s;
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 5_deg_per_s_sq; //101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     
@@ -314,17 +314,18 @@ namespace PivotConstants {
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
-    constexpr double GEAR_RATIO = 45/1; // edit later
+    constexpr double GEAR_RATIO = 45/1;
 
+    // All functional angles are 90 degrees more, straight up (aligned with elevator sides) is 90 degrees
     constexpr units::degree_t ANGLE_TOLERANCE = 5_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
-    constexpr units::degree_t PROCESSOR_POSITION = 0_deg;
-    constexpr units::degree_t TRAVEL_POSITION = 0_deg;
-    constexpr units::degree_t INTAKE_POSITION = 0_deg;
-    constexpr units::degree_t TARGET_CORAL_ANGLE = 0_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 0_deg;
-    constexpr units::degree_t TARGET_ALGAE_ANGLE = 0_deg;
-    constexpr double HOME_POWER = -0.15;
+    constexpr units::degree_t PROCESSOR_POSITION = 140_deg;
+    constexpr units::degree_t TRAVEL_POSITION = 135_deg;
+    constexpr units::degree_t INTAKE_POSITION = 122_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 150_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;
+    constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
+    constexpr double HOME_POWER = -0.1;
 }
 
 namespace FunnelConstants {

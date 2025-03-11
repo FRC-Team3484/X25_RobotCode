@@ -47,7 +47,7 @@ void PivotSubsystem::Periodic() {
     switch(_pivot_state){
     case home:
         // Homes the pivot
-        // _pivot_motor.Set(HOME_POWER);
+        _pivot_motor.Set(HOME_POWER);
         if (_HomeSensor()||_GetStalled()){
             SetPower(0);
             _pivot_pid_controller.Reset();
@@ -57,12 +57,18 @@ void PivotSubsystem::Periodic() {
         break;
     case ready:
         // Sets the pisvot to the target angle given in SetPivotAngle()
-        SetPower(0);
-        current_state = _pivot_trapezoid.Calculate(_trapezoid_timer.Get(), _intitial_state, _target_state);
-        feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, /*radians_per_second_t{_GetPivotVelocity()},*/radians_per_second_t{current_state.velocity});
-        pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
-        // _pivot_motor.SetVoltage(feed_forward_output+pid_output);
-        PrintTestInfo();
+        if (_target_state.position == HOME_POSITION && _HomeSensor()) {
+            _pivot_pid_controller.Reset();
+            _previous_pivot_velocity = 0_rad_per_s;
+            SetPower(0);
+        } else {
+            SetPower(0);
+            current_state = _pivot_trapezoid.Calculate(_trapezoid_timer.Get(), _intitial_state, _target_state);
+            feed_forward_output = _pivot_feed_forward.Calculate(radian_t{_GetPivotAngle()}, _previous_pivot_velocity, radians_per_second_t{current_state.velocity});
+            pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
+            _pivot_motor.SetVoltage(feed_forward_output+pid_output);
+            _previous_pivot_velocity = current_state.velocity;
+        }
         break;
     case test:
         PrintTestInfo();
