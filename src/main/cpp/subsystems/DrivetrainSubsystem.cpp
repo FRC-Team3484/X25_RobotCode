@@ -259,16 +259,7 @@ void DrivetrainSubsystem::GoToPose(Pose2d pose) {
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
-    frc::Pose2d current_pose = GetPose();
-    std::vector<Pose2d> differences;
-
-    for (const auto& pose : poses) {
-        differences.emplace_back(Pose2d{pose.Translation() - current_pose.Translation(), pose.Rotation() - current_pose.Rotation()});
-    }
-    
-    frc::Pose2d closest = frc::Pose2d().Nearest(std::span{differences});
-
-    return closest;
+    return GetPose().Nearest(std::span{poses});
 }
 
 frc::Pose2d DrivetrainSubsystem::ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset) {
