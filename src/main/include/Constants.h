@@ -140,6 +140,10 @@ namespace SwerveConstants {
 
         constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
         constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+
+        constexpr frc::Pose2d STARTING_POSITION_A = frc::Pose2d{frc::Translation2d{48_in, 24_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d STARTING_POSITION_B = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d STARTING_POSITION_C = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
     }
 
     namespace PathDrivePIDConstants {

@@ -3,15 +3,19 @@
 #include <frc2/command/CommandScheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-Robot::Robot() {}
+Robot::Robot() {
+    _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_A);
+    _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_B);
+    _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_C);
+
+    frc::SmartDashboard::PutData("Auton Start Position", &_auton_start_positions);
+}
 
 void Robot::RobotPeriodic() {
     frc2::CommandScheduler::GetInstance().Run();
 }
 
 void Robot::DisabledInit() {
-    _leds.StartIdleAnimation();
-
     frc2::CommandScheduler::GetInstance().CancelAll();
 }
 
@@ -31,7 +35,16 @@ void Robot::DisabledPeriodic() {
 void Robot::DisabledExit() {}
 
 void Robot::AutonomousInit() {
-    _has_been_enabled =true;
+    _drivetrain->ResetOdometry(_auton_start_positions.GetSelected());
+
+    _has_been_enabled = true;
+
+    _auton_command = _auton_generator->GetAutonomousCommand();
+    _drivetrain->SetBrakeMode();
+
+    if (_auton_command) {
+        _auton_command->Schedule();
+    }
 }
 
 void Robot::AutonomousPeriodic() {
@@ -58,22 +71,19 @@ void Robot::TeleopPeriodic() {
                 _driver_robot_state = auto_pickup_coral_driver;
                 CancelDriverCommands();
 
-                _drive_to_feeder_station = _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation());
-                _drive_to_feeder_station.Schedule();
+                _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation());
 
             } else if ((_oi_driver->GetScoreReef() || _oi_driver->GetAlgaePickup()) && _oi_operator->GetReefLevel() != 0) {
                 _driver_robot_state = auto_reef_driver;
                 CancelDriverCommands();
 
-                _drive_to_reef = _drivetrain->GoToPose(_drivetrain->GetClosestReefSide(_oi_operator->GetReefAlignment()));
-                _drive_to_reef.Schedule();
+                _drivetrain->GoToPose(_drivetrain->GetClosestReefSide(_oi_operator->GetReefAlignment()));
 
             } else if (_oi_driver->GetScoreProcessor()) {
                 _driver_robot_state = auto_score_processor_driver;
                 CancelDriverCommands();
 
-                _drive_to_processor = _drivetrain->GoToPose(_drivetrain->GetClosestProcessor());
-                _drive_to_processor.Schedule();
+                _drivetrain->GoToPose(_drivetrain->GetClosestProcessor());
             }
             break;
 
@@ -218,9 +228,6 @@ void Robot::StartOperatorState() {
 
 void Robot::CancelDriverCommands() {
     if (_drive_state_commands.IsScheduled()) _drive_state_commands.Cancel();
-    if (_drive_to_feeder_station.IsScheduled()) _drive_to_feeder_station.Cancel();
-    if (_drive_to_reef.IsScheduled()) _drive_to_reef.Cancel();
-    if (_drive_to_processor.IsScheduled()) _drive_to_processor.Cancel();
 }
 
 void Robot::CancelOperatorCommands() {

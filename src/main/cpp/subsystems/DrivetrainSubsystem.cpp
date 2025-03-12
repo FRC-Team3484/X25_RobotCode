@@ -244,7 +244,7 @@ int DrivetrainSubsystem::CheckNotNullModule() {
     return counter;
 }
 
-frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
+void DrivetrainSubsystem::GoToPose(Pose2d pose) {
     PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
 
     frc2::CommandPtr pathfindingCommand = AutoBuilder::pathfindToPose(
@@ -255,7 +255,7 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
 
     _target_position = pose;
 
-    return pathfindingCommand;
+    pathfindingCommand.Schedule();
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
