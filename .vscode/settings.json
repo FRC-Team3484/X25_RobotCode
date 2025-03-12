@@ -22,6 +22,8 @@
     "limits": "cpp",
     "memory": "cpp",
     "functional": "cpp",
-    "type_traits": "cpp"
+    "type_traits": "cpp",
+    "regex": "cpp",
+    "*.inc": "cpp"
   }
 }

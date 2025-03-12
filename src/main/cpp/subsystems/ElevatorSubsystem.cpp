@@ -63,7 +63,7 @@ void ElevatorSubsystem::Periodic() {
             break;
         case ready:
             // Set the elevator to the target position given by SetHeight()
-            if (_target_state.position == HOME_POSITION && _HomeSensor()) {
+            if ((math::abs(_target_state.position - HOME_POSITION) < POSITION_TOLERANCE) && _HomeSensor()) {
                 _elevator_pid_controller.Reset();
                 _previous_elevator_velocity = 0_mps;
                 SetPower(0);
@@ -147,7 +147,7 @@ double ElevatorSubsystem::_GetStallPercentage() {
 }
 
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
-    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) + _offset;
+    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) - _offset;
 }
 
 feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
@@ -155,5 +155,10 @@ feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
 }
 
 void ElevatorSubsystem::_SetPosition(inch_t offset) {
-    _offset = offset - (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
+    if (_target_state.position == HOME_POSITION){
+        _offset = 0_in;
+    } else if (_HomeSensor()) {
+        _offset = (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
+    }
+    
 }

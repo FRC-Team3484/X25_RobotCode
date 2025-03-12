@@ -6,6 +6,7 @@
 
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
+#include "OI.h"
 
 #include "OI.h"
 #include "Constants.h"

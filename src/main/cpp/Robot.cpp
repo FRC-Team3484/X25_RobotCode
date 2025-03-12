@@ -10,8 +10,6 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::DisabledInit() {
-    _leds.StartIdleAnimation();
-
     frc2::CommandScheduler::GetInstance().CancelAll();
 }
 

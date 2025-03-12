@@ -89,14 +89,6 @@ void PivotSubsystem::SetPivotAngle(degree_t angle) {
     }
 }
 
-degree_t PivotSubsystem::_GetPivotAngle() {
-    return (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO) + _offset; // Type casts revolutions into degrees
-}
-
-degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
-    return _pivot_motor.GetVelocity().GetValue() / GEAR_RATIO;
-}
-
 double PivotSubsystem::_GetStallPercentage() {
     if (abs(_pivot_motor.Get()) > STALL_TRIGGER) {
         return (_pivot_motor.GetSupplyCurrent().GetValue()/(_pivot_motor.GetMotorStallCurrent().GetValue()*abs(_pivot_motor.Get())));
@@ -137,6 +129,18 @@ bool PivotSubsystem::AtTargetPosition() {
     return math::abs(_target_state.position - _GetPivotAngle()) < ANGLE_TOLERANCE;
 }
 
+degree_t PivotSubsystem::_GetPivotAngle() {
+    return (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO) + _offset; // Type casts revolutions into degrees
+}
+
+degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
+    return _pivot_motor.GetVelocity().GetValue() / GEAR_RATIO;
+}
+
 void PivotSubsystem::_SetPivotAngle(degree_t angle) {
-    _offset = angle - (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO);
+    if (_target_state.position == HOME_POSITION){ 
+        _offset = 90_deg;
+    } else if (_HomeSensor()){
+        _offset = angle - (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO);
+    }
 }

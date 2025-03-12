@@ -1,5 +1,7 @@
 #include "commands/teleop/StowArmCommand.h"
 
+#include <frc/smartdashboard/SmartDashboard.h>
+
 StowArmCommand::StowArmCommand(
 	PivotSubsystem* pivot, 
 	ElevatorSubsystem* elevator) : 
@@ -12,15 +14,21 @@ StowArmCommand::StowArmCommand(
 void StowArmCommand::Initialize() {
     _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
 
+    _elevator->PrintTestInfo();
+    _pivot->PrintTestInfo();
     _stow_arm_state = stow_elevator;
 }
 
 void StowArmCommand::Execute() {
+    _elevator->PrintTestInfo();
+    
+    _pivot->PrintTestInfo();
     switch (_stow_arm_state) {
         case traveling_pivot:
             // Stow the arm
             // When the arm has been stowed, start stowing the elevator
             _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
+            // fmt::println("Traveling Pivot Stow");
             if (_pivot->AtTargetPosition()) {
                 _stow_arm_state = stow_elevator;
             }
@@ -30,14 +38,21 @@ void StowArmCommand::Execute() {
             // Stow the elevator
             // When the elevator has been stowed, set the state to done
             _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
+            _elevator->PrintTestInfo();
+            _pivot->PrintTestInfo();
+            //fmt::println("Stow Elevator");
+            _elevator->PrintTestInfo();
             if (_elevator->AtTargetHeight()) {
-                _stow_arm_state = done;
+                _stow_arm_state = stow_arm;
             }
             break;
         case stow_arm:
             // Stow the pivot
             // When the pivot has been stowed, set the state to done
             _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
+            _elevator->PrintTestInfo();
+            _pivot->PrintTestInfo();
+            //fmt::println("Stow Pivot");
             if (_pivot->AtTargetPosition()) {
                 _stow_arm_state = done;
             }
@@ -47,12 +62,13 @@ void StowArmCommand::Execute() {
             break;
         
         default:
-            _stow_arm_state = traveling_pivot;
+            _stow_arm_state = stow_elevator;
     }
 }
 
 void StowArmCommand::End(bool interrupted) {}
 
 bool StowArmCommand::IsFinished() {
+    //if(_stow_arm_state == done) fmt::println("Done");
     return _stow_arm_state == done;
 }
