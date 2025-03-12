@@ -53,7 +53,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @param pose The pose to drive to
          * @return A command that will drive the robot to the given pose
          */
-        frc2::CommandPtr GoToPose(frc::Pose2d pose);
+        void GoToPose(frc::Pose2d pose);
 
         /**
          * Returns the nearest pose to the robot from a vector of poses

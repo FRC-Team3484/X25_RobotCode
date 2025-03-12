@@ -145,10 +145,6 @@ class Robot : public frc::TimedRobot {
             frc2::cmd::None()
         );
 
-        frc2::CommandPtr _drive_to_reef = frc2::cmd::None();
-        frc2::CommandPtr _drive_to_feeder_station = frc2::cmd::None();
-        frc2::CommandPtr _drive_to_processor = frc2::cmd::None();
-
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
             #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
@@ -234,6 +230,7 @@ class Robot : public frc::TimedRobot {
         // Variables
         std::optional<frc2::CommandPtr> _auton_command;
 
+        frc::SendableChooser<frc::Pose2d> _auton_start_positions;
 
 };
 
