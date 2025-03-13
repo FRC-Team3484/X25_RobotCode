@@ -67,6 +67,7 @@ void ElevatorSubsystem::Periodic() {
                 _elevator_pid_controller.Reset();
                 _previous_elevator_velocity = 0_mps;
                 SetPower(0);
+                _SetPosition(HOME_POSITION);
             } else {
                 current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
                 feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
