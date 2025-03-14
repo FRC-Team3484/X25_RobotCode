@@ -74,6 +74,11 @@ class Testing_Interface {
         double GetRawElevator();
         double GetRawIntake();
 
+        bool GetA();
+        bool GetB();
+        bool GetX();
+        bool GetY();
+
     private:
         frc::XboxController _testing_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};
 };

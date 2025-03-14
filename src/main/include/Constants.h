@@ -253,14 +253,14 @@ namespace ElevatorConstants {
     constexpr int HOME_SENSOR_DI_CH = 0;
     constexpr int BRAKE_SERVO = 0;
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 10_in / 1_s;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 10_in / 1_s / 1_s;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 20_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 30_in / 1_s / 1_s;
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.6_in/1_tr; // 0.505_in
-    constexpr units::inch_t POSITION_TOLERANCE = 0.2_in;
+    constexpr units::inch_t POSITION_TOLERANCE = 3_in;
 
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
 
@@ -269,7 +269,7 @@ namespace ElevatorConstants {
 
     // P: 61.605, I: 0, D: 16.759
     constexpr SC::SC_PIDConstants PID_C(0.125, 0.1, 0, 0);
-    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.43085_V, 0.10705_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.18_V, 0.42_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
 
     // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
@@ -307,21 +307,21 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 10_deg_per_s; //67.5_deg_per_s;
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 10_deg_per_s_sq; //101.25_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 40_deg_per_s; //67.5_deg_per_s; 
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 60_deg_per_s_sq; //101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     
     // P: 24.275, I: 0, D: 5.9465
-    constexpr SC::SC_PIDConstants PID_C(0.05, 0.05, 0, 0);
-    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.75016_V, 0.38962_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
+    constexpr SC::SC_PIDConstants PID_C(0.200, 0.1, 0, 0);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.28_V, 0.52_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq); // 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
     constexpr double GEAR_RATIO = 45/1;
 
     // All functional angles are 90 degrees more, straight up (aligned with elevator sides) is 90 degrees
-    constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
+    constexpr units::degree_t ANGLE_TOLERANCE = 7.5_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 140_deg;
     constexpr units::degree_t TRAVEL_POSITION = 135_deg;
@@ -341,8 +341,8 @@ namespace FunnelConstants {
 }
 
 namespace LEDConstants {
-    constexpr int LED_PWM_PORT = 9;
-    constexpr int LED_STRIP_LENGTH = 260;
+    constexpr int LED_PWM_PORT = 1;
+    constexpr int LED_STRIP_LENGTH = 72;
 
     constexpr units::meter_t LED_SPACING = 1_m / 60.0;
     constexpr units::meter_t WAVELENGTH = 0.25_m;
