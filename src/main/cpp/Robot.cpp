@@ -20,9 +20,9 @@ void Robot::DisabledPeriodic() {
     if (_low_battery){
         _leds->FireAnimation();
     } else if (_has_been_enabled) {
-        _leds->WaveAnimation();
-    } else {
         _leds->SandAnimation();
+    } else {
+        _leds->WaveAnimation();
     }
 }
 

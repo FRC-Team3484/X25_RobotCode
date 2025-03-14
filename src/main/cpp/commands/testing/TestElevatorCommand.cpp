@@ -12,6 +12,10 @@ void TestElevatorCommand::Initialize() {
 }
 
 void TestElevatorCommand::Execute() {
+
+    if (_testing_interface->GetA()){
+        _elevator_subsystem->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
+    }
     if (frc::SmartDashboard::GetBoolean("Test Elevator", false)) {
         _elevator_subsystem->SetPower(_testing_interface->GetRawElevator());
     }
