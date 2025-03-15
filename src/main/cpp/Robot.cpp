@@ -23,12 +23,13 @@ void Robot::DisabledPeriodic() {
     if (_pdp.GetVoltage() < 12.2) {
         _low_battery = true;
     }
-    if (_low_battery){
-        _leds->FireAnimation();
-    } else if (_has_been_enabled) {
-        _leds->SandAnimation();
-    } else {
+    if (_has_been_enabled) {
         _leds->WaveAnimation();
+    } else {
+        if (_low_battery){
+            _leds->LowBatteryAnimation();
+        } else
+            _leds->TetrisAnimation();
     }
 }
 

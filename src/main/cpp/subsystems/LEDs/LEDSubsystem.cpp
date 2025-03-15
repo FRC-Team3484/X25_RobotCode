@@ -1,6 +1,8 @@
 #include "subsystems/LEDs/LEDSubsystem.h"
 #include "FRC3484_Lib/utils/SC_Functions.h"
 
+#include <ranges>
+
 
 LEDSubsystem::LEDSubsystem(
     int led_pwm_port,
@@ -11,11 +13,15 @@ LEDSubsystem::LEDSubsystem(
     _solid_green{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::ALGAE_GREEN, LEDConstants::GAMMA))},
     _solid_pink{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::CORAL_PINK, LEDConstants::GAMMA))},
     _solid_blue{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::TEAM_BLUE, LEDConstants::GAMMA))},
+    _solid_red{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::FIRE_RED, LEDConstants::GAMMA))},
     _step_orange{_solid_orange.Mask(_scrolling_step)},
     _progress_orange{_solid_orange.Mask(_progress_bar)},
-    _scoring_blue{_solid_blue.Blink(0.6_s, 0.2_s)}
+    _scoring_blue{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)}
     {
-    _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData()); 
+    _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData());
+    _bottom_leds = std::span<frc::AddressableLED::LEDData>(_led_buffer).first(led_strip_length / 2);
+    _top_leds = std::span<frc::AddressableLED::LEDData>(_led_buffer).last(led_strip_length / 2);
     _leds.SetLength(led_strip_length);
     _leds.SetData(_led_buffer);
     _leds.Start();
@@ -25,29 +31,37 @@ LEDSubsystem::LEDSubsystem(
 
 
 void LEDSubsystem::Periodic() {
-    _leds.SetData(_led_buffer);
+    
 }
 
 // scrolling custom rainbow
 void LEDSubsystem::WaveAnimation() {
-    _colorwave.ApplyTo(_led_buffer);
+    _colorwave.ApplyTo(_bottom_leds);
+    _colorwave.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // colors stacking idle
 void LEDSubsystem::TetrisAnimation() {
-    _tetris.ApplyTo(_led_buffer);
+    _tetris_bottom.ApplyTo(_bottom_leds);
+    _tetris_top.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // colors falling idle
 void LEDSubsystem::SandAnimation() {
-    _sand.ApplyTo(_led_buffer);
+    _sand_bottom.ApplyTo(_bottom_leds);
+    _sand_top.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
-void LEDSubsystem::FireAnimation() {
-    _fire.ApplyTo(_led_buffer);
+void LEDSubsystem::LowBatteryAnimation() {
+    _low_battery.ApplyTo(_bottom_leds);
+    _low_battery.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
@@ -60,13 +74,17 @@ void LEDSubsystem::DrivingAnimation() {
 
 // panning mask
 void LEDSubsystem::PathAnimation() {
-    _step_orange.ApplyTo(_led_buffer);
+    _step_orange.ApplyTo(_bottom_leds);
+    _step_orange.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // mask
 void LEDSubsystem::PivotAnimation() {
-    _progress_orange.ApplyTo(_led_buffer);
+    _progress_orange.ApplyTo(_bottom_leds);
+    _progress_orange.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
