@@ -352,17 +352,21 @@ namespace LEDConstants {
     constexpr frc::Color TEAM_BLUE {"#009BB4"};
     constexpr frc::Color DRIVE_ORANGE {"#FF8200"};
     constexpr frc::Color CORAL_PINK {"#FF0091"};
+    constexpr frc::Color FIRE_RED {frc::Color::kRed};
     const std::vector<frc::Color> COLORS = {TEAM_BLUE, DRIVE_ORANGE, CORAL_PINK};
     constexpr double GAMMA = 2.2;
     constexpr units::second_t PIVOT_ANIMATION_TIME = 0.8_s;
-    constexpr int BAR_SIZE = 1;
+    constexpr int BAR_SIZE = 12;
     constexpr units::meters_per_second_t VELOCITY = 0.5_mps;
     constexpr units::meters_per_second_squared_t EXIT_ACCELERATION = 0.5_mps_sq;
-    constexpr size_t FILL_SIZE = 5;
-    constexpr size_t EMPTY_SIZE = 1;
+    constexpr size_t FILL_SIZE = 2;
+    constexpr size_t EMPTY_SIZE = 2;
     constexpr int FIRE_HEIGHT = 1;
     constexpr int SPARKS = 2;
     constexpr int DELAY = 1;
+    constexpr units::second_t SCORING_BLUE_ON_TIME = 0.6_s;
+    constexpr units::second_t SCORING_BLUE_OFF_TIME = 0.2_s;
+    constexpr units::second_t LOW_BATTERY_CYCLE_TIME = 2_s;
 }
 
 #endif
