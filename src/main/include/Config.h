@@ -7,14 +7,14 @@
 //#define VISION_ENABLED
 
 // Subsystems
-#define PIVOT_ENABLED
-#define ELEVATOR_ENABLED
-#define INTAKE_ENABLED
+// #define PIVOT_ENABLED
+// #define ELEVATOR_ENABLED
+// #define INTAKE_ENABLED
 //#define FUNNEL_ENABLED
-#define LED_ENABLED
+// #define LED_ENABLED
 
 // Button Box (Disabling uses a controller for the operator instead)
 //#define OPERATOR_BUTTON_BOX
 
 // Disable All Commands
-#define COMMANDS_ENABLED
+// #define COMMANDS_ENABLED

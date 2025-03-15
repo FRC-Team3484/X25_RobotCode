@@ -24,6 +24,7 @@
     "functional": "cpp",
     "type_traits": "cpp",
     "regex": "cpp",
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "mutex": "cpp"
   }
 }
