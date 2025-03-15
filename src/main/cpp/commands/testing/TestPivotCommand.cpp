@@ -13,17 +13,14 @@ void TestPivotCommand::Initialize() {
 
 void TestPivotCommand::Execute() {
 
-    if (_testing_interface->GetB()){
-        _pivot_subsystem->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
-    }
-    else
-    {
-        _pivot_subsystem->SetPivotAngle(PivotConstants::HOME_POSITION);
-    }
-
-    //if (frc::SmartDashboard::GetBoolean("Test Pivot", false)) {
+    if (frc::SmartDashboard::GetBoolean("Test Pivot", false)) {
         //_pivot_subsystem->SetPower(_testing_interface->GetRawPivot());
-    //}
+        if (_testing_interface->GetB()){
+        _pivot_subsystem->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
+        } else {
+            _pivot_subsystem->SetPivotAngle(PivotConstants::HOME_POSITION);
+        }
+    }
 }
 
 void TestPivotCommand::End(bool interrupted) {

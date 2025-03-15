@@ -15,6 +15,7 @@
 #include <units/voltage.h>
 #include <units/time.h>
 #include <units/angle.h>
+#include <units/constants.h>
 #include <units/angular_velocity.h>
 #include <units/angular_acceleration.h>
 #include <frc/LEDPattern.h>
@@ -253,23 +254,23 @@ namespace ElevatorConstants {
     constexpr int HOME_SENSOR_DI_CH = 0;
     constexpr int BRAKE_SERVO = 0;
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 20_in / 1_s;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 30_in / 1_s / 1_s;
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
-    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = 0.6_in/1_tr; // 0.505_in
-    constexpr units::inch_t POSITION_TOLERANCE = 3_in;
+    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = units::inch_t{units::constants::pi.value()/5.0}/1_tr; // 0.505_in
+    constexpr units::inch_t POSITION_TOLERANCE = 0.2_in;
 
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
 
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
+    constexpr units::feet_per_second_t MAX_VELOCITY = 20_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 720_in / 1_s / 1_s;
     // P: 61.605, I: 0, D: 16.759
-    constexpr SC::SC_PIDConstants PID_C(0.125, 0.1, 0, 0);
-    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.18_V, 0.42_V, 9.204_V / 1_mps, 4.3885_V / 1_mps_sq);
+    constexpr SC::SC_PIDConstants PID_C(0.8, 0.1, 0, 0);
+    constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.18_V, 0.42_V, 0.0_V / 1_mps, 0.0_V / 1_mps_sq);
 
     // Elevator positions
     constexpr units::inch_t HOME_POSITION = 0_in;
@@ -279,7 +280,7 @@ namespace ElevatorConstants {
     constexpr units::inch_t CORAL_LEVEL_1 = 2_in;
     constexpr units::inch_t CORAL_LEVEL_2 = 4_in;
     constexpr units::inch_t CORAL_LEVEL_3 = 6_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 8_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 30_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 5_in;
@@ -307,14 +308,14 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 40_deg_per_s; //67.5_deg_per_s; 
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 60_deg_per_s_sq; //101.25_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 80_deg_per_s; //67.5_deg_per_s; 
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 480_deg_per_s_sq; //101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     
     // P: 24.275, I: 0, D: 5.9465
     constexpr SC::SC_PIDConstants PID_C(0.200, 0.1, 0, 0);
-    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.28_V, 0.52_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq); // 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.6_V, 0.36_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq); // 0.28_V, 0.52_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
@@ -360,7 +361,7 @@ namespace LEDConstants {
     constexpr size_t FILL_SIZE = 5;
     constexpr size_t EMPTY_SIZE = 1;
     constexpr int FIRE_HEIGHT = 1;
-    constexpr int SPARKS = 5;
+    constexpr int SPARKS = 2;
     constexpr int DELAY = 1;
 }
 
