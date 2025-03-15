@@ -13,7 +13,12 @@ void TestElevatorCommand::Initialize() {
 
 void TestElevatorCommand::Execute() {
     if (frc::SmartDashboard::GetBoolean("Test Elevator", false)) {
-        _elevator_subsystem->SetPower(_testing_interface->GetRawElevator());
+        if (_testing_interface->GetA()){
+        _elevator_subsystem->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
+        } else {
+            _elevator_subsystem->SetHeight(ElevatorConstants::HOME_POSITION);
+        }
+        //_elevator_subsystem->SetPower(_testing_interface->GetRawElevator());
     }
 }
 

@@ -77,6 +77,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
         bool _GetStalled();
         double _GetStallPercentage();
         void _SetPivotAngle(units::degree_t angle);
+
+        bool _isHomed = false;
         
         units::degree_t _GetPivotAngle();
         units::degrees_per_second_t _GetPivotVelocity();

@@ -82,6 +82,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         bool _GetStalled();
         double _GetStallPercentage();
         void _SetPosition(units::inch_t offset);
+
+        bool _isHomed = false;
         
         units::inch_t _GetElevatorHeight();
         units::feet_per_second_t _GetElevatorVelocity();

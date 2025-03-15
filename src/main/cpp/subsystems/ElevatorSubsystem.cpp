@@ -47,6 +47,9 @@ void ElevatorSubsystem::Periodic() {
     if (_HomeSensor()) {
                 _SetPosition(HOME_POSITION);
     }
+    if (!_isHomed){
+        _elevator_state = home;
+    }
     
     switch (_elevator_state) {
         case home:
@@ -57,16 +60,19 @@ void ElevatorSubsystem::Periodic() {
                 SetPower(0);
                 _SetPosition(HOME_POSITION);
                 _elevator_pid_controller.Reset();
+                _isHomed = true;
                 _elevator_state = ready;
-                SetHeight(HOME_POSITION);
+                _SetPosition(HOME_POSITION);
             }
             break;
         case ready:
+        case test:
             // Set the elevator to the target position given by SetHeight()
             if ((math::abs(_target_state.position - HOME_POSITION) < POSITION_TOLERANCE) && _HomeSensor()) {
                 _elevator_pid_controller.Reset();
                 _previous_elevator_velocity = 0_mps;
                 SetPower(0);
+                _SetPosition(HOME_POSITION);
             } else {
                 current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
                 feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
@@ -75,14 +81,13 @@ void ElevatorSubsystem::Periodic() {
                 _previous_elevator_velocity = current_state.velocity;
             }
             break;
-        case test:
-            PrintTestInfo();
-            break;
+        //case test:
+        //    break;
         default:
             _elevator_state = home;
             break;
     }
-
+    PrintTestInfo();
     // If we're climbing, engage the elevator brake
     if (_climbing) {
         _brake_servo.Set(RATCHET_ENGAGED);
@@ -120,7 +125,7 @@ void ElevatorSubsystem::SetTestMode(bool test_mode) {
     } else if (_elevator_state == test) {
         _elevator_state = home;
         _elevator_pid_controller.Reset();
-        SetHeight(HOME_POSITION);
+        _SetPosition(HOME_POSITION);
     }
 }
 
@@ -128,6 +133,8 @@ void ElevatorSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutNumber("Elevator Height (in)", _GetElevatorHeight().value());
     frc::SmartDashboard::PutNumber("Elevator Stall", _GetStallPercentage());
     frc::SmartDashboard::PutBoolean("Elevator Home Sensor", _HomeSensor());
+    frc::SmartDashboard::PutNumber("Elevator Voltage Demand", _primary_motor.GetMotorVoltage().GetValue().value());
+    frc::SmartDashboard::PutNumber("Elevator Velocity", _GetElevatorVelocity().value()*12.0);
 }
 
 bool ElevatorSubsystem::_HomeSensor() {
@@ -147,18 +154,13 @@ double ElevatorSubsystem::_GetStallPercentage() {
 }
 
 inch_t ElevatorSubsystem::_GetElevatorHeight() {
-    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) - _offset;
+    return (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO) + _offset;
 }
 
 feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
-    return _primary_motor.GetVelocity().GetValue() * ELEVATOR_RATIO;
+    return _primary_motor.GetRotorVelocity().GetValue() * ELEVATOR_RATIO;
 }
 
 void ElevatorSubsystem::_SetPosition(inch_t offset) {
-    if (_target_state.position == HOME_POSITION){
-        _offset = 0_in;
-    } else if (_HomeSensor()) {
-        _offset = (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
-    }
-    
+    _offset = offset - (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
 }

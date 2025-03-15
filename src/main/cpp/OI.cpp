@@ -97,3 +97,9 @@ Testing_Interface::Testing_Interface() {}
 double Testing_Interface::GetRawPivot() {return PIVOT_POWER_LIMIT*frc::ApplyDeadband(_testing_controller.GetRawAxis(PIVOT_GET_MOTOR), TESTING_DEADBAND);}
 double Testing_Interface::GetRawElevator() {return ELEVATOR_POWER_LIMIT*frc::ApplyDeadband(_testing_controller.GetRawAxis(ELEVATOR_GET_MOTOR), TESTING_DEADBAND);}
 double Testing_Interface::GetRawIntake() {return INTAKE_POWER_LIMIT*(_testing_controller.GetRawAxis(INTAKE_GET_FORWARD_MOTOR) - _testing_controller.GetRawAxis(INTAKE_GET_BACKWARD_MOTOR));}
+
+
+bool Testing_Interface::GetA() {return _testing_controller.GetRawButton(XBOX_A);}
+bool Testing_Interface::GetX() {return _testing_controller.GetRawButton(XBOX_X);}
+bool Testing_Interface::GetB() {return _testing_controller.GetRawButton(XBOX_B);}
+bool Testing_Interface::GetY() {return _testing_controller.GetRawButton(XBOX_Y);}

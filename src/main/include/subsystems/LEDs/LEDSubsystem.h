@@ -27,7 +27,7 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void SandAnimation();
 
-        void FireAnimation();
+        void LowBatteryAnimation();
 
         void DrivingAnimation();
 
@@ -45,10 +45,14 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         frc::AddressableLED _leds;
         std::vector<frc::AddressableLED::LEDData> _led_buffer;
+        std::span<frc::AddressableLED::LEDData> _bottom_leds;
+        std::span<frc::AddressableLED::LEDData> _top_leds;
 
         ColorWave _colorwave{LEDConstants::COLORS, LEDConstants::LED_SPACING, LEDConstants::WAVELENGTH, LEDConstants::GAMMA, LEDConstants::SCROLLING_SPEED};
-        ColorStack _tetris{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::FILL_SIZE, LEDConstants::EMPTY_SIZE, LEDConstants::GAMMA};
-        FallingSand _sand{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::EXIT_ACCELERATION, LEDConstants::FILL_SIZE, LEDConstants::GAMMA};
+        ColorStack _tetris_bottom{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::FILL_SIZE, LEDConstants::EMPTY_SIZE, LEDConstants::GAMMA};
+        ColorStack _tetris_top{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::FILL_SIZE, LEDConstants::EMPTY_SIZE, LEDConstants::GAMMA};
+        FallingSand _sand_bottom{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::EXIT_ACCELERATION, LEDConstants::FILL_SIZE, LEDConstants::GAMMA};
+        FallingSand _sand_top{LEDConstants::COLORS, LEDConstants::BAR_SIZE, LEDConstants::LED_SPACING, LEDConstants::VELOCITY, LEDConstants::EXIT_ACCELERATION, LEDConstants::FILL_SIZE, LEDConstants::GAMMA};
         Fire _fire{LEDConstants::FIRE_HEIGHT, LEDConstants::SPARKS, LEDConstants::DELAY, LEDConstants::LED_STRIP_LENGTH};
         
 
@@ -56,6 +60,7 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::LEDPattern _solid_green;
         frc::LEDPattern _solid_pink;
         frc::LEDPattern _solid_blue;
+        frc::LEDPattern _solid_red;
 
         frc::Timer _timer;
         std::array<std::pair<double, frc::Color>, 2> step_mask{std::pair{0.0, frc::Color::kWhite}, std::pair{0.3, frc::Color::kBlack}};
@@ -67,6 +72,8 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::LEDPattern _progress_orange;
 
         frc::LEDPattern _scoring_blue;
+
+        frc::LEDPattern _low_battery;
 
 
 };

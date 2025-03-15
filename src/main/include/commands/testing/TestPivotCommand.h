@@ -5,6 +5,7 @@
 #include <frc2/command/CommandHelper.h>
 
 #include "subsystems/PivotSubsystem.h"
+#include "Constants.h"
 #include "OI.h"
 
 class TestPivotCommand
