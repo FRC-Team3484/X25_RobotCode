@@ -65,6 +65,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
          */
         void SetTestMode(bool test_mode);
 
+        bool PivotDeployed();
+
         /**
          * Prints the test info to Smart Dashboard, used when the robot is in test mode
          */

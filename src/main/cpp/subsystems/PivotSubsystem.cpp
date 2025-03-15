@@ -31,6 +31,7 @@ PivotSubsystem::PivotSubsystem(
         motor_config.MotorOutput.NeutralMode = signals::NeutralModeValue::Brake;
         _pivot_motor.GetConfigurator().Apply(motor_config);
         _trapezoid_timer.Start();
+        _SetPivotAngle(HOME_POSITION);
 }
 
 void PivotSubsystem::Periodic() {
@@ -50,11 +51,9 @@ void PivotSubsystem::Periodic() {
             _pivot_pid_controller.Reset();
             _isHomed = true;
             _pivot_state = ready;
-            _SetPivotAngle(HOME_POSITION);
         }
         break;
     case ready:
-    case test:
         // Sets the pisvot to the target angle given in SetPivotAngle()
         if (!frc::SmartDashboard::GetBoolean("Test Elevator", false)){
             if (_target_state.position == HOME_POSITION && _HomeSensor()) {
@@ -72,13 +71,13 @@ void PivotSubsystem::Periodic() {
             }
         }
         break;
-    //case test:
-    //    break;
+    case test:
+        break;
     default:
         _pivot_state=home;
         break;
     }
-    PrintTestInfo();
+        PrintTestInfo();
 }
 
 void PivotSubsystem::SetPivotAngle(degree_t angle) {
@@ -143,4 +142,7 @@ degrees_per_second_t PivotSubsystem::_GetPivotVelocity(){
 
 void PivotSubsystem::_SetPivotAngle(degree_t angle) {
     _offset =  angle - (_pivot_motor.GetPosition().GetValue() / GEAR_RATIO);
+}
+bool PivotSubsystem::PivotDeployed(){
+    return _target_state.position > PivotConstants::TRAVEL_POSITION - 1_deg;
 }

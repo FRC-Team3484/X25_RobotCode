@@ -47,7 +47,7 @@ void AutonScoreCoralCommand::Execute() {
         case eject_piece:
             // Run the intake to eject the piece
             // Once the intake no longer has coral, go to the next state
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
+            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
             if(!_intake->HasCoral()) {
                 _auton_score_coral_state = done;
             }

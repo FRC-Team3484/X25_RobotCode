@@ -35,6 +35,7 @@ void TeleopIntakeCoralCommand::Execute() {
         case ready_intake:
             // Set the pivot to the intake position
             // Once the pivot is at it's target position, go to the next state
+            _elevator->SetHeight(ElevatorConstants::INTAKE_HEIGHT);
             _pivot->SetPivotAngle(PivotConstants::INTAKE_POSITION);
             if (_pivot->AtTargetPosition()) {
                 _auto_intake_coral_state = intake;

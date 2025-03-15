@@ -34,7 +34,7 @@ void AutonFeederCoralCommand::Execute() {
         case intake:
             // Run the intake and funnel to feed in coral
             // Once coral is in the intake, go to next state
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
+            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::INTAKE_POWER);
             if (_intake->HasCoral()) {
                 _auton_feeder_coral_state = done;

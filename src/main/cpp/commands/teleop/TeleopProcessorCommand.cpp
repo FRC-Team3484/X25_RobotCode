@@ -57,7 +57,7 @@ void TeleopProcessorCommand::Execute() {
         case eject_algae:
             // Run the intake to eject the algae
             // Once the intake no longer has algae, go to the next state
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
+            _intake->SetPower(IntakeConstants::ALGAE_EJECT_POWER);
             if (!_intake->HasAlgae()) {
                 _auto_processor_state = done;
             }

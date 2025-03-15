@@ -62,10 +62,11 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
     OperatorPeriodic();
-    if (_intake->HasCoral())_leds->HasCoralAnimation(); else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();
+    if (_intake->HasCoral())_leds->HasCoralAnimation(); 
+    else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();
+    else if (_driver_robot_state == drive) _leds->DrivingAnimation();
     switch (_driver_robot_state) {
         case drive:
-            _leds->DrivingAnimation();
             if (_oi_driver->GetDynamicPivot()){
                 _leds->PivotAnimation();
             } else if (_oi_driver->GetCoralPickup()) {

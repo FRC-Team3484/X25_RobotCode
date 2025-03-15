@@ -66,7 +66,6 @@ void ElevatorSubsystem::Periodic() {
             }
             break;
         case ready:
-        case test:
             // Set the elevator to the target position given by SetHeight()
             if ((math::abs(_target_state.position - HOME_POSITION) < POSITION_TOLERANCE) && _HomeSensor()) {
                 _elevator_pid_controller.Reset();
@@ -81,8 +80,8 @@ void ElevatorSubsystem::Periodic() {
                 _previous_elevator_velocity = current_state.velocity;
             }
             break;
-        //case test:
-        //    break;
+        case test:
+            break;
         default:
             _elevator_state = home;
             break;

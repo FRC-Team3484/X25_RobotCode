@@ -226,8 +226,8 @@ namespace UserInterface {
         constexpr int PROCESSOR = XBOX_RT;
         constexpr int CLIMB_UP = XBOX_DPAD_UP;
         constexpr int CLIMB_DOWN = XBOX_DPAD_DOWN;
-        constexpr int NET = XBOX_START;
-        constexpr int IGNORE_VISION = XBOX_BACK;
+        constexpr int NET = XBOX_BACK;
+        constexpr int IGNORE_VISION = XBOX_START;
         constexpr int LOAD_CORAL = XBOX_DPAD_LEFT;
 
         #endif
@@ -276,11 +276,12 @@ namespace ElevatorConstants {
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 6_in;
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
+    constexpr units::inch_t INTAKE_HEIGHT = 0.45_in;
     
-    constexpr units::inch_t CORAL_LEVEL_1 = 2_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 4_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 6_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 30_in;
+    constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 20.2_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 33_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 47_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 5_in;
@@ -293,7 +294,8 @@ namespace IntakeConstants {
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 2;
 
-        constexpr double EJECT_POWER = -0.2;
+        constexpr double CORAL_EJECT_POWER = -1.0;
+        constexpr double ALGAE_EJECT_POWER = 1.0;
         constexpr double STOP_POWER = 0.0;
         constexpr double INTAKE_POWER = -1.0;
 
@@ -325,10 +327,10 @@ namespace PivotConstants {
     constexpr units::degree_t ANGLE_TOLERANCE = 7.5_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 140_deg;
-    constexpr units::degree_t TRAVEL_POSITION = 135_deg;
+    constexpr units::degree_t TRAVEL_POSITION = 140_deg;
     constexpr units::degree_t INTAKE_POSITION = 122_deg;
-    constexpr units::degree_t TARGET_CORAL_ANGLE = 150_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 140_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 140_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
 }

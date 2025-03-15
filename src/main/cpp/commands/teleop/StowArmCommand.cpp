@@ -12,11 +12,10 @@ StowArmCommand::StowArmCommand(
 }
 
 void StowArmCommand::Initialize() {
-    _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
-
     _elevator->PrintTestInfo();
     _pivot->PrintTestInfo();
-    _stow_arm_state = stow_elevator;
+    if (_pivot->PivotDeployed())_stow_arm_state = traveling_pivot;
+    else _stow_arm_state = stow_elevator;
 }
 
 void StowArmCommand::Execute() {
