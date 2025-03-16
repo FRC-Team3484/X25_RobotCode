@@ -34,6 +34,8 @@
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
 
+#include <units/time.h>
+
 class Robot : public frc::TimedRobot {
     public:
         Robot();
@@ -234,6 +236,9 @@ class Robot : public frc::TimedRobot {
 
         frc::SendableChooser<frc::Pose2d> _auton_start_positions;
 
+
+        // Elastic Dashboard Stuff
+        units::second_t _match_time = 0_s;
 };
 
 #endif

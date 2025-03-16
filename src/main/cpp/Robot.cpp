@@ -2,8 +2,13 @@
 
 #include <frc2/command/CommandScheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/DriverStation.h>
+#include <frc/Filesystem.h>
+#include <wpinet/WebServer.h>
 
 Robot::Robot() {
+    wpi::WebServer::GetInstance().Start(5800, frc::filesystem::GetDeployDirectory());
+
     _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_A);
     _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_B);
     _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_C);
@@ -13,6 +18,11 @@ Robot::Robot() {
 
 void Robot::RobotPeriodic() {
     frc2::CommandScheduler::GetInstance().Run();
+
+    frc::SmartDashboard::PutNumber("Voltage", frc::DriverStation::GetBatteryVoltage());
+    
+    _match_time = frc::DriverStation::GetMatchTime();
+    frc::SmartDashboard::PutNumber("Match Time", _match_time.to<double>());
 }
 
 void Robot::DisabledInit() {
