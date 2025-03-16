@@ -22,6 +22,7 @@ void Robot::DisabledInit() {
 }
 
 void Robot::DisabledPeriodic() {
+    #ifdef LED_ENABLED
     if (_pdp.GetVoltage() < 12.2) {
         _low_battery = true;
     }
@@ -33,6 +34,7 @@ void Robot::DisabledPeriodic() {
         } else
             _leds->TetrisAnimation();
     }
+    #endif
 }
 
 void Robot::DisabledExit() {}
@@ -51,7 +53,9 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+    #ifdef LED_ENABLED
     _leds->TetrisAnimation();
+    #endif
 }
 
 void Robot::AutonomousExit() {}
@@ -69,9 +73,7 @@ void Robot::TeleopPeriodic() {
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
     switch (_driver_robot_state) {
         case drive:
-            if (_oi_driver->GetDynamicPivot()){
-                _leds->PivotAnimation();
-            } else if (_oi_driver->GetCoralPickup()) {
+            if (_oi_driver->GetCoralPickup()) {
                 _driver_robot_state = auto_pickup_coral_driver;
                 CancelDriverCommands();
 
@@ -93,18 +95,15 @@ void Robot::TeleopPeriodic() {
 
         //auto
         case auto_pickup_coral_driver:
-            _leds->PathAnimation();
             
             if (!_oi_driver->GetCoralPickup()) {CancelDriverCommands(); StartDriveState(); }
             break;
 
         case auto_reef_driver:
-            _leds->PathAnimation();
             
             if (!(_oi_driver->GetScoreReef() || _oi_driver->GetAlgaePickup())) { CancelDriverCommands(); StartDriveState(); }
             break;
         case auto_score_processor_driver:
-            _leds->PathAnimation();
             
             if (!_oi_driver->GetScoreProcessor()) { CancelDriverCommands(); StartDriveState(); }
             break;
@@ -178,13 +177,11 @@ void Robot::OperatorPeriodic() {
             break;
 
         case auto_score_reef_operator:
-            _leds->ScoringAnimation();
 
             if (!AutoGetScoreReefCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
 
         case auto_score_processor_operator:
-            _leds->ScoringAnimation();
 
             if (!AutoGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
@@ -194,13 +191,11 @@ void Robot::OperatorPeriodic() {
             if (!ManualGetLoadCoralCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case manual_score_coral:
-            _leds->ScoringAnimation();
             
             if (!ManualGetScoreReefCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
 
         case manual_score_processor:
-            _leds->ScoringAnimation();
 
             if (!ManualGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
@@ -215,6 +210,18 @@ void Robot::OperatorPeriodic() {
             
         default:
             _operator_drive_robot_state = stow;
+    }
+}
+
+void Robot::LedPeriodic() {
+    if (_intake->HasCoral())_leds->HasCoralAnimation(); 
+    else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation(); 
+    else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
+    else if (_driver_robot_state == drive) _leds->DrivingAnimation();
+    else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
+        _leds->PathAnimation();
+    } else if (_operator_drive_robot_state == manual_score_coral || _operator_drive_robot_state == manual_score_processor || _operator_drive_robot_state == auto_score_reef_operator || _operator_drive_robot_state == auto_score_processor_operator) {
+        _leds->ScoringAnimation();
     }
 }
 

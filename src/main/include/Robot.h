@@ -57,6 +57,8 @@ class Robot : public frc::TimedRobot {
         void StartDriveState();
         void CancelDriverCommands();
 
+        void LedPeriodic();
+
         bool AutoGetLoadCoralCondition();
         bool AutoGetRemoveAlgaeCondition();
         bool AutoGetScoreReefCondition();
