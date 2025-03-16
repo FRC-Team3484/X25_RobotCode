@@ -258,8 +258,10 @@ void DrivetrainSubsystem::GoToPose(Pose2d pose) {
         GoalEndState(0.0_mps, pose.Rotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
     );
 
+    _target_position = pose;
+
     frc2::CommandPtr go_to_path_command = AutoBuilder::followPath(path);
-    go_to_path_command.Schedule();
+    // go_to_path_command.Schedule();
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {

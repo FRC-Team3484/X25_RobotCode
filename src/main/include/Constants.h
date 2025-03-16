@@ -279,8 +279,8 @@ namespace ElevatorConstants {
     constexpr units::inch_t INTAKE_HEIGHT = 0.45_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 20.2_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 33_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 21.5_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 33.5_in;
     constexpr units::inch_t CORAL_LEVEL_4 = 47_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;

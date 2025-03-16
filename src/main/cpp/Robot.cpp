@@ -17,8 +17,6 @@ void Robot::RobotPeriodic() {
 
 void Robot::DisabledInit() {
     frc2::CommandScheduler::GetInstance().CancelAll();
-
-    _drivetrain->GoToPose(frc::Pose2d(0_m, 0_m, 0_rad));
 }
 
 void Robot::DisabledPeriodic() {
