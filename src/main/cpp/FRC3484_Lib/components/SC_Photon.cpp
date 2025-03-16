@@ -26,12 +26,14 @@ Pose2d SC_Photon::EstimatePose(Pose2d current_pose) {
 
         if (vision_est.has_value()) {
             poses.emplace_back(vision_est->estimatedPose.ToPose2d());
-        } else {
-            return current_pose;
         }
     }
     
-    return AveragePoses(poses);
+    if (poses.size() != 0) {
+        return AveragePoses(poses);
+    } else {
+        return current_pose;
+    }
 }
 
 Pose2d SC_Photon::AveragePoses(std::vector<frc::Pose2d> poses) {

@@ -30,11 +30,11 @@ namespace VisionConstants {
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{
             "Camera_1",
-            frc::Transform3d{frc::Translation3d{12_in, 0_in, 12_in}, frc::Rotation3d{0_deg, -30_deg, 0_deg}},
+            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, 65_deg, 37.17_deg}},
         },
         SC::SC_CameraConfig{
             "Camera_2",
-            frc::Transform3d{frc::Translation3d{12_in, 0_in, 12_in}, frc::Rotation3d{0_deg, -30_deg, 0_deg}},
+            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, 45_deg, 49.63_deg}},
         }
     };
 }

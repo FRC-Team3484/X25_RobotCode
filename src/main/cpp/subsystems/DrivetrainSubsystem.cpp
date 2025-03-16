@@ -124,7 +124,7 @@ void DrivetrainSubsystem::SetModuleStates(wpi::array<SwerveModuleState, 4> desir
 }
 
 Rotation2d DrivetrainSubsystem::GetHeading() {
-    return _pigeon.GetRotation2d();
+    return _pigeon.GetRotation2d().RotateBy(_pigeon_offset);
 }
 
 void DrivetrainSubsystem::SetHeading(degree_t heading) {
@@ -150,7 +150,7 @@ void DrivetrainSubsystem::ResetOdometry(Pose2d pose) {
         fmt::print("Error: odometry accesed in ResetOdometry before initialization");
         
     } else {
-        _pigeon.GetConfigurator().SetYaw(pose.Rotation().Degrees());
+        _pigeon_offset = _pigeon.GetYaw() - pose.Rotation().Degrees().value();
 
         _odometry->ResetPosition(GetHeading(), GetModulePositions(), pose);
     }

@@ -57,7 +57,11 @@ int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 #else
 
 void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
+#ifdef VISION_ENABLED
 bool Operator_Interface::IgnoreVision(){return _operator_controller.GetRawButton(IGNORE_VISION);} /* Make this a button laser*/
+#else
+bool Operator_Interface::IgnoreVision(){return true}
+#endif
 
 ReefAlignment Operator_Interface::GetReefAlignment() {
     if (_operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT)) {
