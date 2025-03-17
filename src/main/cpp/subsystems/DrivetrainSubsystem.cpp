@@ -150,7 +150,7 @@ void DrivetrainSubsystem::ResetOdometry(Pose2d pose) {
         fmt::print("Error: odometry accesed in ResetOdometry before initialization");
         
     } else {
-        _pigeon_offset = _pigeon.GetYaw() - pose.Rotation().Degrees().value();
+        _pigeon_offset = pose.Rotation().Degrees() - _pigeon.GetRotation2d().Degrees();
 
         _odometry->ResetPosition(GetHeading(), GetModulePositions(), pose);
     }

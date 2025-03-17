@@ -127,7 +127,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Field2d _field;
 
         frc::Pose2d _target_position;
-        double _pigeon_offset;
+        units::degree_t _pigeon_offset;
 };
 
 #endif
