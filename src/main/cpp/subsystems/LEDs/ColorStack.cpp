@@ -25,44 +25,48 @@ void ColorStack::ApplyTo(std::span<frc::AddressableLED::LEDData> data) {
     _falling_led_position += _velocity;
     switch (_state) {
         case fill:
-            if(_leds_placed>=data.size()){
-                _state =empty;
-                _leds_placed = data.size();
-                _falling_led_position = data.size();
-            }
-            if(_falling_led_position >= data.size()-_leds_placed){
-                _leds_placed+= _fill_size;
-                _falling_led_position = _PositiveFmod(_falling_led_position, double(_fill_size));
+            for (size_t i = 0; i < data.size(); i++) {
+                if (i >= data.size() - _leds_placed)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(i)]));
+                else if (i >= size_t(_falling_led_position) && i < size_t(_falling_led_position) + _fill_size)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(data.size() - _leds_placed - _fill_size + i)]));
+                else
+                    data[i].SetLED(frc::Color::kBlack);
             }
 
-            for (size_t i = 0; i < data.size(); i++) {
-                if (i >= data.size() - _leds_placed) {
-                    data[i].SetLED(_colors[_GetColorIndex(i)]);
-                } else if (i <= size_t(_falling_led_position) && i > size_t(_falling_led_position) - _fill_size) {
-                    data[i].SetLED(_colors[_GetColorIndex(data.size() + i - _leds_placed - size_t(_falling_led_position) - 1)]);
-                } else {
-                    data[i].SetLED(frc::Color::kBlack);
+            _falling_led_position += _velocity;
+            if (size_t(_falling_led_position) >= data.size() - _leds_placed - _fill_size) {
+                _falling_led_position = 0;
+                _leds_placed += _fill_size;
+                if (_leds_placed > data.size()) {
+                    _falling_led_position = data.size();
+                    _leds_placed = data.size();
+                    _state = empty;
                 }
             }
+
             break;
+
         case empty:
-            if(_leds_placed<=0){
-                Reset();
-            }
-            if(_falling_led_position >= data.size()){
-                _leds_placed -= _empty_size;
-                _falling_led_position = _leds_placed+_PositiveFmod(_falling_led_position, double(_empty_size));
-            }
-            for(size_t i =0; i <data.size(); i++){
-                if(i<_leds_placed){
-                    data[i].SetLED(_colors[_GetColorIndex(i)]);
-                }else if(i<=size_t(_falling_led_position) && i>size_t(_falling_led_position)-_empty_size){
-                    data[i].SetLED(_colors[_GetColorIndex(_leds_placed + i - size_t(_falling_led_position))]);
-                }else{
+            for (size_t i = 0; i < data.size(); i++) {
+                if (i < _leds_placed)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(i)]));
+                else if (i >= size_t(_falling_led_position) && i < size_t(_falling_led_position) + _empty_size)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(_leds_placed  + i)]));
+                else
                     data[i].SetLED(frc::Color::kBlack);
+            }
+
+            _falling_led_position += _velocity;
+            if (size_t(_falling_led_position) >= data.size()) {
+                _leds_placed -= _fill_size;
+                _falling_led_position = _leds_placed;
+                if (_leds_placed > data.size()) {
+                    Reset();
                 }
             }
             break;
+
         default:
             _state = fill;
     }

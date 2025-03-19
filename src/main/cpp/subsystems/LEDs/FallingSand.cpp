@@ -24,27 +24,27 @@ void FallingSand::Reset() {
 void FallingSand::ApplyTo(std::span<frc::AddressableLED::LEDData> data) {
     switch(_state) {
         case fill:
-            _falling_led_position += _intake_velocity;
-            if (_falling_led_position >= data.size() - _leds_placed) {
-                _leds_placed = std::min(_leds_placed + _fill_size, data.size());
-                _falling_led_position = _PositiveFmod(_falling_led_position, double(_fill_size));
+            for (size_t i = 0; i < data.size(); i++) {
+                if (i >= data.size() - _leds_placed)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(i)]));
+                else if (i >= size_t(_falling_led_position) && i < size_t(_falling_led_position) + _fill_size)
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(data.size() - _leds_placed - _fill_size + i)]));
+                else
+                    data[i].SetLED(frc::Color::kBlack);
             }
 
-            for (size_t i = 0; i < data.size(); i++) {
-                if (i >= data.size() - _leds_placed) {
-                    data[i].SetLED(_colors[_GetColorIndex(i)]);
-                } else if (i <= size_t(_falling_led_position) && i > size_t(_falling_led_position) - _fill_size) {
-                    data[i].SetLED(_colors[_GetColorIndex(data.size() + i - _leds_placed - size_t(_falling_led_position) - 1)]);
-                } else {
-                    data[i].SetLED(frc::Color::kBlack);
+            _falling_led_position += _intake_velocity;
+            if (size_t(_falling_led_position) >= data.size() - _leds_placed - _fill_size) {
+                _falling_led_position = 0;
+                _leds_placed += _fill_size;
+                if (_leds_placed > data.size()) {
+                    _falling_led_position = data.size();
+                    _leds_placed = data.size();
+                    _state = empty;
                 }
             }
 
-            if (_leds_placed >= data.size()) {
-                _state = empty;
-                _falling_led_position = 0;
-                _exit_velocity = 0;
-            }
+            break;
 
             break;
         
