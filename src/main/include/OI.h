@@ -52,7 +52,7 @@ class Operator_Interface {
         bool GetProcessor();
         bool GetClimbUp();
         bool GetClimbDown();
-        bool GetNet();
+        bool GetConfirmManualScore();
         bool GetIgnoreVision();
         bool GetLoadCoral();
         bool GetReverseCoral();

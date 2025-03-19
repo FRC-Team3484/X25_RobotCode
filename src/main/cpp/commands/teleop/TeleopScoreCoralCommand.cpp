@@ -57,14 +57,14 @@ void TeleopScoreCoralCommand::Execute() {
             break;
         case extend_pivot:
             // Set the angle of the pivot to the coral angle depending on the selected reef level
-            // Once the pivot is at the target angle, go to the next state
+            // Once the pivot is at the target angle, and the button for confirming the score is pressed, go to the next state
             if (_oi->GetReefLevel() == 1 || _oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
             } else if (_oi->GetReefLevel() == 4) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
             }
 
-            if(_pivot->AtTargetPosition()) {
+            if(_pivot->AtTargetPosition() && _oi->GetConfirmManualScore()) {
                 _auto_score_coral_state = eject_piece;
             }
             break;

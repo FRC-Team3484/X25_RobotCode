@@ -203,9 +203,9 @@ namespace UserInterface {
         constexpr int PROCESSOR = 21;
         constexpr int CLIMB_UP = 14;
         constexpr int CLIMB_DOWN = 18;
-        constexpr int NET = 13;
         constexpr int IGNORE_VISION = 2;
         constexpr int LOAD_CORAL = 4;
+        constexpr int CONFIRM_MANUAL_SCORE = 13;
         
         #else
 
@@ -227,9 +227,9 @@ namespace UserInterface {
         constexpr int PROCESSOR = XBOX_RT;
         constexpr int CLIMB_UP = XBOX_DPAD_UP;
         constexpr int CLIMB_DOWN = XBOX_DPAD_DOWN;
-        constexpr int NET = XBOX_BACK;
         constexpr int IGNORE_VISION = XBOX_START;
         constexpr int LOAD_CORAL = XBOX_DPAD_LEFT;
+        constexpr int CONFIRM_MANUAL_SCORE = XBOX_BACK;
 
         #endif
     }
