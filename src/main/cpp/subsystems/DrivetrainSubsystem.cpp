@@ -16,8 +16,8 @@ using namespace frc;
 using namespace units;
 using namespace pathplanner;
 
-DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name)
-        : _vision{vision}, _pigeon{pigeon_id, drivetrain_canbus_name}
+DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* oi)
+        : _vision{vision}, _pigeon{pigeon_id, drivetrain_canbus_name}, _oi{oi}
 {
     if (NULL != swerve_config_array) {
         wpi::array<frc::Rotation2d, 4> headings{wpi::empty_array};
@@ -75,7 +75,7 @@ void DrivetrainSubsystem::Periodic() {
         fmt::print("Error: odometry accessed in Periodic before initialization");
     } else {
         _odometry->Update(GetHeading(), GetModulePositions());
-        if (_vision != NULL)
+        if (_vision != NULL && !_oi->IgnoreVision())
             ResetOdometry(_vision->EstimatePose(GetPose()));
     }
 

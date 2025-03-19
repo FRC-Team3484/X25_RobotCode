@@ -5,6 +5,7 @@
 #include <units/angular_velocity.h>
 #include <units/angle.h>
 #include <frc/kinematics/SwerveModuleState.h>
+#include <frc/DriverStation.h>
 
 using namespace units;
 using namespace frc;
@@ -42,10 +43,17 @@ void TeleopDriveCommand::Execute() {
 
                 if (_oi->GetDynamicPivot()){
                     _drivetrain_state = pivot;
+                    
 
                     // Created objects
                     _pivot_corner = {1_m, copysign(1.0, _oi->GetRotation())*1_m};
-                    _pivot_drive = {-(_oi->GetThrottle())*1_m, -(_oi->GetStrafe())*1_m};
+
+                    auto alliance = DriverStation::GetAlliance();
+                    units::meter_t direction = -1_m;
+                    if (alliance && alliance == DriverStation::Alliance::kBlue) {
+                        direction = 1_m;
+                    }
+                    _pivot_drive = {_oi->GetThrottle()*direction, _oi->GetStrafe()*direction};
 
                     _pivot_corner.RotateBy(_pivot_drive.Angle());
                     _pivot_corner.RotateBy(_drivetrain->GetPose().Rotation());
@@ -76,6 +84,12 @@ void TeleopDriveCommand::Execute() {
                         x_speed *= LOW_SCALE;
                         y_speed *= LOW_SCALE;
                         rotation *= LOW_SCALE;
+                    }
+
+                    auto alliance = DriverStation::GetAlliance();
+                    if (alliance && alliance == DriverStation::Alliance::kBlue) {
+                        x_speed *= -1;
+                        y_speed *= -1;
                     }
                     
                     _drivetrain->Drive(x_speed, y_speed, rotation, true);

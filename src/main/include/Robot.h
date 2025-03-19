@@ -73,6 +73,11 @@ class Robot : public frc::TimedRobot {
         bool ManualGetClimbUpCondition();
 
     private:
+        // Operator Interfaces
+        Driver_Interface* _oi_driver = new Driver_Interface();
+        Operator_Interface* _oi_operator = new Operator_Interface();
+        Testing_Interface* _oi_testing = new Testing_Interface();
+
         #ifdef VISION_ENABLED
         SC_Photon* _vision_ptr = new SC_Photon(VisionConstants::CAMERA_CONFIGS, VisionConstants::APRIL_TAG_LAYOUT, VisionConstants::POSE_STRATEGY);
         #else
@@ -81,7 +86,7 @@ class Robot : public frc::TimedRobot {
 
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
-        DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME);
+        DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME, _oi_operator);
         AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain);
         #else
         DrivetrainSubsystem* _drivetrain = nullptr;
@@ -117,11 +122,6 @@ class Robot : public frc::TimedRobot {
         #else
         LEDSubsystem* _leds = nullptr;
         #endif
-
-        // Operator Interfaces
-        Driver_Interface* _oi_driver = new Driver_Interface();
-        Operator_Interface* _oi_operator = new Operator_Interface();
-        Testing_Interface* _oi_testing = new Testing_Interface();
         
         // Command Groups
         frc2::CommandPtr _climb_up_state_commands = frc2::cmd::Parallel(
