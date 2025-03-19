@@ -51,6 +51,7 @@ bool Operator_Interface::GetClimbDown() {return _operator_controller.GetRawButto
 bool Operator_Interface::GetNet() {return _operator_controller.GetRawButton(NET);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButton(LOAD_CORAL);}
+bool Operator_Interface::GetReverseCoral() {return _operator_controller.GetRawButton(GROUND);}
 
 int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 

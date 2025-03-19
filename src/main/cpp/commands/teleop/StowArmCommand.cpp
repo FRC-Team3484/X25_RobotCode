@@ -41,7 +41,7 @@ void StowArmCommand::Execute() {
             _pivot->PrintTestInfo();
             //fmt::println("Stow Elevator");
             _elevator->PrintTestInfo();
-            if (_elevator->AtTargetHeight()) {
+            if (_elevator->AtSafeStowPosition()) {
                 _stow_arm_state = stow_arm;
             }
             break;

@@ -30,7 +30,13 @@ namespace VisionConstants {
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{
             "Camera_1",
+            // frc::Transform3d{frc::Translation3d{-9.82_in, 11.68_in, 4.8_in}, frc::Rotation3d{0_deg, 65_deg, 54_deg - 45_deg}},//37.17_deg + 180_deg}},
+            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
         }
+        // SC::SC_CameraConfig{
+        //     "Camera_2",
+        //     frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -49.63_deg}},
+        // }
     };
 }
 
@@ -182,24 +188,24 @@ namespace UserInterface {
     namespace Operator {
         #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
-        constexpr int CORAL_LEVEL_4_LEFT = 1;
-        constexpr int CORAL_LEVEL_4_RIGHT = 2;
-        constexpr int CORAL_LEVEL_3_LEFT = 3;
-        constexpr int CORAL_LEVEL_3_RIGHT = 4;
-        constexpr int CORAL_LEVEL_2_LEFT = 5;
+        constexpr int CORAL_LEVEL_4_LEFT = 17;
+        constexpr int CORAL_LEVEL_4_RIGHT = 8;
+        constexpr int CORAL_LEVEL_3_LEFT = 19;
+        constexpr int CORAL_LEVEL_3_RIGHT = 7;
+        constexpr int CORAL_LEVEL_2_LEFT = 20;
         constexpr int CORAL_LEVEL_2_RIGHT = 6;
-        constexpr int CORAL_LEVEL_1 = 7;
+        constexpr int CORAL_LEVEL_1 = 11;
 
-        constexpr int ALGAE_LEVEL_3 = 8;
+        constexpr int ALGAE_LEVEL_3 = 16;
         constexpr int ALGAE_LEVEL_2 = 9;
 
-        constexpr int GROUND = 10;
-        constexpr int PROCESSOR = 11;
-        constexpr int CLIMB_UP = 12;
-        constexpr int CLIMB_DOWN = 13;
-        constexpr int NET = 14;
-        constexpr int IGNORE_VISION = 15;
-        constexpr int LOAD_CORAL = 16;
+        constexpr int GROUND = 5;
+        constexpr int PROCESSOR = 21;
+        constexpr int CLIMB_UP = 14;
+        constexpr int CLIMB_DOWN = 18;
+        constexpr int NET = 13;
+        constexpr int IGNORE_VISION = 2;
+        constexpr int LOAD_CORAL = 4;
         
         #else
 
@@ -271,15 +277,17 @@ namespace ElevatorConstants {
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 6_in;
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
-    constexpr units::inch_t INTAKE_HEIGHT = 0.45_in;
+    constexpr units::inch_t INTAKE_HEIGHT = 0.75_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 21.5_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 33.5_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 39_in;
     constexpr units::inch_t CORAL_LEVEL_4 = 47_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 5_in;
+
+    constexpr units::inch_t SAFE_STOW_POSITION = 5_in;
 }
 
 namespace IntakeConstants {

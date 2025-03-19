@@ -114,6 +114,10 @@ bool ElevatorSubsystem::AtTargetHeight() {
     return math::abs(_target_state.position - _GetElevatorHeight()) < POSITION_TOLERANCE;
 }
 
+bool ElevatorSubsystem::AtSafeStowPosition() {
+    return math::abs(_target_state.position - _GetElevatorHeight()) < SAFE_STOW_POSITION;
+}
+
 void ElevatorSubsystem::SetPower(double power) {
     _primary_motor.Set(power);
 }

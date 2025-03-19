@@ -55,6 +55,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         bool AtTargetHeight();
 
         /**
+         * Checks if the elevator is able to stow the pivot
+         * 
+         * @return True if the elevator has reached the target
+         */
+        bool AtSafeStowPosition();
+
+        /**
          * Sets the power of the elevator
          * 
          * @param power The power of the elevator, as a double

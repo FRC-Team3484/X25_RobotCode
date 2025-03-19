@@ -79,6 +79,7 @@ void Robot::TeleopPeriodic() {
     if (_intake->HasCoral())_leds->HasCoralAnimation(); 
     else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
+
     switch (_driver_robot_state) {
         case drive:
             if (_oi_driver->GetCoralPickup()) {
@@ -236,7 +237,8 @@ void Robot::LedPeriodic() {
 // This functiion is called to enter the drive state in teleop (the default state)
 void Robot::StartDriveState() {
     _driver_robot_state = drive;
-    _drive_state_commands.Schedule();
+    if(!_drive_state_commands.IsScheduled())
+        _drive_state_commands.Schedule();
 }
 
 // This functiion is called to enter the stow state in teleop (the default state)
@@ -259,7 +261,7 @@ void Robot::CancelOperatorCommands() {
 }
 
 // Conditions for the Auto and Manual Commands in the Operator State
-bool Robot::AutoGetLoadCoralCondition(){return _oi_operator->GetLoadCoral() && _driver_robot_state == auto_pickup_coral_driver && (!_intake->HasCoral());}
+bool Robot::AutoGetLoadCoralCondition(){return (_oi_operator->GetLoadCoral()||_oi_operator->GetReverseCoral()) && _driver_robot_state == auto_pickup_coral_driver && (!_intake->HasCoral());}
 bool Robot::AutoGetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel() == 2 || _oi_operator->GetReefLevel() == 3) && _oi_operator->GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == auto_reef_driver && (!_intake->HasAlgae());}
 bool Robot::AutoGetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && (_oi_operator->GetReefAlignment() == ReefAlignment::left || _oi_operator->GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == auto_reef_driver) && (_intake->HasCoral());}
 bool Robot::AutoGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == auto_score_processor_driver && (_intake->HasAlgae());}

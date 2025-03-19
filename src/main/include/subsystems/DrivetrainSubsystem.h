@@ -20,10 +20,11 @@
 #include <frc/smartdashboard/Field2d.h>
 #include <frc2/command/CommandPtr.h>
 #include <ctre/phoenix6/Pigeon2.hpp>
+#include "OI.h"
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* oi);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -119,7 +120,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         SwerveModule* _modules[4];
 
         SC_Photon* _vision;
-            
+        
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
         frc::SwerveDriveOdometry<4>* _odometry;
@@ -128,6 +129,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         frc::Pose2d _target_position;
         units::degree_t _pigeon_offset;
+
+        Operator_Interface* _oi;
+
 };
 
 #endif

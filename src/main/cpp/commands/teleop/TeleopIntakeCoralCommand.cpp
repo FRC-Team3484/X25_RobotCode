@@ -44,7 +44,9 @@ void TeleopIntakeCoralCommand::Execute() {
         case intake:
             // Run the intake
             // Once the intake has coral, go to the next state
-            _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            if (_oi->GetReverseCoral()){
+                _intake->SetPower(IntakeConstants::ALGAE_EJECT_POWER);
+            } else _intake->SetPower(IntakeConstants::INTAKE_POWER);
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->CoralLow()) {

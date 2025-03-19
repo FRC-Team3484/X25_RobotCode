@@ -4,7 +4,7 @@
 
 // Drivetrain and odometry
 #define DRIVETRAIN_ENABLED
-#define VISION_ENABLED
+// #define VISION_ENABLED
 
 // Subsystems
 #define PIVOT_ENABLED
@@ -14,7 +14,7 @@
 #define LED_ENABLED
 
 // Button Box (Disabling uses a controller for the operator instead)
-// #define OPERATOR_BUTTON_BOX
+#define OPERATOR_BUTTON_BOX
 
 // Disable All Commands
 #define COMMANDS_ENABLED
