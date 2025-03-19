@@ -10,8 +10,12 @@ Robot::Robot() {
     wpi::WebServer::GetInstance().Start(5800, frc::filesystem::GetDeployDirectory());
 
     _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_A);
-    _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_B);
-    _auton_start_positions.AddOption("A", SwerveConstants::AutonDriveConstants::STARTING_POSITION_C);
+    _auton_start_positions.AddOption("B", SwerveConstants::AutonDriveConstants::STARTING_POSITION_B);
+    _auton_start_positions.AddOption("C", SwerveConstants::AutonDriveConstants::STARTING_POSITION_C);
+
+    _basic_autons.SetDefaultOption("None", "none");
+    _basic_autons.AddOption("Drive Forwards", "drive");
+    _basic_autons.AddOption("Drive and Score", "score");
 
     frc::SmartDashboard::PutData("Auton Start Position", &_auton_start_positions);
 }
@@ -48,11 +52,11 @@ void Robot::DisabledPeriodic() {
 void Robot::DisabledExit() {}
 
 void Robot::AutonomousInit() {
-    _drivetrain->ResetOdometry(_auton_start_positions.GetSelected());
+    // _drivetrain->ResetOdometry(_auton_start_positions.GetSelected());
 
     _has_been_enabled = true;
 
-    _auton_command = _auton_generator->GetAutonomousCommand();
+    _auton_command = _auton_generator->GetAutonomousCommand(_basic_autons.GetSelected());
     _drivetrain->SetBrakeMode();
 
     if (_auton_command) {

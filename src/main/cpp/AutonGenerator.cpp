@@ -2,6 +2,8 @@
 #include "AutonGenerator.h"
 #include "commands/auton/AutonStopCommand.h"
 
+#include "commands/auton/AutonBasicScoreCoralCommand.h"
+
 #include <pathplanner/lib/commands/PathPlannerAuto.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <pathplanner/lib/auto/NamedCommands.h>
@@ -11,8 +13,8 @@ using namespace frc;
 using namespace pathplanner;
 using namespace SwerveConstants::AutonNames;
 
-AutonGenerator::AutonGenerator(DrivetrainSubsystem* drivetrain)
-    : _drivetrain{drivetrain} {
+AutonGenerator::AutonGenerator(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, PivotSubsystem* pivot, IntakeSubsystem* intake)
+    : _drivetrain{drivetrain}, _elevator{elevator}, _pivot{pivot}, _intake{intake} {
     
     _auton_chooser_initial.AddOption("No", "No");
     _auton_chooser_initial.SetDefaultOption("Yes", "Yes");
@@ -44,12 +46,26 @@ frc2::CommandPtr AutonGenerator::_GetCommand(std::string command_name) {
     }
 }
 
-frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
-    return frc2::cmd::Sequence(
-        _GetCommand(_auton_chooser_initial.GetSelected()),
-        _GetCommand(_auton_chooser_path_1.GetSelected()),
-        _GetCommand(_auton_chooser_path_2.GetSelected()),
-        _GetCommand(_auton_chooser_path_3.GetSelected()),
-        AutonStopCommand(_drivetrain).ToPtr()
-    );
+frc2::CommandPtr AutonGenerator::GetAutonomousCommand(std::string_view type) {
+    auto drive_path = PathPlannerPath::fromPathFile("Drive");
+    if (type == "drive") {
+        return frc2::cmd::Sequence(
+            AutoBuilder::followPath(drive_path)
+        );
+    } else if (type == "score") {
+        return frc2::cmd::Sequence(
+            AutoBuilder::followPath(drive_path),
+            AutonBasicScoreCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr()
+        );
+    } else {
+        return frc2::cmd::None();
+    }
+    
+    // return frc2::cmd::Sequence(
+    //     _GetCommand(_auton_chooser_initial.GetSelected()),
+    //     _GetCommand(_auton_chooser_path_1.GetSelected()),
+    //     _GetCommand(_auton_chooser_path_2.GetSelected()),
+    //     _GetCommand(_auton_chooser_path_3.GetSelected()),
+    //     AutonStopCommand(_drivetrain).ToPtr()
+    // );
 }

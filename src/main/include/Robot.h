@@ -30,6 +30,8 @@
 #include "commands/teleop/TeleopIntakeCoralCommand.h"
 #include "commands/teleop/TeleopIntakeAlgaeCommand.h"
 
+#include "commands/auton/AutonBasicScoreCoralCommand.h"
+
 #include "commands/testing/TestElevatorCommand.h"
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
@@ -87,10 +89,8 @@ class Robot : public frc::TimedRobot {
         // Subsystems
         #ifdef DRIVETRAIN_ENABLED   
         DrivetrainSubsystem* _drivetrain = new DrivetrainSubsystem(SwerveConstants::DrivetrainConstants::SWERVE_CONFIGS_ARRAY, _vision_ptr, SwerveConstants::DrivetrainConstants::PIGEON_ID, SwerveConstants::DrivetrainConstants::DRIVETRAIN_CANBUS_NAME, _oi_operator);
-        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain);
         #else
         DrivetrainSubsystem* _drivetrain = nullptr;
-        AutonGenerator* _auton_generator = nullptr;
         #endif
 
         #ifdef ELEVATOR_ENABLED
@@ -121,6 +121,12 @@ class Robot : public frc::TimedRobot {
         LEDSubsystem* _leds = new LEDSubsystem(LEDConstants::LED_PWM_PORT, LEDConstants::LED_STRIP_LENGTH);
         #else
         LEDSubsystem* _leds = nullptr;
+        #endif
+
+        #if defined (DRIVETRAIN_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (ELEVATOR_ENABLED)
+        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain, _elevator, _pivot, _intake);
+        #else
+        AutonGenerator* _auton_generator = nullptr;
         #endif
         
         // Command Groups
@@ -235,7 +241,7 @@ class Robot : public frc::TimedRobot {
         std::optional<frc2::CommandPtr> _auton_command;
 
         frc::SendableChooser<frc::Pose2d> _auton_start_positions;
-
+        frc::SendableChooser<std::string_view> _basic_autons;
 
         // Elastic Dashboard Stuff
         units::second_t _match_time = 0_s;
