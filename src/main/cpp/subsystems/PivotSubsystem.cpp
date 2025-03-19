@@ -32,6 +32,8 @@ PivotSubsystem::PivotSubsystem(
         _pivot_motor.GetConfigurator().Apply(motor_config);
         _trapezoid_timer.Start();
         _SetPivotAngle(HOME_POSITION);
+
+        _pivot_state = home;
 }
 
 void PivotSubsystem::Periodic() {

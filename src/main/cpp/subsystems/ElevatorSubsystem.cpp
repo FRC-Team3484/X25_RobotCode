@@ -37,6 +37,8 @@ ElevatorSubsystem::ElevatorSubsystem(
         _secondary_motor.GetConfigurator().Apply(motor_config);
         _secondary_motor.SetControl(controls::Follower{_primary_motor.GetDeviceID(), MIRROR_MOTORS});
         _trapezoid_timer.Start();
+
+        _elevator_state = home;
 }
 
 void ElevatorSubsystem::Periodic() {
@@ -45,7 +47,7 @@ void ElevatorSubsystem::Periodic() {
     volt_t pid_output;
     
     if (_HomeSensor()) {
-                _SetPosition(HOME_POSITION);
+        _SetPosition(HOME_POSITION);
     }
     if (!_isHomed){
         _elevator_state = home;
