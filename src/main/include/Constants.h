@@ -28,15 +28,14 @@ namespace VisionConstants {
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
 
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
-        SC::SC_CameraConfig{
-            "Camera_1",
-            // frc::Transform3d{frc::Translation3d{-9.82_in, 11.68_in, 4.8_in}, frc::Rotation3d{0_deg, 65_deg, 54_deg - 45_deg}},//37.17_deg + 180_deg}},
-            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
-        }
         // SC::SC_CameraConfig{
-        //     "Camera_2",
-        //     frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -49.63_deg}},
-        // }
+        //     "Camera_1",
+        //     frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
+        // },
+        SC::SC_CameraConfig{
+            "Camera_2",
+            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -49.63_deg}},
+        }
     };
 }
 
@@ -137,11 +136,11 @@ namespace SwerveConstants {
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
-        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{-0_in, 0_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -24_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 24_in}, frc::Rotation2d{180_deg}};
 
         constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
-        constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 0_in}, frc::Rotation2d{0_deg}};
 
         constexpr frc::Pose2d STARTING_POSITION_A = frc::Pose2d{frc::Translation2d{48_in, 24_in}, frc::Rotation2d{0_deg}};
         constexpr frc::Pose2d STARTING_POSITION_B = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
@@ -200,12 +199,12 @@ namespace UserInterface {
         constexpr int ALGAE_LEVEL_2 = 9;
 
         constexpr int GROUND = 5;
-        constexpr int PROCESSOR = 21;
+        constexpr int CONFIRM_MANUAL_SCORE = 21;
         constexpr int CLIMB_UP = 14;
         constexpr int CLIMB_DOWN = 18;
         constexpr int IGNORE_VISION = 2;
         constexpr int LOAD_CORAL = 4;
-        constexpr int CONFIRM_MANUAL_SCORE = 13;
+        constexpr int RESET = 13;
         
         #else
 

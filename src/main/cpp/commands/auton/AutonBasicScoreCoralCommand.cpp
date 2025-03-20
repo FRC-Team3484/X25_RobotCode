@@ -32,7 +32,7 @@ void AutonBasicScoreCoralCommand::Execute() {
             // Set the height of the elevator
             // Once the elevator is at the target height, go to the next state
 
-            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
+            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_2);
             if (_elevator->AtTargetHeight()) {
                 _auton_score_coral_state = extend_pivot;
             }
