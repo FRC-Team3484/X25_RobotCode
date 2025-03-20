@@ -56,6 +56,7 @@ class Operator_Interface {
         bool GetIgnoreVision();
         bool GetLoadCoral();
         bool GetReverseCoral();
+        bool GetReset();
 
         int RawPOV();
 

@@ -72,6 +72,11 @@ class PivotSubsystem : public frc2::SubsystemBase {
          */
         void PrintTestInfo();
 
+        /**
+         * Sets the pivot state to home
+         */
+        void SetStateToHome();
+
         void Periodic() override;
 
     private:

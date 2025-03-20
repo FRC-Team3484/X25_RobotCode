@@ -80,6 +80,11 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          */
         void PrintTestInfo();
 
+        /**
+         * Sets the elevator state to home
+         */
+        void SetElevatorToHome();
+
         void Periodic() override;
 
     private:

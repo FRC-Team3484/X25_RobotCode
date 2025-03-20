@@ -76,6 +76,7 @@ bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.Ge
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButton(LOAD_CORAL);}
 bool Operator_Interface::GetReverseCoral() {return _operator_controller.GetRawButton(GROUND);}
+bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}
 
 int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 
@@ -116,6 +117,7 @@ bool Operator_Interface::GetClimbDown() {return _operator_controller.GetPOV() ==
 bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetPOV() == LOAD_CORAL;}
+bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}
 
 int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
 

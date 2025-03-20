@@ -169,3 +169,7 @@ feet_per_second_t ElevatorSubsystem::_GetElevatorVelocity() {
 void ElevatorSubsystem::_SetPosition(inch_t offset) {
     _offset = offset - (_primary_motor.GetPosition().GetValue() * ELEVATOR_RATIO);
 }
+
+void ElevatorSubsystem::SetElevatorToHome() {
+    _elevator_state = home;
+}

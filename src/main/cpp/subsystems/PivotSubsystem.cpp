@@ -148,3 +148,7 @@ void PivotSubsystem::_SetPivotAngle(degree_t angle) {
 bool PivotSubsystem::PivotDeployed(){
     return _target_state.position > PivotConstants::TRAVEL_POSITION - 1_deg;
 }
+
+void PivotSubsystem::SetStateToHome() {
+    _pivot_state = home;
+}

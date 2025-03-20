@@ -84,6 +84,10 @@ void Robot::TeleopPeriodic() {
     else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
 
+    if (_oi_operator->GetReset()) {
+        ResetAllSubsystems();
+    }
+
     switch (_driver_robot_state) {
         case drive:
             if (_oi_driver->GetCoralPickup()) {
@@ -275,6 +279,16 @@ bool Robot::ManualGetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel(
 bool Robot::ManualGetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && (_oi_operator->GetReefAlignment() == ReefAlignment::left || _oi_operator->GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == drive) && (_intake->HasCoral());}
 bool Robot::ManualGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == drive && (_intake->HasAlgae());}
 bool Robot::ManualGetClimbUpCondition(){return _oi_operator->GetClimbUp() && _driver_robot_state == drive;}
+
+void Robot::ResetAllSubsystems() {
+    frc2::CommandScheduler::GetInstance().CancelAll();
+
+    _pivot->SetPivotToHome();
+    _elevator->SetElevatorToHome();
+
+    StartDriveState();
+    StartOperatorState();
+}
 
 void Robot::TeleopExit() {
     CancelDriverCommands();
