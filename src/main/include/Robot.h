@@ -159,8 +159,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeAlgaeCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopIntakeAlgaeCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -168,8 +168,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeCoralCommand{_drivetrain, _elevator, _intake, _pivot, _funnel, _oi_operator}.ToPtr(),
+            #if  defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopIntakeCoralCommand{_elevator, _intake, _pivot, _funnel, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -177,8 +177,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _processor_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopProcessorCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if  defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
+            TeleopProcessorCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -186,8 +186,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _score_coral_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
-            TeleopScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if  defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
+            TeleopScoreCoralCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()

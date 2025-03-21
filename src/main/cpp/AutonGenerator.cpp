@@ -62,7 +62,7 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand(std::string_view type) {
         return frc2::cmd::Sequence(
             PathPlannerAuto("Drive").ToPtr(),//&drive_path,
             AutonStopCommand(_drivetrain).ToPtr(),
-            AutonBasicScoreCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr()
+            AutonBasicScoreCoralCommand(_elevator, _intake, _pivot).ToPtr()
         );
     } else {
         return frc2::cmd::None();

@@ -15,13 +15,11 @@ class AutonBasicScoreCoralCommand
         /**
          * Scores coral into the reef in auton
          * 
-         * @param drivetrain A pointer to the drivetrain subsystem
          * @param elevator A pointer to the elevator subsystem
          * @param intake A pointer to the intake subsystem
          * @param pivot A pointer to the pivot subsystem
          */
         AutonBasicScoreCoralCommand(
-            DrivetrainSubsystem* drivetrain, 
             ElevatorSubsystem* elevator,
             IntakeSubsystem* intake, 
             PivotSubsystem* pivot
@@ -39,7 +37,6 @@ class AutonBasicScoreCoralCommand
         enum State {traveling_pivot, extend_elevator, extend_pivot, eject_piece, done};
 		State _auton_score_coral_state = traveling_pivot;
 
-        DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;

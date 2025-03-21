@@ -2,11 +2,9 @@
 #include "Constants.h"
 
 AutonBasicScoreCoralCommand::AutonBasicScoreCoralCommand(
-    DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot) : 
-    _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot) {
@@ -31,7 +29,7 @@ void AutonBasicScoreCoralCommand::Execute() {
             // Set the height of the elevator
             // Once the elevator is at the target height, go to the next state
 
-            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3;
+            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
             if (_elevator->AtTargetHeight()) {
                 _auton_score_coral_state = extend_pivot;
             }

@@ -2,12 +2,10 @@
 #include "Constants.h"
 
 TeleopScoreCoralCommand::TeleopScoreCoralCommand(
-    DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,   
     Operator_Interface* oi) : 
-    _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot), 
@@ -25,9 +23,7 @@ void TeleopScoreCoralCommand::Execute() {
     switch(_auto_score_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to next state
-            if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
-                _auto_score_coral_state = traveling_pivot;
-            }
+            _auto_score_coral_state = traveling_pivot;
             break;
         case traveling_pivot:
             // Set the pivot to the travel position
@@ -50,7 +46,7 @@ void TeleopScoreCoralCommand::Execute() {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
             }
 
-            if(_elevator->AtTargetHeight() && (_drivetrain->GetAtTargetPosition() || _oi->IgnoreVision())) {
+            if(_elevator->AtTargetHeight()) {
                 _auto_score_coral_state = extend_pivot;
             }
             break;

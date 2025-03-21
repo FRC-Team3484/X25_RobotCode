@@ -6,7 +6,6 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
-#include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 
 #include "OI.h"
@@ -22,14 +21,12 @@ class TeleopIntakeAlgaeCommand
         /**
          * Intakes an algae by raising the elevator, extending the pivot, and running the intake
          * 
-         * @param drivetrain A pointer to the drivetrain subsystem
          * @param elevator A pointer to the elevator subsystem
          * @param intake A pointer to the intake subsystem
          * @param pivot A pointer to the pivot subsystem
          * @param oi A pointer to the operator interface
          */
         explicit TeleopIntakeAlgaeCommand(
-            DrivetrainSubsystem* drivetrain, 
             ElevatorSubsystem* elevator, 
             IntakeSubsystem* intake, 
             PivotSubsystem* pivot, 
@@ -45,7 +42,6 @@ class TeleopIntakeAlgaeCommand
         bool IsFinished() override;
 
     private:
-        DrivetrainSubsystem* _drivetrain;
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake; 
         PivotSubsystem* _pivot;
