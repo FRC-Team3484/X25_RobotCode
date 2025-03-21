@@ -22,7 +22,7 @@ void ColorStack::Reset() {
 }
 
 void ColorStack::ApplyTo(std::span<frc::AddressableLED::LEDData> data) {
-    fmt::println("{}", _leds_placed);
+    // fmt::println("{}", _leds_placed);
     switch (_state) {
         case fill:
             for (size_t i = 0; i < data.size(); i++) {
