@@ -10,7 +10,6 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot) {
-    AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);

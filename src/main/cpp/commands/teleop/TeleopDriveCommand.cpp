@@ -1,6 +1,8 @@
 
 #include "commands/teleop/TeleopDriveCommand.h"
 
+#include <units/math.h>
+
 #include <units/velocity.h>
 #include <units/angular_velocity.h>
 #include <units/angle.h>
@@ -48,12 +50,14 @@ void TeleopDriveCommand::Execute() {
                     // Created objects
                     _pivot_corner = {1_m, copysign(1.0, _oi->GetRotation())*1_m};
 
-                    auto alliance = DriverStation::GetAlliance();
-                    units::meter_t direction = -1_m;
-                    if (alliance && alliance == DriverStation::Alliance::kBlue) {
-                        direction = 1_m;
-                    }
-                    _pivot_drive = {_oi->GetThrottle()*direction, _oi->GetStrafe()*direction};
+                    // auto alliance = DriverStation::GetAlliance();
+                    // units::meter_t direction = -1_m;
+                    // if (alliance && alliance == DriverStation::Alliance::kRed) {
+                    //     direction = 1_m;
+                    // }
+                    // _pivot_drive = {_oi->GetThrottle()*direction, _oi->GetStrafe()*direction};
+
+                    _pivot_drive = {_oi->GetThrottle()*1_m, _oi->GetStrafe()*1_m};
 
                     _pivot_corner.RotateBy(_pivot_drive.Angle());
                     _pivot_corner.RotateBy(_drivetrain->GetPose().Rotation());
@@ -73,6 +77,13 @@ void TeleopDriveCommand::Execute() {
                         false
                     );
                     
+                } else if (_oi->RawPOV() >= 0) {
+                    _drivetrain->DriveRobotcentric(
+                        ChassisSpeeds{
+                            units::math::cos(degree_t{double(_oi->RawPOV())})*JOG_SCALE*1_mps, 
+                            units::math::sin(degree_t{double(_oi->RawPOV())})*JOG_SCALE*-1_mps, 
+                            0_rad_per_s}, 
+                        true);
                 } else {
                     // Logic for actual joystick movements
 
@@ -86,11 +97,11 @@ void TeleopDriveCommand::Execute() {
                         rotation *= LOW_SCALE;
                     }
 
-                    auto alliance = DriverStation::GetAlliance();
-                    if (alliance && alliance == DriverStation::Alliance::kBlue) {
-                        x_speed *= -1;
-                        y_speed *= -1;
-                    }
+                    // auto alliance = DriverStation::GetAlliance();
+                    // if (alliance && alliance == DriverStation::Alliance::kRed) {
+                    //     x_speed *= -1;
+                    //     y_speed *= -1;
+                    // }
                     
                     _drivetrain->Drive(x_speed, y_speed, rotation, true);
                 }

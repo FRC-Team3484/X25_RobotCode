@@ -63,10 +63,10 @@ namespace SwerveConstants {
         // DO NOT REMOVE STATIC CALLS
 
         // Drive, steer, encoder, magnet offset
-        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{12,13,18, 27.685546875000004_deg - 180_deg}; //-27.685546875000004
-        static SC::SC_SwerveConfigs SWERVE_FRONT_RIGHT{10,11,19, -167.16796875_deg}; //167.16796875
-        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{16,17,21, 38.759765625_deg - 180_deg}; //-38.759765625
-        static SC::SC_SwerveConfigs SWERVE_BACK_RIGHT{14,15,20, -155.0390625_deg}; //155.0390625
+        static SC::SC_SwerveConfigs SWERVE_FRONT_LEFT{12,13,18, 27.685546875000004_deg}; //-27.685546875000004
+        static SC::SC_SwerveConfigs SWERVE_FRONT_RIGHT{10,11,19, -167.16796875_deg + 180_deg}; //167.16796875
+        static SC::SC_SwerveConfigs SWERVE_BACK_LEFT{16,17,21, 38.759765625_deg}; //-38.759765625
+        static SC::SC_SwerveConfigs SWERVE_BACK_RIGHT{14,15,20, -155.0390625_deg + 180_deg}; //155.0390625
 
         static SC::SC_SwerveConfigs SWERVE_CONFIGS_ARRAY[4] = {
             SWERVE_FRONT_LEFT,
@@ -111,7 +111,9 @@ namespace SwerveConstants {
 
         namespace JoystickScaling {
             constexpr double LOW_SCALE = 0.35;
+            constexpr double JOG_SCALE = 0.20;
         }
+
     }
 
     namespace BrakeConstants {
@@ -181,7 +183,6 @@ namespace UserInterface {
         constexpr int AUTO_SCORE_PROCESSOR = XBOX_Y;
 
         // Override
-        constexpr int DRIVER_OVERRIDE = XBOX_DPAD_UP;
 
     }
     namespace Operator {
@@ -198,7 +199,7 @@ namespace UserInterface {
         constexpr int ALGAE_LEVEL_3 = 16;
         constexpr int ALGAE_LEVEL_2 = 9;
 
-        constexpr int GROUND = 5;
+        constexpr int CONFIRM_MANUAL_SCORE_TWO = 5;
         constexpr int CONFIRM_MANUAL_SCORE = 21;
         constexpr int CLIMB_UP = 14;
         constexpr int CLIMB_DOWN = 18;
@@ -276,12 +277,12 @@ namespace ElevatorConstants {
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 6_in;
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
-    constexpr units::inch_t INTAKE_HEIGHT = 0.75_in;
+    constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
     constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
     constexpr units::inch_t CORAL_LEVEL_3 = 39_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 47_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 58.5_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 5_in;
@@ -332,7 +333,7 @@ namespace PivotConstants {
     constexpr units::degree_t TRAVEL_POSITION = 140_deg;
     constexpr units::degree_t INTAKE_POSITION = 122_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 140_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 140_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 160_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
 }

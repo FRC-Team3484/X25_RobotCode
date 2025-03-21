@@ -47,14 +47,21 @@ frc2::CommandPtr AutonGenerator::_GetCommand(std::string command_name) {
 }
 
 frc2::CommandPtr AutonGenerator::GetAutonomousCommand(std::string_view type) {
-    auto drive_path = PathPlannerPath::fromPathFile("Drive");
+    //auto drive_path = PathPlannerAuto("Drive").ToPtr();
+
+    if (type != "none") {
+        _drivetrain->ResetOdometry(PathPlannerAuto("Drive").getStartingPose());
+    }
+
     if (type == "drive") {
         return frc2::cmd::Sequence(
-            AutoBuilder::followPath(drive_path)
+            PathPlannerAuto("Drive").ToPtr(),//&drive_path,
+            AutonStopCommand(_drivetrain).ToPtr()
         );
     } else if (type == "score") {
         return frc2::cmd::Sequence(
-            AutoBuilder::followPath(drive_path),
+            PathPlannerAuto("Drive").ToPtr(),//&drive_path,
+            AutonStopCommand(_drivetrain).ToPtr(),
             AutonBasicScoreCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr()
         );
     } else {

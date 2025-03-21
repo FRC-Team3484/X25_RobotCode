@@ -18,6 +18,7 @@ Robot::Robot() {
     _basic_autons.AddOption("Drive and Score", "score");
 
     frc::SmartDashboard::PutData("Auton Start Position", &_auton_start_positions);
+    frc::SmartDashboard::PutData("Basic Autons", &_basic_autons);
 }
 
 void Robot::RobotPeriodic() {
@@ -80,9 +81,7 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
     OperatorPeriodic();
-    if (_intake->HasCoral())_leds->HasCoralAnimation(); 
-    else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();
-    else if (_driver_robot_state == drive) _leds->DrivingAnimation();
+    LedPeriodic();
 
     if (_oi_operator->GetReset()) {
         ResetAllSubsystems();
@@ -130,7 +129,8 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::OperatorPeriodic() {
-    switch (_operator_drive_robot_state){
+    switch (_operator_drive_robot_state)
+    {
         case stow:
             //auto 
             if (AutoGetLoadCoralCondition()) {
@@ -148,11 +148,11 @@ void Robot::OperatorPeriodic() {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = auto_score_reef_operator;
-            } else if (AutoGetScoreProcessorCondition()) {
-                CancelOperatorCommands();
-                _processor_commands.Schedule();
+            // } else if (AutoGetScoreProcessorCondition()) {
+            //     CancelOperatorCommands();
+            //     _processor_commands.Schedule();
 
-                _operator_drive_robot_state = auto_score_processor_operator;
+            //     _operator_drive_robot_state = auto_score_processor_operator;
             }
             
             //manual
@@ -166,11 +166,11 @@ void Robot::OperatorPeriodic() {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = manual_score_coral;
-            } else if (ManualGetScoreProcessorCondition()) {
-                CancelOperatorCommands();
-                _processor_commands.Schedule();
+            // } else if (ManualGetScoreProcessorCondition()) {
+            //     CancelOperatorCommands();
+            //     _processor_commands.Schedule();
 
-                _operator_drive_robot_state = manual_score_processor;
+            //     _operator_drive_robot_state = manual_score_processor;
             } else if (ManualGetRemoveAlgaeCondition()) {
                 CancelOperatorCommands();
                 _score_coral_commands.Schedule();
@@ -200,7 +200,8 @@ void Robot::OperatorPeriodic() {
 
         case auto_score_processor_operator:
 
-            if (!AutoGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
+        //     if (!AutoGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
+            CancelOperatorCommands(); StartOperatorState();
             break;
 
         //manual
@@ -214,7 +215,8 @@ void Robot::OperatorPeriodic() {
 
         case manual_score_processor:
 
-            if (!ManualGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
+        //    if (!ManualGetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
+            CancelOperatorCommands(); StartOperatorState();
             break;
 
         case manual_remove_algae:
@@ -269,22 +271,22 @@ void Robot::CancelOperatorCommands() {
 }
 
 // Conditions for the Auto and Manual Commands in the Operator State
-bool Robot::AutoGetLoadCoralCondition(){return (_oi_operator->GetLoadCoral()||_oi_operator->GetReverseCoral()) && _driver_robot_state == auto_pickup_coral_driver && (!_intake->HasCoral());}
+bool Robot::AutoGetLoadCoralCondition(){return (_oi_operator->GetLoadCoral()) && _driver_robot_state == auto_pickup_coral_driver && (!_intake->HasCoral());}
 bool Robot::AutoGetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel() == 2 || _oi_operator->GetReefLevel() == 3) && _oi_operator->GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == auto_reef_driver && (!_intake->HasAlgae());}
 bool Robot::AutoGetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && (_oi_operator->GetReefAlignment() == ReefAlignment::left || _oi_operator->GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == auto_reef_driver) && (_intake->HasCoral());}
-bool Robot::AutoGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == auto_score_processor_driver && (_intake->HasAlgae());}
+//bool Robot::AutoGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == auto_score_processor_driver && (_intake->HasAlgae());}
 
 bool Robot::ManualGetLoadCoralCondition(){return _oi_operator->GetLoadCoral() && _driver_robot_state == drive && (!_intake->CoralLow());}
 bool Robot::ManualGetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel() == 2 || _oi_operator->GetReefLevel() == 3) && _oi_operator->GetReefAlignment() == ReefAlignment::center) && _driver_robot_state == drive && (!_intake->HasAlgae());}
 bool Robot::ManualGetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && (_oi_operator->GetReefAlignment() == ReefAlignment::left || _oi_operator->GetReefAlignment() == ReefAlignment::right)) && _driver_robot_state == drive) && (_intake->HasCoral());}
-bool Robot::ManualGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == drive && (_intake->HasAlgae());}
+//bool Robot::ManualGetScoreProcessorCondition(){return _oi_operator->GetProcessor() && _driver_robot_state == drive && (_intake->HasAlgae());}
 bool Robot::ManualGetClimbUpCondition(){return _oi_operator->GetClimbUp() && _driver_robot_state == drive;}
 
 void Robot::ResetAllSubsystems() {
     frc2::CommandScheduler::GetInstance().CancelAll();
 
-    _pivot->SetPivotToHome();
-    _elevator->SetElevatorToHome();
+    _pivot->SetStateToHome();
+    _elevator->SetStateToHome();
 
     StartDriveState();
     StartOperatorState();

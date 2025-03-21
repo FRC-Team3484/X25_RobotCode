@@ -12,7 +12,6 @@ TeleopScoreCoralCommand::TeleopScoreCoralCommand(
     _intake(intake),
     _pivot(pivot), 
     _oi(oi) {
-    AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);

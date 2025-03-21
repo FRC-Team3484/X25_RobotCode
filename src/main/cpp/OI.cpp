@@ -30,11 +30,11 @@ bool Driver_Interface::GetAlgaePickup() {return false;}
 bool Driver_Interface::GetScoreReef() {return false;}
 bool Driver_Interface::GetScoreProcessor() {return false;}
 
+int Driver_Interface::RawPOV() {return _driver_controller.GetPOV();}
+
 void Driver_Interface::SetRumble(double Rumble) {
     _driver_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);
 }
-
-bool Driver_Interface::DriverOverride(){return _driver_controller.GetPOV(DRIVER_OVERRIDE);}
 
 
 // ----------
@@ -69,13 +69,11 @@ int Operator_Interface::GetReefLevel() {if (_operator_controller.GetRawButton(CO
     }
 }
 
-bool Operator_Interface::GetProcessor() {return _operator_controller.GetRawButton(PROCESSOR);}
 bool Operator_Interface::GetClimbUp() {return _operator_controller.GetRawButton(CLIMB_UP);}
 bool Operator_Interface::GetClimbDown() {return _operator_controller.GetRawButton(CLIMB_DOWN);}
-bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE);}
+bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE) || _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE_TWO);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButton(LOAD_CORAL);}
-bool Operator_Interface::GetReverseCoral() {return _operator_controller.GetRawButton(GROUND);}
 bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}
 
 int Operator_Interface::RawPOV() {return _operator_controller.GetPOV();}
@@ -111,10 +109,9 @@ int Operator_Interface::GetReefLevel() {
         return 0;
     }
 }
-bool Operator_Interface::GetProcessor() { return frc::ApplyDeadband(_operator_controller.GetRawAxis(PROCESSOR), OPERATOR_JOYSTICK_DEADBAND);}
 bool Operator_Interface::GetClimbUp() {return _operator_controller.GetPOV() == CLIMB_UP;}
 bool Operator_Interface::GetClimbDown() {return _operator_controller.GetPOV() == CLIMB_DOWN;}
-bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE);}
+bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE) || _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE_TWO);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetPOV() == LOAD_CORAL;}
 bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}

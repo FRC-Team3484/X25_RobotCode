@@ -11,7 +11,6 @@ AutonFeederCoralCommand::AutonFeederCoralCommand(
     _intake(intake),
     _pivot(pivot),
     _funnel(funnel) {
-    AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);

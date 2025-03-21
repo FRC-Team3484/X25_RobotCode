@@ -66,13 +66,15 @@ class Robot : public frc::TimedRobot {
         bool AutoGetLoadCoralCondition();
         bool AutoGetRemoveAlgaeCondition();
         bool AutoGetScoreReefCondition();
-        bool AutoGetScoreProcessorCondition();
+        //bool AutoGetScoreProcessorCondition();
 
         bool ManualGetLoadCoralCondition();
         bool ManualGetRemoveAlgaeCondition();
         bool ManualGetScoreReefCondition();
-        bool ManualGetScoreProcessorCondition();
+        //bool ManualGetScoreProcessorCondition();
         bool ManualGetClimbUpCondition();
+
+        void ResetAllSubsystems();
 
     private:
         // Operator Interfaces

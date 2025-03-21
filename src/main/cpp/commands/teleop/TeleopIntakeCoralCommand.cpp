@@ -13,7 +13,6 @@ TeleopIntakeCoralCommand::TeleopIntakeCoralCommand(
     _pivot(pivot),
     _funnel(funnel),
     _oi(oi) {
-    AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);
@@ -44,9 +43,8 @@ void TeleopIntakeCoralCommand::Execute() {
         case intake:
             // Run the intake
             // Once the intake has coral, go to the next state
-            if (_oi->GetReverseCoral()){
-                _intake->SetPower(IntakeConstants::ALGAE_EJECT_POWER);
-            } else _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            
             if (_funnel != nullptr) _funnel->SetPower(FunnelConstants::INTAKE_POWER);
 
             if (_intake->CoralLow()) {

@@ -32,6 +32,8 @@ class Driver_Interface {
         bool GetScoreReef();
         bool GetScoreProcessor();
 
+        int RawPOV();
+
 
     private:
         frc::XboxController _driver_controller{UserInterface::Driver::DRIVER_CONTROLLER_PORT};
@@ -55,7 +57,6 @@ class Operator_Interface {
         bool GetConfirmManualScore();
         bool GetIgnoreVision();
         bool GetLoadCoral();
-        bool GetReverseCoral();
         bool GetReset();
 
         int RawPOV();
