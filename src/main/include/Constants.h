@@ -253,7 +253,7 @@ namespace ElevatorConstants {
     constexpr int PRIMARY_MOTOR_CAN_ID = 30;
     constexpr int SECONDARY_MOTOR_CAN_ID = 31;
     constexpr int HOME_SENSOR_DI_CH = 0;
-    constexpr int BRAKE_SERVO = 0;
+    //constexpr int BRAKE_SERVO = 0;
 
     constexpr bool INVERT_MOTORS = true;
     constexpr bool MIRROR_MOTORS = true;

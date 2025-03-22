@@ -34,7 +34,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             int primary_motor_can_id,
             int secondary_motor_can_id,
             int home_sensor_di_ch,
-            int brake_servo,
+            // int brake_servo,
             SC::SC_PIDConstants elevator_pidc,
             units::feet_per_second_t max_velocity,
             units::feet_per_second_squared_t max_acceleration,
@@ -112,7 +112,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::DigitalInput _home_sensor;
 
-        frc::Servo _brake_servo;
+        // frc::Servo _brake_servo;
 
         frc::PIDController _elevator_pid_controller{0,0,0};
 

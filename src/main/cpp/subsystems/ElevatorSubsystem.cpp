@@ -10,7 +10,7 @@ ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
     int home_sensor_di_ch,
-    int brake_servo_port,
+    // int brake_servo_port,
     SC::SC_PIDConstants elevator_pidc,
     feet_per_second_t max_velocity,
     feet_per_second_squared_t max_acceleration,
@@ -19,7 +19,7 @@ ElevatorSubsystem::ElevatorSubsystem(
     _primary_motor(primary_motor_can_id),
     _secondary_motor(secondary_motor_can_id),
     _home_sensor(home_sensor_di_ch),
-    _brake_servo{brake_servo_port},
+    // _brake_servo{brake_servo_port},
     _elevator_pid_controller{elevator_pidc.Kp, elevator_pidc.Ki, elevator_pidc.Kd},
     _elevator_trapezoid{{max_velocity, max_acceleration}},
     _elevator_feed_forward{
@@ -90,11 +90,11 @@ void ElevatorSubsystem::Periodic() {
     }
     PrintTestInfo();
     // If we're climbing, engage the elevator brake
-    if (_climbing) {
+    /*if (_climbing) {
         _brake_servo.Set(RATCHET_ENGAGED);
     } else {
         _brake_servo.Set(RATCHET_DISENGAGED);
-    }
+    }*/
 }
 
 void ElevatorSubsystem::SetHeight(inch_t height) {
