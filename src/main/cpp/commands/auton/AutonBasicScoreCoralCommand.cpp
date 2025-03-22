@@ -29,7 +29,7 @@ void AutonBasicScoreCoralCommand::Execute() {
             // Set the height of the elevator
             // Once the elevator is at the target height, go to the next state
 
-            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
+            _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
             if (_elevator->AtTargetHeight()) {
                 _auton_score_coral_state = extend_pivot;
             }
@@ -38,7 +38,7 @@ void AutonBasicScoreCoralCommand::Execute() {
             // Set the angle of the pivot
             // Once the pivot is at the target angle, go to the next state
 
-            _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE); 
+            _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE); 
             if (_pivot->AtTargetPosition()) {
                 _auton_score_coral_state = eject_piece;
             }

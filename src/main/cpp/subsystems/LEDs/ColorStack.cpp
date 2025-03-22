@@ -9,9 +9,7 @@ ColorStack::ColorStack(std::vector<frc::Color> colors, int bar_size, units::mete
     _fill_size = fill_size;
     _empty_size = empty_size;
     _gamma = gamma;
-    for (frc::Color color : _colors) {
-        _colors.push_back(_CorrectGamma(color));
-    }
+    
     Reset();
 }
 
@@ -22,14 +20,14 @@ void ColorStack::Reset() {
 }
 
 void ColorStack::ApplyTo(std::span<frc::AddressableLED::LEDData> data) {
-    fmt::println("{}", _leds_placed);
+    //fmt::println("{}", _leds_placed);
     switch (_state) {
         case fill:
             for (size_t i = 0; i < data.size(); i++) {
                 if (i >= data.size() - _leds_placed)
-                    data[i].SetLED(_colors[_GetColorIndex(i)]);
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(i)]));
                 else if (i >= size_t(_falling_led_position) && i < size_t(_falling_led_position) + _fill_size)
-                    data[i].SetLED(_colors[_GetColorIndex(data.size() - _leds_placed - _fill_size + i - _falling_led_position)]);
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(data.size() - _leds_placed - _fill_size + i - size_t(_falling_led_position))]));
                 else
                     data[i].SetLED(frc::Color::kBlack);
             }
@@ -50,9 +48,9 @@ void ColorStack::ApplyTo(std::span<frc::AddressableLED::LEDData> data) {
         case empty:
             for (size_t i = 0; i < data.size(); i++) {
                 if (i < _leds_placed)
-                    data[i].SetLED(_colors[_GetColorIndex(i)]);
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(i)]));
                 else if (i >= size_t(_falling_led_position) && i < size_t(_falling_led_position) + _empty_size)
-                    data[i].SetLED(_colors[_GetColorIndex(_leds_placed  + i - _falling_led_position)]);
+                    data[i].SetLED(_CorrectGamma(_colors[_GetColorIndex(_leds_placed  + i - size_t(_falling_led_position))]));
                 else
                     data[i].SetLED(frc::Color::kBlack);
             }

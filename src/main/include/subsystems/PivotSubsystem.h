@@ -88,8 +88,6 @@ class PivotSubsystem : public frc2::SubsystemBase {
         void _SetPivotAngle(units::degree_t angle);
 
         bool _isHomed = false;
-
-        ElevatorSubsystem* _elevator;
         
         units::degree_t _GetPivotAngle();
         units::degrees_per_second_t _GetPivotVelocity();
@@ -116,6 +114,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         SC_ArmFeedForward _pivot_feed_forward;
+
+        ElevatorSubsystem* _elevator;
 
         units::radians_per_second_t _previous_pivot_velocity = 0_rad_per_s;
 };

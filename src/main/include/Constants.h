@@ -28,14 +28,14 @@ namespace VisionConstants {
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
 
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
-        // SC::SC_CameraConfig{
-        //     "Camera_1",
-        //     frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
-        // },
         SC::SC_CameraConfig{
-            "Camera_2",
+            "Camera_1",
             frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -49.63_deg}},
-        }
+        },
+        // SC::SC_CameraConfig{
+        //     "Camera_2",
+        //     frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
+        // }
     };
 }
 
@@ -284,8 +284,8 @@ namespace ElevatorConstants {
     constexpr units::inch_t CORAL_LEVEL_3 = 39_in;
     constexpr units::inch_t CORAL_LEVEL_4 = 58.5_in;
 
-    constexpr units::inch_t ALGAE_LEVEL_2 = 3_in;
-    constexpr units::inch_t ALGAE_LEVEL_3 = 5_in;
+    constexpr units::inch_t ALGAE_LEVEL_2 = 20_in;
+    constexpr units::inch_t ALGAE_LEVEL_3 = 30_in;
 
     constexpr units::inch_t SAFE_STOW_POSITION = 5_in;
 }

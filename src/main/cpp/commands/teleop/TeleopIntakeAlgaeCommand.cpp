@@ -69,7 +69,7 @@ void TeleopIntakeAlgaeCommand::Execute() {
             // Once the intake has the algae, go to the next state
 
             fmt::println("Intake");
-            _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
 
             //if (_intake->HasAlgae()) {
             //    _auto_intake_algae_state = done;
