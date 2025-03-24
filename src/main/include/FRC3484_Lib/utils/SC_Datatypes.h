@@ -91,6 +91,7 @@ namespace SC
 	typedef struct {
 		std::string_view Camera_Name;
 		frc::Transform3d Camera_Position;
+		bool Camera_Enabled;
 	} SC_CameraConfig;
 
 	// Amp Configurations

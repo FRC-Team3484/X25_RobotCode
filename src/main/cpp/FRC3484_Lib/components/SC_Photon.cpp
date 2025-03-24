@@ -5,8 +5,10 @@ using namespace photon;
 
 SC_Photon::SC_Photon(std::vector<SC::SC_CameraConfig> camera_configs, frc::AprilTagFieldLayout april_tag_layout, photon::PoseStrategy pose_strategy) {
     for (size_t i = 0; i < camera_configs.size(); i++) {
-        _cameras.emplace_back(new PhotonCamera(camera_configs[i].Camera_Name));
-        _pose_estimators.emplace_back(new PhotonPoseEstimator(april_tag_layout, pose_strategy, camera_configs[i].Camera_Position));
+        if (camera_configs[i].Camera_Enabled){
+            _cameras.emplace_back(new PhotonCamera(camera_configs[i].Camera_Name));
+            _pose_estimators.emplace_back(new PhotonPoseEstimator(april_tag_layout, pose_strategy, camera_configs[i].Camera_Position));
+        }
     }
 }
 
