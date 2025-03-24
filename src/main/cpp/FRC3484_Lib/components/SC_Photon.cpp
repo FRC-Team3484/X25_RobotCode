@@ -25,7 +25,7 @@ Pose2d SC_Photon::EstimatePose(Pose2d current_pose) {
         }
 
         if (vision_est.has_value()) {
-            poses.emplace_back(vision_est->estimatedPose.ToPose2d());
+            poses.emplace_back(ConvertPose(vision_est->estimatedPose));
         }
     }
     
@@ -55,4 +55,8 @@ Pose2d SC_Photon::AveragePoses(std::vector<frc::Pose2d> poses) {
 
     int count = poses.size();
     return Pose2d{(x / count), (y / count), Rotation2d(sin_sum, cos_sum)};
+}
+
+Pose2d SC_Photon::ConvertPose(Pose3d pose) {
+    return pose.TransformBy({{0_m, 0_m, 0_m}, {180_deg, 0_deg, 0_deg}}).ToPose2d();
 }

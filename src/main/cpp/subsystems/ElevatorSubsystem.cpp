@@ -117,7 +117,11 @@ bool ElevatorSubsystem::AtTargetHeight() {
 }
 
 bool ElevatorSubsystem::AtSafeStowPosition() {
-    return math::abs(_target_state.position - _GetElevatorHeight()) < SAFE_STOW_POSITION;
+    return _GetElevatorHeight() > SAFE_STOW_POSITION;
+}
+
+bool ElevatorSubsystem::AtExtendedPosition() {
+    return _GetElevatorHeight() > EXTENDED_POSITION;
 }
 
 void ElevatorSubsystem::SetPower(double power) {

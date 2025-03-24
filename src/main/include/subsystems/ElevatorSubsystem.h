@@ -62,6 +62,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         bool AtSafeStowPosition();
 
         /**
+         * Checks if the elevator is at the extended position
+         * 
+         * @return True if the elevator is extended
+         */
+        bool AtExtendedPosition();
+
+        /**
          * Sets the power of the elevator
          * 
          * @param power The power of the elevator, as a double

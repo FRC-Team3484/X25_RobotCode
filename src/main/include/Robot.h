@@ -147,8 +147,8 @@ class Robot : public frc::TimedRobot {
         );
 
         frc2::CommandPtr _drive_state_commands = frc2::cmd::Parallel(
-            #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{_drivetrain, _oi_driver}.ToPtr(),
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED)
+            TeleopDriveCommand{_drivetrain, _oi_driver, _elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
@@ -182,7 +182,7 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _score_coral_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if  defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
+            #if  defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
             TeleopScoreCoralCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
@@ -199,8 +199,8 @@ class Robot : public frc::TimedRobot {
             #ifdef PIVOT_ENABLED
             TestPivotCommand{_pivot, _oi_testing}.ToPtr(),
             #endif
-            #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{_drivetrain, _oi_driver}.ToPtr(),
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED)
+            TeleopDriveCommand{_drivetrain, _oi_driver, _elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );

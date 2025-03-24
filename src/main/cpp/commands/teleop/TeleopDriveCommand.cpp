@@ -15,8 +15,8 @@ using namespace SwerveConstants::AutonDriveConstants;
 using namespace SwerveConstants::BrakeConstants;
 using namespace SwerveConstants::DrivetrainConstants::JoystickScaling;
 
-TeleopDriveCommand::TeleopDriveCommand(DrivetrainSubsystem* drivetrain, Driver_Interface* oi) 
-    : _drivetrain{drivetrain}, _oi{oi} {
+TeleopDriveCommand::TeleopDriveCommand(DrivetrainSubsystem* drivetrain, Driver_Interface* oi, ElevatorSubsystem* elevator) 
+    : _drivetrain{drivetrain}, _oi{oi}, _elevator{elevator} {
     AddRequirements(_drivetrain);
 }
 
@@ -52,7 +52,7 @@ void TeleopDriveCommand::Execute() {
 
                     auto alliance = DriverStation::GetAlliance();
                     units::meter_t direction = -1_m;
-                    if (alliance && alliance == DriverStation::Alliance::kRed) {
+                    if (alliance && alliance.value() == DriverStation::Alliance::kRed) {
                         direction = 1_m;
                     }
                     _pivot_drive = {_oi->GetThrottle()*direction, _oi->GetStrafe()*direction};
@@ -78,12 +78,21 @@ void TeleopDriveCommand::Execute() {
                     );
                     
                 } else if (_oi->RawPOV() >= 0) {
+                    if (!_elevator->AtExtendedPosition()){
                     _drivetrain->DriveRobotcentric(
                         ChassisSpeeds{
                             units::math::cos(degree_t{double(_oi->RawPOV())})*LOW_SCALE*1_mps, 
                             units::math::sin(degree_t{double(_oi->RawPOV())})*LOW_SCALE*-1_mps, 
                             0_rad_per_s}, 
+                        true);}
+                        else {
+                            _drivetrain->DriveRobotcentric(
+                        ChassisSpeeds{
+                            units::math::cos(degree_t{double(_oi->RawPOV())})*JOG_SCALE*1_mps, 
+                            units::math::sin(degree_t{double(_oi->RawPOV())})*JOG_SCALE*-1_mps, 
+                            0_rad_per_s}, 
                         true);
+                        }
                 } else {
                     // Logic for actual joystick movements
 
@@ -91,14 +100,14 @@ void TeleopDriveCommand::Execute() {
                     meters_per_second_t y_speed = -_oi->GetStrafe() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
                     radians_per_second_t rotation = _oi->GetRotation() * MAX_ROTATION_SPEED;
 
-                    if (_oi->LowSpeed()) {
+                    if (_oi->LowSpeed() || _elevator->AtExtendedPosition()) {
                         x_speed *= LOW_SCALE;
                         y_speed *= LOW_SCALE;
                         rotation *= LOW_SCALE;
                     }
 
                     auto alliance = DriverStation::GetAlliance();
-                    if (alliance && alliance == DriverStation::Alliance::kRed) {
+                    if (alliance && alliance.value() == DriverStation::Alliance::kRed) {
                         x_speed *= -1;
                         y_speed *= -1;
                     }

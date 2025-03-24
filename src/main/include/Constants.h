@@ -31,7 +31,7 @@ namespace VisionConstants {
         SC::SC_CameraConfig{
             "Camera_1",
             frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -49.63_deg}},
-        },
+        }
         // SC::SC_CameraConfig{
         //     "Camera_2",
         //     frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 37.17_deg}},
@@ -111,7 +111,7 @@ namespace SwerveConstants {
 
         namespace JoystickScaling {
             constexpr double LOW_SCALE = 0.35;
-            constexpr double JOG_SCALE = 0.20;
+            constexpr double JOG_SCALE = 0.25;
         }
 
     }
@@ -288,6 +288,7 @@ namespace ElevatorConstants {
     constexpr units::inch_t ALGAE_LEVEL_3 = 30_in;
 
     constexpr units::inch_t SAFE_STOW_POSITION = 5_in;
+    constexpr units::inch_t EXTENDED_POSITION = 30_in;
 }
 
 namespace IntakeConstants {
@@ -333,7 +334,7 @@ namespace PivotConstants {
     constexpr units::degree_t TRAVEL_POSITION = 140_deg;
     constexpr units::degree_t INTAKE_POSITION = 122_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 140_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 160_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 150_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
 }
@@ -358,7 +359,7 @@ namespace LEDConstants {
     constexpr frc::Color DRIVE_ORANGE {"#FF8200"};
     constexpr frc::Color CORAL_PINK {"#FF0091"};
     constexpr frc::Color FIRE_RED {frc::Color::kRed};
-    const std::vector<frc::Color> COLORS = {TEAM_BLUE, DRIVE_ORANGE, CORAL_PINK};
+    const std::vector<frc::Color> COLORS = {DRIVE_ORANGE, TEAM_BLUE, CORAL_PINK};
     constexpr double GAMMA = 2.2;
     constexpr units::second_t PIVOT_ANIMATION_TIME = 0.8_s;
     constexpr int BAR_SIZE = 12;
