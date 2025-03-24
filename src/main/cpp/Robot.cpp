@@ -237,6 +237,8 @@ void Robot::LedPeriodic() {
     else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation(); 
     else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
+    else if (_oi_operator->GetClimbUp()) _leds->ClimbAnimation();
+    else if (_operator_drive_robot_state = stow) _leds->ElevatorHomingAnimation();
     else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
         _leds->PathAnimation();
     } else if (_operator_drive_robot_state == manual_score_coral || _operator_drive_robot_state == manual_score_processor || _operator_drive_robot_state == auto_score_reef_operator || _operator_drive_robot_state == auto_score_processor_operator) {

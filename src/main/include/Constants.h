@@ -372,6 +372,7 @@ namespace LEDConstants {
     constexpr units::second_t SCORING_BLUE_ON_TIME = 0.6_s;
     constexpr units::second_t SCORING_BLUE_OFF_TIME = 0.2_s;
     constexpr units::second_t LOW_BATTERY_CYCLE_TIME = 2_s;
+    constexpr units::second_t ELEVATOR_HOME_CYCLE_TIME = 1.5_s;
 }
 
 #endif
