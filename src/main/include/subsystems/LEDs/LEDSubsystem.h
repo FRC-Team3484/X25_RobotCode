@@ -37,6 +37,10 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void ScoringAnimation();
 
+        void ClimbAnimation();
+
+        void ElevatorHomingAnimation();
+
         void HasAlgaeAnimation();
 
         void HasCoralAnimation();
@@ -74,6 +78,10 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::LEDPattern _scoring_blue;
 
         frc::LEDPattern _low_battery;
+
+        frc::LEDPattern _elevator_home;
+
+        frc::LEDPattern _climb_mask;
 
 
 };

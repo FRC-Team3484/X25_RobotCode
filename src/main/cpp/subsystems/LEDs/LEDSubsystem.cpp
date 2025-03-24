@@ -14,10 +14,13 @@ LEDSubsystem::LEDSubsystem(
     _solid_pink{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::CORAL_PINK, LEDConstants::GAMMA))},
     _solid_blue{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::TEAM_BLUE, LEDConstants::GAMMA))},
     _solid_red{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::FIRE_RED, LEDConstants::GAMMA))},
+
     _step_orange{_solid_orange.Mask(_scrolling_step)},
     _progress_orange{_solid_orange.Mask(_progress_bar)},
     _scoring_blue{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
-    _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)}
+    _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)},
+    _elevator_home{_solid_green.Breathe(LEDConstants::ELEVATOR_HOME_CYCLE_TIME)},
+    _climb_mask{_solid_blue.Mask(_progress_bar)}
     {
     _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData());
     _bottom_leds = std::span<frc::AddressableLED::LEDData>(_led_buffer).first(led_strip_length / 2);
@@ -58,6 +61,7 @@ void LEDSubsystem::SandAnimation() {
     _leds.SetData(_led_buffer);
 }
 
+//signifies low robot battery before match
 void LEDSubsystem::LowBatteryAnimation() {
     _low_battery.ApplyTo(_bottom_leds);
     _low_battery.ApplyTo(_top_leds);
@@ -65,14 +69,14 @@ void LEDSubsystem::LowBatteryAnimation() {
     _leds.SetData(_led_buffer);
 }
 
-// solid color (Orange #ff8200)
+// solid color for driving (Orange #ff8200)
 void LEDSubsystem::DrivingAnimation() {
     _solid_orange.ApplyTo(_led_buffer);
     _leds.SetData(_led_buffer);
 }
 
 
-// panning mask
+// path following panning mask
 void LEDSubsystem::PathAnimation() {
     _step_orange.ApplyTo(_bottom_leds);
     _step_orange.ApplyTo(_top_leds);
@@ -80,7 +84,7 @@ void LEDSubsystem::PathAnimation() {
     _leds.SetData(_led_buffer);
 }
 
-// mask
+// dynamic pivot mask
 void LEDSubsystem::PivotAnimation() {
     _progress_orange.ApplyTo(_bottom_leds);
     _progress_orange.ApplyTo(_top_leds);
@@ -91,6 +95,22 @@ void LEDSubsystem::PivotAnimation() {
 // Breathe (Blinks Blue #009bb4)
 void LEDSubsystem::ScoringAnimation() {
     _scoring_blue.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
+}
+
+//team color mask
+void LEDSubsystem::ClimbAnimation() {
+    _climb_mask.ApplyTo(_bottom_leds);
+    _climb_mask.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
+    _leds.SetData(_led_buffer);
+}
+
+//Green #10f01a Homing Indicator
+void LEDSubsystem::ElevatorHomingAnimation() {
+    _elevator_home.ApplyTo(_bottom_leds);
+    _elevator_home.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
