@@ -27,6 +27,9 @@ namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
     constexpr photon::PoseStrategy POSE_STRATEGY = photon::PoseStrategy::MULTI_TAG_PNP_ON_COPROCESSOR;
 
+    const Eigen::Matrix<double, 3, 1> SINGLE_TAG_STDDEV{4, 4, 8};
+    const Eigen::Matrix<double, 3, 1> MULTI_TAG_STDDEV{0.5, 0.5, 1};
+
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{
             "Camera_1",
