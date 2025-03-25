@@ -2,7 +2,6 @@
 #define OI_H
 
 #include "Constants.h"
-#include "Datatypes.h"
 #include <frc/XboxController.h>
 
 /**
@@ -48,12 +47,10 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
-        ReefAlignment GetReefAlignment();
         int GetReefLevel();
+        bool GetAlgaeOrCoral();
+
         
-        bool GetProcessor();
-        bool GetClimbUp();
-        bool GetClimbDown();
         bool GetConfirmManualScore();
         bool GetIgnoreVision();
         bool GetLoadCoral();

@@ -46,21 +46,11 @@ Operator_Interface::Operator_Interface(){}
 void Operator_Interface::SetRumble(double Rumble) {_operator_controller.SetRumble(frc::GenericHID::kBothRumble, Rumble);}
 bool Operator_Interface::IgnoreVision(){return _operator_controller.GetRawButton(IGNORE_VISION);} /*Make this a button later*/
 
-ReefAlignment Operator_Interface::GetReefAlignment() {
-    if (_operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT)) {
-        return left;
-    } else if (_operator_controller.GetRawButton(CORAL_LEVEL_4_RIGHT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_RIGHT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_RIGHT)) {
-        return right;
-    } else {
-        return center;
-    }
-}
-
-int Operator_Interface::GetReefLevel() {if (_operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_4_RIGHT)) {
+int Operator_Interface::GetReefLevel() {if (_operator_controller.GetRawButton(CORAL_LEVEL_4)) {
         return 4;
-    } else if(_operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_RIGHT)) {
+    } else if(_operator_controller.GetRawButton(CORAL_LEVEL_3)  || _operator_controller.GetRawButton(ALGAE_LEVEL_3)) {
         return 3;
-    } else if(_operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_RIGHT) || _operator_controller.GetRawButton(ALGAE_LEVEL_2)) {
+    } else if(_operator_controller.GetRawButton(CORAL_LEVEL_2) || _operator_controller.GetRawButton(ALGAE_LEVEL_2)) {
         return 2;
     } else if (_operator_controller.GetRawButton(CORAL_LEVEL_1)) {
         return 1;
@@ -69,9 +59,15 @@ int Operator_Interface::GetReefLevel() {if (_operator_controller.GetRawButton(CO
     }
 }
 
-bool Operator_Interface::GetClimbUp() {return _operator_controller.GetRawButton(CLIMB_UP);}
-bool Operator_Interface::GetClimbDown() {return _operator_controller.GetRawButton(CLIMB_DOWN);}
-bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE) || _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE_TWO);}
+bool Operator_Interface::GetAlgaeOrCoral() {
+    if (_operator_controller.GetRawButton(ALGAE_LEVEL_3) || _operator_controller.GetRawButton(ALGAE_LEVEL_2)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButton(LOAD_CORAL);}
 bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}

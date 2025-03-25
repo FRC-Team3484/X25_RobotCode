@@ -193,11 +193,11 @@ namespace UserInterface {
     namespace Operator {
         #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
-        constexpr int CORAL_LEVEL_4_LEFT = 17;
+        constexpr int CORAL_LEVEL_4 = 17;
         //constexpr int CORAL_LEVEL_4_RIGHT = 8;
-        constexpr int CORAL_LEVEL_3_LEFT = 19;
+        constexpr int CORAL_LEVEL_3 = 19;
         //constexpr int CORAL_LEVEL_3_RIGHT = 7;
-        constexpr int CORAL_LEVEL_2_LEFT = 20;
+        constexpr int CORAL_LEVEL_2 = 20;
         //constexpr int CORAL_LEVEL_2_RIGHT = 21; //6
         constexpr int CORAL_LEVEL_1 = 11;
 
