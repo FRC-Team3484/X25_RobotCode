@@ -195,7 +195,6 @@ void Robot::LedPeriodic() {
     else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation(); 
     else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
-    else if (_oi_operator->GetClimbUp()) _leds->ClimbAnimation();
     else if (_operator_drive_robot_state == stow) _leds->ElevatorHomingAnimation();
     else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
         _leds->PathAnimation();
@@ -233,10 +232,8 @@ void Robot::CancelOperatorCommands() {
     _climb_up_state_commands.Cancel();
 }
 bool Robot::GetLoadCoralCondition(){return _oi_operator->GetLoadCoral()  && (!_intake->CoralLow());}
-bool Robot::GetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel() == 2 || _oi_operator->GetReefLevel() == 3) && _oi_operator->GetReefAlignment() == ReefAlignment::center) ; /*&& (!_intake->HasAlgae());*/}
-bool Robot::GetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && !(_oi_operator->GetReefAlignment() == ReefAlignment::center)) ); /*&& (_intake->HasCoral());*/}
-//bool Robot::GetScoreProcessorCondition(){return _oi_operator->GetProcessor()  && (_intake->HasAlgae());}
-bool Robot::GetClimbUpCondition(){return _oi_operator->GetClimbUp() ;}
+bool Robot::GetRemoveAlgaeCondition(){return ((_oi_operator->GetReefLevel() == 2 || _oi_operator->GetReefLevel() == 3) && !_oi_operator->GetAlgaeOrCoral());}
+bool Robot::GetScoreReefCondition(){return ((!(_oi_operator->GetReefLevel() == 0) && (_oi_operator->GetAlgaeOrCoral())) );}
 
 void Robot::ResetAllSubsystems() {
     frc2::CommandScheduler::GetInstance().CancelAll();
