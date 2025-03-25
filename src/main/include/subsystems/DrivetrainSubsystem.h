@@ -15,7 +15,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc2/command/CommandPtr.h>
@@ -108,6 +108,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @return True if the robot is near the target position
          */
         bool GetNearTargetPosition();
+
+        
         
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
@@ -123,7 +125,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
-        frc::SwerveDriveOdometry<4>* _odometry;
+        frc::SwerveDrivePoseEstimator<4>* _odometry;
 
         frc::Field2d _field;
 

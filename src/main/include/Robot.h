@@ -63,16 +63,11 @@ class Robot : public frc::TimedRobot {
 
         void LedPeriodic();
 
-        bool AutoGetLoadCoralCondition();
-        bool AutoGetRemoveAlgaeCondition();
-        bool AutoGetScoreReefCondition();
-        //bool AutoGetScoreProcessorCondition();
-
-        bool ManualGetLoadCoralCondition();
-        bool ManualGetRemoveAlgaeCondition();
-        bool ManualGetScoreReefCondition();
-        //bool ManualGetScoreProcessorCondition();
-        bool ManualGetClimbUpCondition();
+        bool GetLoadCoralCondition();
+        bool GetRemoveAlgaeCondition();
+        bool GetScoreReefCondition();
+        //bool GetScoreProcessorCondition();
+        bool GetClimbUpCondition();
 
         void ResetAllSubsystems();
 
@@ -216,16 +211,11 @@ class Robot : public frc::TimedRobot {
 
         enum operator_states {
             stow,
-            manual_score_coral,
-            manual_score_processor, 
-            manual_remove_algae,
-            manual_pickup_coral,
-            climb_up,
-            climb_down,
-            auto_pickup_coral_operator, 
-            auto_pickup_algae_operator,
-            auto_score_reef_operator, 
-            auto_score_processor_operator
+            score_coral,
+            score_processor, 
+            remove_algae,
+            pickup_coral,
+            climb_up
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;
 
