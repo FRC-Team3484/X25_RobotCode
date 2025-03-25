@@ -4,7 +4,7 @@
 
 // Drivetrain and odometry
 #define DRIVETRAIN_ENABLED
-// #define VISION_ENABLED
+#define VISION_ENABLED
 
 
 // Subsystems

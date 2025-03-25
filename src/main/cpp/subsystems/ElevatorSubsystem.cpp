@@ -117,7 +117,7 @@ bool ElevatorSubsystem::AtTargetHeight() {
 }
 
 bool ElevatorSubsystem::AtSafeStowPosition() {
-    return _GetElevatorHeight() > SAFE_STOW_POSITION;
+    return _GetElevatorHeight() < SAFE_STOW_POSITION;
 }
 
 bool ElevatorSubsystem::AtExtendedPosition() {
