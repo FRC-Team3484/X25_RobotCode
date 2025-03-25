@@ -194,20 +194,20 @@ namespace UserInterface {
         #ifdef OPERATOR_BUTTON_BOX
         constexpr int OPERATOR_CONTROLLER_PORT = 1;
         constexpr int CORAL_LEVEL_4_LEFT = 17;
-        constexpr int CORAL_LEVEL_4_RIGHT = 8;
+        //constexpr int CORAL_LEVEL_4_RIGHT = 8;
         constexpr int CORAL_LEVEL_3_LEFT = 19;
-        constexpr int CORAL_LEVEL_3_RIGHT = 7;
+        //constexpr int CORAL_LEVEL_3_RIGHT = 7;
         constexpr int CORAL_LEVEL_2_LEFT = 20;
-        constexpr int CORAL_LEVEL_2_RIGHT = 6;
+        //constexpr int CORAL_LEVEL_2_RIGHT = 21; //6
         constexpr int CORAL_LEVEL_1 = 11;
 
         constexpr int ALGAE_LEVEL_3 = 16;
         constexpr int ALGAE_LEVEL_2 = 9;
 
-        constexpr int CONFIRM_MANUAL_SCORE_TWO = 5;
-        constexpr int CONFIRM_MANUAL_SCORE = 21;
-        constexpr int CLIMB_UP = 14;
-        constexpr int CLIMB_DOWN = 18;
+        //constexpr int CONFIRM_MANUAL_SCORE_TWO = 5;
+        constexpr int CONFIRM_MANUAL_SCORE = 6; //21
+        //constexpr int CLIMB_UP = 14;
+        //constexpr int CLIMB_DOWN = 18;
         constexpr int IGNORE_VISION = 2;
         constexpr int LOAD_CORAL = 4;
         constexpr int RESET = 13;
