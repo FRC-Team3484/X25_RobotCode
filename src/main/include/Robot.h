@@ -66,8 +66,6 @@ class Robot : public frc::TimedRobot {
         bool GetLoadCoralCondition();
         bool GetRemoveAlgaeCondition();
         bool GetScoreReefCondition();
-        //bool GetScoreProcessorCondition();
-        bool GetClimbUpCondition();
 
         void ResetAllSubsystems();
 
@@ -214,10 +212,8 @@ class Robot : public frc::TimedRobot {
         enum operator_states {
             stow,
             score_coral,
-            score_processor, 
             remove_algae,
-            pickup_coral,
-            climb_up
+            pickup_coral
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;
 

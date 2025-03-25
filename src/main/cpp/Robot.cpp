@@ -135,7 +135,6 @@ void Robot::OperatorPeriodic() {
     switch (_operator_drive_robot_state)
     {
         case stow:
-            
             if (GetLoadCoralCondition()) {
                 CancelOperatorCommands();
                 _intake_coral_commands.Schedule();
@@ -146,43 +145,21 @@ void Robot::OperatorPeriodic() {
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = score_coral;
-            // } else if (GetScoreProcessorCondition()) {
-            //     CancelOperatorCommands();
-            //     _processor_commands.Schedule();
-
-            //     _operator_drive_robot_state = score_processor;
             } else if (GetRemoveAlgaeCondition()) {
                 CancelOperatorCommands();
                 _score_coral_commands.Schedule();
 
                 _operator_drive_robot_state = remove_algae;
-            } else if (GetClimbUpCondition()) {
-                CancelOperatorCommands();
-                _climb_up_state_commands.Schedule();
-
-                _operator_drive_robot_state = climb_up;
             }
             break;
         case pickup_coral:
             if (!GetLoadCoralCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
         case score_coral:
-            
             if (!GetScoreReefCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
-
-        case score_processor:
-
-        //    if (!GetScoreProcessorCondition()) {CancelOperatorCommands(); StartOperatorState();}
-            CancelOperatorCommands(); StartOperatorState();
-            break;
-
         case remove_algae:
             if (!GetRemoveAlgaeCondition()) {CancelOperatorCommands(); StartOperatorState();}
-            break;
-
-        case climb_up:
-            if (!GetClimbUpCondition()) {CancelOperatorCommands(); StartOperatorState();}
             break;
             
         default:
@@ -198,7 +175,7 @@ void Robot::LedPeriodic() {
     else if (_operator_drive_robot_state == stow) _leds->ElevatorHomingAnimation();
     else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
         _leds->PathAnimation();
-    } else if (_operator_drive_robot_state == score_coral || _operator_drive_robot_state == score_processor) {
+    } else if (_operator_drive_robot_state == score_coral) {
         _leds->ScoringAnimation();
     }
 }
