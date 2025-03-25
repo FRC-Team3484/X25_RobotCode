@@ -255,7 +255,7 @@ int DrivetrainSubsystem::CheckNotNullModule() {
     return counter;
 }
 
-void DrivetrainSubsystem::GoToPose(Pose2d pose) {
+frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
 
     std::vector<frc::Pose2d> poses{GetPose(), pose};
@@ -268,10 +268,11 @@ void DrivetrainSubsystem::GoToPose(Pose2d pose) {
         GoalEndState(0.0_mps, pose.Rotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
     );
 
+    path->preventFlipping = true;
+
     _target_position = pose;
 
-    frc2::CommandPtr go_to_path_command = AutoBuilder::followPath(path);
-    // go_to_path_command.Schedule();
+    return frc2::cmd::Sequence(AutoBuilder::followPath(path), this->RunOnce([this] {StopMotors();}));
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
@@ -282,27 +283,18 @@ frc::Pose2d DrivetrainSubsystem::ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d
     return frc::Pose2d{pose.Translation() + offset.Translation().RotateBy(pose.Rotation()), pose.Rotation() + offset.Rotation()};
 }
 
-frc::Pose2d DrivetrainSubsystem::GetClosestReefSide(ReefAlignment reef_offset) {
+frc::Pose2d DrivetrainSubsystem::GetClosestReefSide() {
     std::vector<Pose2d> poses;
     frc::Pose2d offset_pose;
 
     for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
         if (std::find(std::begin(REEF_APRIL_TAGS), std::end(REEF_APRIL_TAGS), tag.ID) != std::end(REEF_APRIL_TAGS)) {
-            poses.emplace_back(tag.pose.ToPose2d());
+            poses.emplace_back(ApplyOffsetToPose(tag.pose.ToPose2d(), LEFT_REEF_OFFSET));
+            poses.emplace_back(ApplyOffsetToPose(tag.pose.ToPose2d(), RIGHT_REEF_OFFSET));
         }
     }
 
-    frc::Pose2d closest = GetNearestPose(poses);
-
-    if (reef_offset == ReefAlignment::left) {
-        offset_pose = ApplyOffsetToPose(closest, LEFT_REEF_OFFSET);
-    } else if (reef_offset == ReefAlignment::center) {
-        offset_pose = ApplyOffsetToPose(closest, CENTER_REEF_OFFSET);
-    } else if (reef_offset == ReefAlignment::right) {
-        offset_pose = ApplyOffsetToPose(closest, RIGHT_REEF_OFFSET);
-    }
-
-    return offset_pose;
+    return GetNearestPose(poses);
 }
 
 frc::Pose2d DrivetrainSubsystem::GetClosestFeederStation() {
@@ -319,7 +311,6 @@ frc::Pose2d DrivetrainSubsystem::GetClosestFeederStation() {
 }
 
 frc::Pose2d DrivetrainSubsystem::GetClosestProcessor() {
-    // TODO: Are we facing the correct direction?
     std::vector<Pose2d> poses;
 
     for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {

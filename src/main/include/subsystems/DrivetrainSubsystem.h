@@ -54,7 +54,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @param pose The pose to drive to
          * @return A command that will drive the robot to the given pose
          */
-        void GoToPose(frc::Pose2d pose);
+        frc2::CommandPtr GoToPose(frc::Pose2d pose);
 
         /**
          * Returns the nearest pose to the robot from a vector of poses
@@ -76,10 +76,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         /**
          * Returns the pose of the closest reef side
          * 
-         * @param reef_offset The left or the right side of the reef to align to
          * @return The pose of the closest reef side
          */
-        frc::Pose2d GetClosestReefSide(ReefAlignment reef_offset);
+        frc::Pose2d GetClosestReefSide();
         
         /**
          * Returns the pose of the closest feeder station, including which side (offset) is closest (either left or right)

@@ -93,19 +93,22 @@ void Robot::TeleopPeriodic() {
                 _driver_robot_state = auto_pickup_coral_driver;
                 CancelDriverCommands();
 
-                _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation());
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation());
+                _go_to_pose_command.Schedule();
 
-            } else if ((_oi_driver->GetScoreReef() || _oi_driver->GetAlgaePickup()) && _oi_operator->GetReefLevel() != 0) {
+            } else if ((_oi_driver->GetScoreReef() || _oi_driver->GetAlgaePickup())) {
                 _driver_robot_state = auto_reef_driver;
                 CancelDriverCommands();
 
-                _drivetrain->GoToPose(_drivetrain->GetClosestReefSide(_oi_operator->GetReefAlignment()));
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestReefSide());
+                _go_to_pose_command.Schedule();
 
             } else if (_oi_driver->GetScoreProcessor()) {
                 _driver_robot_state = auto_score_processor_driver;
                 CancelDriverCommands();
 
-                _drivetrain->GoToPose(_drivetrain->GetClosestProcessor());
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestProcessor());
+                _go_to_pose_command.Schedule();
             }
             break;
 
@@ -206,6 +209,9 @@ void Robot::StartDriveState() {
     _driver_robot_state = drive;
     if(!_drive_state_commands.IsScheduled())
         _drive_state_commands.Schedule();
+    
+    if (_go_to_pose_command.IsScheduled())
+        _go_to_pose_command.Cancel();
 }
 
 // This functiion is called to enter the stow state in teleop (the default state)

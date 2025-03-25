@@ -200,6 +200,8 @@ class Robot : public frc::TimedRobot {
             frc2::cmd::None()
         );
 
+        frc2::CommandPtr _go_to_pose_command = frc2::cmd::None();
+
         // State machine
         enum driver_states {
             drive,
