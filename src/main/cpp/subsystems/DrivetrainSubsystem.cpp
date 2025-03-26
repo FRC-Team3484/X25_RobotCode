@@ -1,5 +1,6 @@
 #include "subsystems/DrivetrainSubsystem.h"
 
+#include "commands/auton/FinalAlignmentCommand.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 //Path Planner Paths
@@ -276,7 +277,10 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
 
     _target_position = pose;
 
-    return frc2::cmd::Sequence(AutoBuilder::followPath(path), this->RunOnce([this] {StopMotors();}));
+    return frc2::cmd::Sequence(
+        AutoBuilder::followPath(path), 
+        FinalAlignmentCommand{this, pose}.ToPtr(),
+        this->RunOnce([this] {StopMotors();}));
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
