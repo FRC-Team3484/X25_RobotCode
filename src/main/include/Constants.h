@@ -151,6 +151,9 @@ namespace SwerveConstants {
         constexpr frc::Pose2d STARTING_POSITION_A = frc::Pose2d{frc::Translation2d{48_in, 24_in}, frc::Rotation2d{0_deg}};
         constexpr frc::Pose2d STARTING_POSITION_B = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
         constexpr frc::Pose2d STARTING_POSITION_C = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+
+        constexpr units::inch_t GO_TO_POSE_TOLERANCE = 2_in;
+        constexpr frc::Pose2d GO_TO_POSE_OFFSET = frc::Pose2d{-6_in, 0_in, 0_deg};
     }
 
     namespace PathDrivePIDConstants {

@@ -21,7 +21,7 @@ TeleopDriveCommand::TeleopDriveCommand(DrivetrainSubsystem* drivetrain, Driver_I
 }
 
 void TeleopDriveCommand::Initialize() {
-    _drivetrain->SetBrakeMode();
+    //_drivetrain->SetBrakeMode();
 
     alliance = frc::DriverStation::GetAlliance();
     if (!alliance.has_value()) {
