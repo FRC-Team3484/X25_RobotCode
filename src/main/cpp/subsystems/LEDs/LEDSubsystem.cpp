@@ -16,14 +16,17 @@ LEDSubsystem::LEDSubsystem(
     _solid_red{frc::LEDPattern::Solid(SC_GammaCorrection(LEDConstants::FIRE_RED, LEDConstants::GAMMA))},
 
     _step_orange{_solid_orange.Mask(_scrolling_step)},
-    _progress_orange{_solid_orange.Mask(_progress_bar)},
+    _progress_orange{_solid_orange.Mask(_progress_bar_orange)},
     _scoring_one_blue{_solid_blue.Mask(_score_one_mask)},
-    _scoring_two_blue{},
-    _scoring_three_blue{},
-    _scoring_four_blue{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _level_one_blink{_score_one_mask.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _scoring_two_blue{_solid_blue.Mask(_score_two_mask)},
+    _level_two_blink{_score_two_mask.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _scoring_three_blue{_solid_blue.Mask(_score_three_mask)},
+    _level_three_blink{_score_three_mask.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _level_four_blink{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
     _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)},
-    _elevator_home{_solid_green.Breathe(LEDConstants::ELEVATOR_HOME_CYCLE_TIME)},
-    _climb_mask{_solid_blue.Mask(_progress_bar)}
+    _climb_mask{_solid_blue.Mask(_progress_bar_blue)},
+    _elevator_home{_solid_green.Breathe(LEDConstants::ELEVATOR_HOME_CYCLE_TIME)}
     {
     _led_buffer.assign(led_strip_length, frc::AddressableLED::LEDData());
     _bottom_leds = std::span<frc::AddressableLED::LEDData>(_led_buffer).first(led_strip_length / 2);
@@ -97,25 +100,31 @@ void LEDSubsystem::PivotAnimation() {
 
 // Breathe (Blinks Blue #009bb4) for level 1
 void LEDSubsystem::ScoringLevelOneAnimation() {
-    _scoring_blue.ApplyTo(_led_buffer);
+    _level_one_blink.ApplyTo(_bottom_leds);
+    _level_one_blink.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // Breathe (Blinks Blue #009bb4) for level 2
 void LEDSubsystem::ScoringLevelTwoAnimation() {
-    _scoring_blue.ApplyTo(_led_buffer);
+    _level_two_blink.ApplyTo(_bottom_leds);
+    _level_two_blink.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // Breathe (Blinks Blue #009bb4) for level 3
 void LEDSubsystem::ScoringLevelThreeAnimation() {
-    _scoring_blue.ApplyTo(_led_buffer);
+    _level_three_blink.ApplyTo(_bottom_leds);
+    _level_three_blink.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }
 
 // Breathe (Blinks Blue #009bb4) for level 4
 void LEDSubsystem::ScoringLevelFourAnimation() {
-    _scoring_blue.ApplyTo(_led_buffer);
+    _level_four_blink.ApplyTo(_led_buffer);
     _leds.SetData(_led_buffer);
 }
 

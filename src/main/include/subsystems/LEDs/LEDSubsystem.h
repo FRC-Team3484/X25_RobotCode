@@ -35,7 +35,13 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void PivotAnimation();
 
-        void ScoringAnimation();
+        void ScoringLevelOneAnimation();
+
+        void ScoringLevelTwoAnimation();
+
+        void ScoringLevelThreeAnimation();
+
+        void ScoringLevelFourAnimation();
 
         void ClimbAnimation();
 
@@ -71,29 +77,33 @@ class LEDSubsystem : public frc2::SubsystemBase {
         frc::LEDPattern _scrolling_step = frc::LEDPattern::Steps(step_mask).ScrollAtAbsoluteSpeed(1.0_mps, LEDConstants::LED_SPACING);
         frc::LEDPattern _step_orange;
 
-        frc::LEDPattern _progress_bar = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
+        frc::LEDPattern _progress_bar_orange = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
         double _PivotAnimationProgress(); 
         frc::LEDPattern _progress_orange;
 
-        std::array<std::pair<double, frc::Color>, 2> first_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}};
-        frc::LEDPattern _score_one_mask = frc::LEDPattern::Mask(first_level);
+        std::array<std::pair<double, frc::Color>, 3> first_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}};
+        frc::LEDPattern _score_one_mask = frc::LEDPattern::Steps(first_level).ScrollAtAbsoluteSpeed(0.0_mps, LEDConstants::LED_SPACING);
         frc::LEDPattern _scoring_one_blue;
+        frc::LEDPattern _level_one_blink;
 
-        std::array<std::pair<double, frc::Color>, 2> second_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.2, frc::Color::kWhite}, std::pair{0.4, frc::Color::kBlack}, std::pair{0.6, frc::Color::kWhite}, std::pair{0.8, frc::Color::kBlack},};
-        frc::LEDPattern _score_two_mask;
+        std::array<std::pair<double, frc::Color>, 5> second_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.2, frc::Color::kWhite}, std::pair{0.4, frc::Color::kBlack}, std::pair{0.6, frc::Color::kWhite}, std::pair{0.8, frc::Color::kBlack},};
+        frc::LEDPattern _score_two_mask = frc::LEDPattern::Steps(second_level).ScrollAtAbsoluteSpeed(0.0_mps, LEDConstants::LED_SPACING);
         frc::LEDPattern _scoring_two_blue;
+        frc::LEDPattern _level_two_blink;
 
-        std::array<std::pair<double, frc::Color>, 2> third_level{std::pair{0.0, frc::Color::kWhite}, std::pair{0.2, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}, std::pair{0.8, frc::Color::kWhite},};
-        frc::LEDPattern _score_three_mask;
+        std::array<std::pair<double, frc::Color>, 5> third_level{std::pair{0.0, frc::Color::kWhite}, std::pair{0.2, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}, std::pair{0.8, frc::Color::kWhite},};
+        frc::LEDPattern _score_three_mask= frc::LEDPattern::Steps(third_level).ScrollAtAbsoluteSpeed(0.0_mps, LEDConstants::LED_SPACING);
         frc::LEDPattern _scoring_three_blue;
+        frc::LEDPattern _level_three_blink;
 
-        frc::LEDPattern _scoring_four_blue;
+        frc::LEDPattern _level_four_blink;
 
         frc::LEDPattern _low_battery;
 
-        frc::LEDPattern _elevator_home;
-
+        frc::LEDPattern _progress_bar_blue = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
         frc::LEDPattern _climb_mask;
+        
+        frc::LEDPattern _elevator_home;
 
 
 };
