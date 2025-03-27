@@ -1,5 +1,9 @@
 #include "commands/auton/FinalAlignmentCommand.h"
+#include <units/math.h>
 #include "Constants.h"
+
+using namespace SwerveConstants::DrivetrainConstants;
+using namespace units::math;
 
 FinalAlignmentCommand::FinalAlignmentCommand(
     DrivetrainSubsystem* drivetrain_subsystem,
@@ -27,5 +31,7 @@ void FinalAlignmentCommand::End(bool interrupted) {
 }
 
 bool FinalAlignmentCommand::IsFinished() {
-	return _counter > 35;
+	return _counter > FINAL_ALIGN_EXIT || 
+	(_drivetrain_subsystem->GetPose().Translation().Distance(_target_pose.Translation()) < FINAL_POSE_TOLERANCE && 
+	abs(_drivetrain_subsystem->GetPose().Rotation().Degrees() - _target_pose.Rotation().Degrees()) < FINAL_ANGLE_TOLERANCE);
 }
