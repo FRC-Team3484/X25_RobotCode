@@ -178,8 +178,14 @@ void Robot::LedPeriodic() {
     else if (_driver_robot_state == drive && _operator_drive_robot_state == stow) _leds->ElevatorHomingAnimation();
     else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
         _leds->PathAnimation();
-    } else if (_operator_drive_robot_state == score_coral) {
+    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 4) {
         _leds->ScoringLevelFourAnimation();
+    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 3) {
+        _leds->ScoringLevelThreeAnimation();
+    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 2) {
+        _leds->ScoringLevelTwoAnimation();
+    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 1) {
+        _leds->ScoringLevelOneAnimation();
     }
     #else
     if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
