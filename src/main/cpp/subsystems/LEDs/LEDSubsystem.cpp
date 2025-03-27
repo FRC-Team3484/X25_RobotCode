@@ -17,7 +17,10 @@ LEDSubsystem::LEDSubsystem(
 
     _step_orange{_solid_orange.Mask(_scrolling_step)},
     _progress_orange{_solid_orange.Mask(_progress_bar)},
-    _scoring_blue{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
+    _scoring_one_blue{_solid_blue.Mask(_score_one_mask)},
+    _scoring_two_blue{},
+    _scoring_three_blue{},
+    _scoring_four_blue{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
     _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)},
     _elevator_home{_solid_green.Breathe(LEDConstants::ELEVATOR_HOME_CYCLE_TIME)},
     _climb_mask{_solid_blue.Mask(_progress_bar)}
@@ -92,8 +95,26 @@ void LEDSubsystem::PivotAnimation() {
     _leds.SetData(_led_buffer);
 }
 
-// Breathe (Blinks Blue #009bb4)
-void LEDSubsystem::ScoringAnimation() {
+// Breathe (Blinks Blue #009bb4) for level 1
+void LEDSubsystem::ScoringLevelOneAnimation() {
+    _scoring_blue.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
+}
+
+// Breathe (Blinks Blue #009bb4) for level 2
+void LEDSubsystem::ScoringLevelTwoAnimation() {
+    _scoring_blue.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
+}
+
+// Breathe (Blinks Blue #009bb4) for level 3
+void LEDSubsystem::ScoringLevelThreeAnimation() {
+    _scoring_blue.ApplyTo(_led_buffer);
+    _leds.SetData(_led_buffer);
+}
+
+// Breathe (Blinks Blue #009bb4) for level 4
+void LEDSubsystem::ScoringLevelFourAnimation() {
     _scoring_blue.ApplyTo(_led_buffer);
     _leds.SetData(_led_buffer);
 }

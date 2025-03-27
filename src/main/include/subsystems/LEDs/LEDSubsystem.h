@@ -75,7 +75,19 @@ class LEDSubsystem : public frc2::SubsystemBase {
         double _PivotAnimationProgress(); 
         frc::LEDPattern _progress_orange;
 
-        frc::LEDPattern _scoring_blue;
+        std::array<std::pair<double, frc::Color>, 2> first_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}};
+        frc::LEDPattern _score_one_mask = frc::LEDPattern::Mask(first_level);
+        frc::LEDPattern _scoring_one_blue;
+
+        std::array<std::pair<double, frc::Color>, 2> second_level{std::pair{0.0, frc::Color::kBlack}, std::pair{0.2, frc::Color::kWhite}, std::pair{0.4, frc::Color::kBlack}, std::pair{0.6, frc::Color::kWhite}, std::pair{0.8, frc::Color::kBlack},};
+        frc::LEDPattern _score_two_mask;
+        frc::LEDPattern _scoring_two_blue;
+
+        std::array<std::pair<double, frc::Color>, 2> third_level{std::pair{0.0, frc::Color::kWhite}, std::pair{0.2, frc::Color::kBlack}, std::pair{0.4, frc::Color::kWhite}, std::pair{0.6, frc::Color::kBlack}, std::pair{0.8, frc::Color::kWhite},};
+        frc::LEDPattern _score_three_mask;
+        frc::LEDPattern _scoring_three_blue;
+
+        frc::LEDPattern _scoring_four_blue;
 
         frc::LEDPattern _low_battery;
 
