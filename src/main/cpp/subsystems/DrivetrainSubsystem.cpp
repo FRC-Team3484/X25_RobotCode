@@ -1,5 +1,6 @@
 #include "subsystems/DrivetrainSubsystem.h"
 
+#include "commands/auton/FinalAlignmentCommand.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
 //Path Planner Paths
@@ -258,11 +259,6 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
     std::vector<frc::Pose2d> poses{GetPose(), pose};
 
-    fmt::println("{}", units::inch_t{pose.Translation().Distance(GetPose().Translation())}.to<double>());
-    if (pose.Translation().Distance(GetPose().Translation()) < GO_TO_POSE_TOLERANCE) {
-        std::vector<frc::Pose2d> poses{GetPose(), ApplyOffsetToPose(GetPose(), GO_TO_POSE_OFFSET), pose};
-    }
-
     std::vector<Waypoint> waypoints = PathPlannerPath::waypointsFromPoses(poses);
 
     auto path = std::make_shared<PathPlannerPath>(
@@ -276,7 +272,10 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
 
     _target_position = pose;
 
-    return frc2::cmd::Sequence(AutoBuilder::followPath(path), this->RunOnce([this] {StopMotors();}));
+    return frc2::cmd::Sequence(
+        AutoBuilder::followPath(path), 
+        FinalAlignmentCommand{this, pose}.ToPtr(),
+        this->RunOnce([this] {StopMotors();}));
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
