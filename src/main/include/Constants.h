@@ -33,12 +33,12 @@ namespace VisionConstants {
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{
             "Camera_1",
-            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -28.45_deg}},
+            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -28.5_deg}},
             true
         },
         SC::SC_CameraConfig{
             "Camera_2",
-            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 28.45_deg}},
+            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 28.5_deg}},
             false
         }
     };
@@ -213,6 +213,7 @@ namespace UserInterface {
         //constexpr int CLIMB_DOWN = 18;
         constexpr int IGNORE_VISION = 2;
         constexpr int LOAD_CORAL = 4;
+        constexpr int LOAD_CORAL_TWO = 12;
         constexpr int RESET = 13;
         
         #else
@@ -267,7 +268,7 @@ namespace ElevatorConstants {
     constexpr bool MIRROR_MOTORS = true;
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
-    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = units::inch_t{units::constants::pi.value()/5.0}/1_tr; // 0.505_in
+    constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = units::inch_t{units::constants::pi.value()/3.0}/1_tr; // 0.505_in
     constexpr units::inch_t POSITION_TOLERANCE = 0.2_in;
 
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
@@ -276,7 +277,7 @@ namespace ElevatorConstants {
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
     constexpr units::feet_per_second_t MAX_VELOCITY = 20_in / 1_s;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 720_in / 1_s / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 50_in / 1_s / 1_s;
     // P: 61.605, I: 0, D: 16.759
     constexpr SC::SC_PIDConstants PID_C(0.8, 0.1, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.18_V, 0.42_V, 0.0_V / 1_mps, 0.0_V / 1_mps_sq);
@@ -285,7 +286,7 @@ namespace ElevatorConstants {
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 6_in;
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
-    constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
+    constexpr units::inch_t INTAKE_HEIGHT = 2.6_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
     constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
@@ -322,14 +323,14 @@ namespace PivotConstants {
     constexpr int PIVOT_MOTOR_CAN_ID = 41;
     constexpr int PIVOT_HOME_DI_CH = 4;
 
-    constexpr units::radians_per_second_t MAX_VELOCITY = 80_deg_per_s; //67.5_deg_per_s; 
-    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 480_deg_per_s_sq; //101.25_deg_per_s_sq;
+    constexpr units::radians_per_second_t MAX_VELOCITY = 320_deg_per_s; //67.5_deg_per_s; 
+    constexpr units::radians_per_second_squared_t MAX_ACCELERATION = 1400_deg_per_s_sq; //101.25_deg_per_s_sq;
 
     constexpr bool INVERT_MOTOR = false;
     
     // P: 24.275, I: 0, D: 5.9465
     constexpr SC::SC_PIDConstants PID_C(0.200, 0.1, 0, 0);
-    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.6_V, 0.36_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq); // 0.28_V, 0.52_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
+    constexpr SC::SC_AngularFeedForward FEED_FORWARD(0.05_V, 0.20_V, 0_V / 1_rad_per_s, 0_V / 1_rad_per_s_sq); // 0.28_V, 0.52_V, 3.6757_V / 1_rad_per_s, 1.2884_V / 1_rad_per_s_sq);
 
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
@@ -340,7 +341,7 @@ namespace PivotConstants {
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 140_deg;
     constexpr units::degree_t TRAVEL_POSITION = 140_deg;
-    constexpr units::degree_t INTAKE_POSITION = 122_deg;
+    constexpr units::degree_t INTAKE_POSITION = 102.5_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 140_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 150_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
