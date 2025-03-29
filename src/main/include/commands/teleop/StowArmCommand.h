@@ -6,24 +6,25 @@
 
 #include "subsystems/PivotSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
+#include "OI.h"
 
 #include "OI.h"
 #include "Constants.h"
 
-/**
- * Moves the pivot arm to the stow/home position and lowers the elevator
- */
 class StowArmCommand
     : public frc2::CommandHelper<frc2::Command, StowArmCommand> {
 
     public:
         /**
-         * Creates an instnce of TeleopDriveCommand
+         * Stows the pivot and elevator
          * 
          * @param pivot A pointer to the pivot subsystem
          * @param elevator A pointer to the elevator interface
          */
-        StowArmCommand(PivotSubsystem* pivot, ElevatorSubsystem* elevator);
+        StowArmCommand(
+            PivotSubsystem* pivot, 
+            ElevatorSubsystem* elevator
+        );
 
         void Initialize() override;
         void Execute() override;
@@ -31,8 +32,8 @@ class StowArmCommand
         bool IsFinished() override;
 
     private:
-        enum State {stow_arm, stow_elevator, done};
-        State _stow_arm_state = stow_arm;
+        enum State {traveling_pivot, stow_arm, stow_elevator, done};
+        State _stow_arm_state = traveling_pivot;
 
         PivotSubsystem* _pivot;
         ElevatorSubsystem* _elevator;

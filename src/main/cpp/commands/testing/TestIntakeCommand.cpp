@@ -1,32 +1,25 @@
 #include "commands/testing/TestIntakeCommand.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
-TestIntakeCommand::TestIntakeCommand(IntakeSubsystem *intake_subsystem, Testing_Interface *oi)
-    : _intake_subsystem{intake_subsystem}, _oi{oi}
-    {
+TestIntakeCommand::TestIntakeCommand(IntakeSubsystem *intake_subsystem, Testing_Interface *testing_interface)
+    : _intake_subsystem{intake_subsystem}, _testing_interface{testing_interface} {
     AddRequirements(_intake_subsystem);
 }
 
-// Called when the command is initially scheduled.
-void TestIntakeCommand::Initialize()
-{
+void TestIntakeCommand::Initialize() {
     frc::SmartDashboard::PutBoolean("Test Intake", false);
 }
 
-// Called repeatedly when this Command is scheduled to run
-void TestIntakeCommand::Execute()
-{
-    if (frc::SmartDashboard::GetBoolean("Test Intake", false))
-    {
-        _intake_subsystem->PrintTestInfo();
-        _intake_subsystem->SetPower(_oi->GetRawIntake());
+void TestIntakeCommand::Execute() {
+    _intake_subsystem->PrintTestInfo();
+
+    if (frc::SmartDashboard::GetBoolean("Test Intake", false)) {
+        _intake_subsystem->SetPower(_testing_interface->GetRawIntake());
     }
 }
 
-// Called once the command ends or is interrupted.
 void TestIntakeCommand::End(bool interrupted) {}
 
-// Returns true when the command should end.
 bool TestIntakeCommand::IsFinished() {
     return false;
 }

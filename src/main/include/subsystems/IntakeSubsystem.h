@@ -5,7 +5,7 @@
 #include "frc/DigitalInput.h"
 
 #include <frc2/command/SubsystemBase.h>
-#include <ctre/phoenix6/TalonFX.hpp>
+#include <ctre/phoenix6/TalonFXS.hpp>
 
 /**
  * Subsystem class to handle control for the Intake. 
@@ -14,6 +14,15 @@
  */
 class IntakeSubsystem : public frc2::SubsystemBase {
     public:
+        /**
+         * Creates an instance of the intake subsystem, which controls the intake, allowing the robot to pickup and eject coral and algae
+         * 
+         * @param motor_can_id The CAN ID for the motor
+         * @param algae_top_sensor_di_ch The ID for the top sensor which detects the algae
+         * @param algae_bottom_sensor_di_ch The ID for the bottom sensor which detects the algae
+         * @param coral_high_sensor_di_ch The ID for the higher sensor which detects the coral
+         * @param coral_low_sensor_di_ch The ID for the lower sensor which detects the coral
+         */
         IntakeSubsystem(
             int motor_can_id,
             int algae_top_sensor_di_ch,
@@ -64,7 +73,7 @@ class IntakeSubsystem : public frc2::SubsystemBase {
         void PrintTestInfo();
         
     private:
-        ctre::phoenix6::hardware::TalonFX _intake_motor;
+        ctre::phoenix6::hardware::TalonFXS _intake_motor;
         frc::DigitalInput _algae_top_sensor;
         frc::DigitalInput _algae_bottom_sensor;
         frc::DigitalInput _coral_high_sensor;

@@ -10,21 +10,31 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
-#include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 #include "subsystems/FunnelSubsystem.h"
 
 #include "OI.h"
 
-/**
- * Intakes a coral, by raising the elevator, extending the pivot, and running the intake
- */
 class TeleopIntakeCoralCommand
     : public frc2::CommandHelper<frc2::Command, TeleopIntakeCoralCommand>
     {
     
     public:
-        explicit TeleopIntakeCoralCommand(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot, FunnelSubsystem* funnel, Operator_Interface* oi);
+        /**
+         * Intakes a coral by raising the elevator, extending the pivot, and running the intake
+         * 
+         * @param elevator A pointer to the elevator subsystem
+         * @param intake A pointer to the intake subsystem
+         * @param pivot A pointer to the pivot subsystem
+         * @param oi A pointer to the operator interface
+         */
+        explicit TeleopIntakeCoralCommand(
+            ElevatorSubsystem* elevator, 
+            IntakeSubsystem* intake, 
+            PivotSubsystem* pivot, 
+            FunnelSubsystem* funnel, 
+            Operator_Interface* oi
+        );
 
         void Initialize() override;
 
@@ -35,14 +45,13 @@ class TeleopIntakeCoralCommand
         bool IsFinished() override;
 
     private:
-        DrivetrainSubsystem* _drivetrain;
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake; 
         PivotSubsystem* _pivot;
         FunnelSubsystem* _funnel;
         Operator_Interface* _oi;
 
-        enum State {wait, intake, done};
+        enum State {wait, ready_intake, intake, done};
         State _auto_intake_coral_state = wait;
 
 };

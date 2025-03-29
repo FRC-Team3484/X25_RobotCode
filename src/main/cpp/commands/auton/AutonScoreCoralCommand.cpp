@@ -18,13 +18,12 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     AddRequirements(_pivot);
 }
 
-// Called when the command is initially scheduled.
 void AutonScoreCoralCommand::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
 void AutonScoreCoralCommand::Execute() {
-  switch(_auton_score_coral_state) {
+    switch(_auton_score_coral_state) {
         case wait:
+            // Wait until the robot is near the target position, then go to next state
             if(_drivetrain->GetNearTargetPosition()) {
                 _auton_score_coral_state = extend_elevator;
             }
@@ -56,13 +55,14 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case eject_piece:
-            _intake->SetPower(IntakeConstants::EJECT_POWER);
+            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
 
             if (!_intake->HasCoral()) {
                 _auton_score_coral_state = done;
             }
             break;
         case done:
+            // Stop the intake
             _intake->SetPower(IntakeConstants::STOP_POWER);
             break;
         default:
@@ -71,12 +71,10 @@ void AutonScoreCoralCommand::Execute() {
     }
 }
 
-// Called once the command ends or is interrupted.
 void AutonScoreCoralCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
 }
 
-// Returns true when the command should end.
 bool AutonScoreCoralCommand::IsFinished() {
     return _auton_score_coral_state == done;
 }

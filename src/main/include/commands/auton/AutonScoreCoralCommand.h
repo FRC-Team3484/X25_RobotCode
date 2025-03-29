@@ -20,19 +20,19 @@ class AutonScoreCoralCommand
     std::string reef_level
   );
 
-  void Initialize() override;
+        void Initialize() override;
 
-  void Execute() override;
+        void Execute() override;
 
-  void End(bool interrupted) override;
+        void End(bool interrupted) override;
 
-  bool IsFinished() override;
+        bool IsFinished() override;
 
-  private:
-    enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
+    private:
+        enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
 		State _auton_score_coral_state = wait;
 
-    DrivetrainSubsystem* _drivetrain;
+        DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;

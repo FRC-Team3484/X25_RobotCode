@@ -8,20 +8,18 @@
 #include <frc/controller/ElevatorFeedforward.h>
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
-#include <frc/Servo.h>
+//#include <frc/Servo.h>
+#include <units/velocity.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
 
 #include "Constants.h"
 #include "FRC3484_Lib/utils/SC_Datatypes.h"
 
-/**
- * The elevator subsystem controls the elevator, allowing it to move up and down, and prints test mode data
- */
 class ElevatorSubsystem : public frc2::SubsystemBase {
     public:
         /**
-         * Creates an instance of the elevator subsystem
+         * Creates an instance of the elevator subsystem which controls the elevator, allowing it to move up and down
          * 
          * @param primary_motor_can_id The CAN ID for the primary motor
          * @param secondary_motor_can_id The CAN ID for the secondary motor
@@ -36,15 +34,12 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             int primary_motor_can_id,
             int secondary_motor_can_id,
             int home_sensor_di_ch,
-            int brake_servo,
+            // int brake_servo,
             SC::SC_PIDConstants elevator_pidc,
             units::feet_per_second_t max_velocity,
             units::feet_per_second_squared_t max_acceleration,
             SC::SC_LinearFeedForward feed_forward_constants
-            );
-        
-        //
-
+        );
 
         /**
          * Sets the height of the elevator
@@ -58,6 +53,20 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @return True if the elevator has reached the target
          */
         bool AtTargetHeight();
+
+        /**
+         * Checks if the elevator is able to stow the pivot
+         * 
+         * @return True if the elevator has reached the target
+         */
+        bool AtSafeStowPosition();
+
+        /**
+         * Checks if the elevator is at the extended position
+         * 
+         * @return True if the elevator is extended
+         */
+        bool AtExtendedPosition();
 
         /**
          * Sets the power of the elevator
@@ -78,14 +87,23 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          */
         void PrintTestInfo();
 
+        /**
+         * Sets the elevator state to home
+         */
+        void SetStateToHome();
+
         void Periodic() override;
 
     private:
         bool _climbing = false;
+        units::inch_t _offset = 0_in;
         bool _HomeSensor();
         bool _GetStalled();
         double _GetStallPercentage();
+        void _SetPosition(units::inch_t offset);
 
+        bool _isHomed = false;
+        
         units::inch_t _GetElevatorHeight();
         units::feet_per_second_t _GetElevatorVelocity();
 
@@ -101,7 +119,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::DigitalInput _home_sensor;
 
-        frc::Servo _brake_servo;
+        // frc::Servo _brake_servo;
 
         frc::PIDController _elevator_pid_controller{0,0,0};
 
@@ -111,6 +129,8 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         frc::ElevatorFeedforward _elevator_feed_forward;
+
+        units::meters_per_second_t _previous_elevator_velocity = 0_mps;
 
 };
 

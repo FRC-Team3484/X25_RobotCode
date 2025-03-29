@@ -15,15 +15,16 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc2/command/CommandPtr.h>
 #include <ctre/phoenix6/Pigeon2.hpp>
+#include "OI.h"
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* oi);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -84,10 +85,9 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         /**
          * Returns the pose of the closest reef side
          * 
-         * @param reef_offset The left or the right side of the reef to align to
          * @return The pose of the closest reef side
          */
-        frc::Pose2d GetClosestReefSide(ReefAlignment reef_offset);
+        frc::Pose2d GetClosestReefSide();
         
         /**
          * Returns the pose of the closest feeder station, including which side (offset) is closest (either left or right)
@@ -116,6 +116,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @return True if the robot is near the target position
          */
         bool GetNearTargetPosition();
+
+        
         
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
@@ -128,14 +130,18 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         SwerveModule* _modules[4];
 
         SC_Photon* _vision;
-            
+        
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
-        frc::SwerveDriveOdometry<4>* _odometry;
+        frc::SwerveDrivePoseEstimator<4>* _odometry;
 
         frc::Field2d _field;
 
         frc::Pose2d _target_position;
+        units::degree_t _pigeon_offset;
+
+        Operator_Interface* _oi;
+
 };
 
 #endif
