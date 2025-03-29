@@ -100,7 +100,7 @@ namespace SwerveConstants {
         constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
         constexpr int PIGEON_ID = 22;
 
-        constexpr int FINAL_ALIGN_EXIT = 40;
+        constexpr int FINAL_ALIGN_EXIT = 100;
         constexpr units::inch_t FINAL_POSE_TOLERANCE = .3_in;
         constexpr units::degree_t FINAL_ANGLE_TOLERANCE = 1_deg;
 
@@ -146,8 +146,8 @@ namespace SwerveConstants {
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
-        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -24_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 24_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -24_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 24_in}, frc::Rotation2d{0_deg}};
 
         constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
         constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 0_in}, frc::Rotation2d{180_deg}};
@@ -155,6 +155,8 @@ namespace SwerveConstants {
         constexpr frc::Pose2d STARTING_POSITION_A = frc::Pose2d{frc::Translation2d{48_in, 24_in}, frc::Rotation2d{0_deg}};
         constexpr frc::Pose2d STARTING_POSITION_B = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
         constexpr frc::Pose2d STARTING_POSITION_C = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
+
+        constexpr units::inch_t MINIMUM_PATHFIND_DISTANCE = 6_in;
     }
 
     namespace PathDrivePIDConstants {
