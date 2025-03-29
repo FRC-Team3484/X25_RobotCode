@@ -369,6 +369,7 @@ namespace LEDConstants {
     constexpr frc::Color CORAL_PINK {"#FF0091"};
     constexpr frc::Color FIRE_RED {frc::Color::kRed};
     const std::vector<frc::Color> COLORS = {DRIVE_ORANGE, TEAM_BLUE, CORAL_PINK};
+    const std::vector<frc::Color> COLOR_FUSION = {CORAL_PINK, TEAM_BLUE};
     constexpr double GAMMA = 2.2;
     constexpr units::second_t PIVOT_ANIMATION_TIME = 0.8_s;
     constexpr int BAR_SIZE = 12;
