@@ -141,13 +141,13 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -7_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, -7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, 7_in}, frc::Rotation2d{180_deg}};
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
-        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -24_in}, frc::Rotation2d{0_deg}};
-        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 24_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d LEFT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{20_in, -22_in}, frc::Rotation2d{0_deg}};
+        constexpr frc::Pose2d RIGHT_FEEDER_STATION_OFFSET = frc::Pose2d{frc::Translation2d{20_in, 22_in}, frc::Rotation2d{0_deg}};
 
         constexpr int PROCESSOR_APRIL_TAGS[] = {3, 16};
         constexpr frc::Pose2d PROCESSOR_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 0_in}, frc::Rotation2d{180_deg}};
@@ -209,7 +209,7 @@ namespace UserInterface {
         constexpr int ALGAE_LEVEL_3 = 16;
         constexpr int ALGAE_LEVEL_2 = 9;
 
-        //constexpr int CONFIRM_MANUAL_SCORE_TWO = 5;
+        constexpr int CONFIRM_MANUAL_SCORE_TWO = 21;
         constexpr int CONFIRM_MANUAL_SCORE = 6; //21
         //constexpr int CLIMB_UP = 14;
         //constexpr int CLIMB_DOWN = 18;
@@ -278,8 +278,8 @@ namespace ElevatorConstants {
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 20_in / 1_s;
-    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 50_in / 1_s / 1_s;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 80_in / 1_s;
+    constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 250_in / 1_s / 1_s;
     // P: 61.605, I: 0, D: 16.759
     constexpr SC::SC_PIDConstants PID_C(0.8, 0.1, 0, 0);
     constexpr SC::SC_LinearFeedForward FEED_FORWARD(0.18_V, 0.42_V, 0.0_V / 1_mps, 0.0_V / 1_mps_sq);
@@ -288,7 +288,7 @@ namespace ElevatorConstants {
     constexpr units::inch_t HOME_POSITION = 0_in;
     constexpr units::inch_t PROCESSOR_POSITION = 6_in;
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
-    constexpr units::inch_t INTAKE_HEIGHT = 2.6_in;
+    constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
     constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
@@ -304,10 +304,10 @@ namespace ElevatorConstants {
 
 namespace IntakeConstants {
         constexpr int MOTOR_CAN_ID = 40;
-        constexpr int ALGAE_TOP_SENSOR_DI_CH = 3;
+        constexpr int ALGAE_TOP_SENSOR_DI_CH = 2;
         constexpr int ALGAE_BOTTOM_SENSOR_DI_CH = 5;
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
-        constexpr int CORAL_LOW_SENSOR_DI_CH = 2;
+        constexpr int CORAL_LOW_SENSOR_DI_CH = 3;
 
         constexpr double CORAL_EJECT_POWER = -1.0;
         constexpr double ALGAE_EJECT_POWER = 1.0;
@@ -341,11 +341,11 @@ namespace PivotConstants {
     // All functional angles are 90 degrees more, straight up (aligned with elevator sides) is 90 degrees
     constexpr units::degree_t ANGLE_TOLERANCE = 7.5_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
-    constexpr units::degree_t PROCESSOR_POSITION = 140_deg;
-    constexpr units::degree_t TRAVEL_POSITION = 140_deg;
-    constexpr units::degree_t INTAKE_POSITION = 102.5_deg;
-    constexpr units::degree_t TARGET_CORAL_ANGLE = 140_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 150_deg;
+    constexpr units::degree_t PROCESSOR_POSITION = 135_deg;
+    constexpr units::degree_t TRAVEL_POSITION = 135_deg;
+    constexpr units::degree_t INTAKE_POSITION = 112.5_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 135_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
 }

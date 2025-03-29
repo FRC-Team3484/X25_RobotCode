@@ -171,22 +171,16 @@ void Robot::OperatorPeriodic() {
 
 void Robot::LedPeriodic() {
     #ifdef INTAKE_ENABLED
-    if (_intake->HasCoral())_leds->HasCoralAnimation(); 
-    else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation(); 
-    else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
+    if (_oi_operator->GetReefLevel() == 4) _leds->ScoringLevelFourAnimation();
+    else if (_oi_operator->GetReefLevel() == 3) _leds->ScoringLevelThreeAnimation();
+    else if (_oi_operator->GetReefLevel() == 2) _leds->ScoringLevelTwoAnimation();
+    else if (_oi_operator->GetReefLevel() == 1) _leds->ScoringLevelOneAnimation();
+    else if (_operator_drive_robot_state == stow && !_elevator->AtTargetHeight()) _leds->ElevatorHomingAnimation();
+    else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation();
+    else if (_driver_robot_state != drive) _leds->PathAnimation();
+    else if (_intake->HasCoral()) _leds->HasCoralAnimation(); 
+    else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();  
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
-    else if (_driver_robot_state == drive && _operator_drive_robot_state == stow) _leds->ElevatorHomingAnimation();
-    else if (_driver_robot_state == auto_score_processor_driver || _driver_robot_state == auto_reef_driver || _driver_robot_state == auto_pickup_coral_driver) {
-        _leds->PathAnimation();
-    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 4) {
-        _leds->ScoringLevelFourAnimation();
-    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 3) {
-        _leds->ScoringLevelThreeAnimation();
-    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 2) {
-        _leds->ScoringLevelTwoAnimation();
-    } else if (_operator_drive_robot_state == score_coral && _oi_operator->GetReefLevel() == 1) {
-        _leds->ScoringLevelOneAnimation();
-    }
     #else
     if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation(); 
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();

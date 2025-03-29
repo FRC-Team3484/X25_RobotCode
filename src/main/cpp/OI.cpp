@@ -67,7 +67,7 @@ bool Operator_Interface::GetAlgaeOrCoral() {
     }
 }
 
-bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE);}
+bool Operator_Interface::GetConfirmManualScore() {return _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE) || _operator_controller.GetRawButton(CONFIRM_MANUAL_SCORE_TWO);}
 bool Operator_Interface::GetIgnoreVision() {return _operator_controller.GetRawButton(IGNORE_VISION);}
 bool Operator_Interface::GetLoadCoral() {return _operator_controller.GetRawButton(LOAD_CORAL) || _operator_controller.GetRawButton(LOAD_CORAL_TWO);}
 bool Operator_Interface::GetReset() {return _operator_controller.GetRawButton(RESET);}
