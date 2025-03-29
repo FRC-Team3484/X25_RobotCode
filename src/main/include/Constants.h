@@ -278,7 +278,7 @@ namespace ElevatorConstants {
     constexpr double RATCHET_ENGAGED = 1.0;
     constexpr double RATCHET_DISENGAGED = 0.0; 
 
-    constexpr units::feet_per_second_t MAX_VELOCITY = 80_in / 1_s;
+    constexpr units::feet_per_second_t MAX_VELOCITY = 100_in / 1_s;
     constexpr units::feet_per_second_squared_t MAX_ACCELERATION = 250_in / 1_s / 1_s;
     // P: 61.605, I: 0, D: 16.759
     constexpr SC::SC_PIDConstants PID_C(0.8, 0.1, 0, 0);
