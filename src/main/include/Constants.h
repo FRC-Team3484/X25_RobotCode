@@ -107,8 +107,8 @@ namespace SwerveConstants {
 // Check For Autons
         namespace DrivePIDConstants {
             // Check SC_Datatypes for the struct
-            [[maybe_unused]] static SC::SC_SwervePID LeftPID{2, 0, 0, 2.0715 * 1_V / 1_mps, 0.17977 * 1_V / 1_mps_sq, 0.77607_V};
-            [[maybe_unused]] static SC::SC_SwervePID RightPID{2, 0, 0, 2.0802 * 1_V / 1_mps, 0.30693 * 1_V / 1_mps_sq, 0.73235_V};
+            [[maybe_unused]] static SC::SC_SwervePID LeftPID{0.93641, 0, 0, 2.2903 * 1_V / 1_mps, 0.39229 * 1_V / 1_mps_sq, 0.04423_V};
+            [[maybe_unused]] static SC::SC_SwervePID RightPID{0.92237, 0, 0, 2.2915 * 1_V / 1_mps, 0.387 * 1_V / 1_mps_sq, 0.041887_V};
         }
         namespace SteerPIDConstants {
             constexpr double Kp_Steer = 0.5;
