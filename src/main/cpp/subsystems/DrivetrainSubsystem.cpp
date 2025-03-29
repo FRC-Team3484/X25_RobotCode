@@ -272,10 +272,18 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
 
     _target_position = pose;
 
-    return frc2::cmd::Sequence(
-        AutoBuilder::followPath(path), 
-        FinalAlignmentCommand{this, pose}.ToPtr(),
-        this->RunOnce([this] {StopMotors();}));
+    if (pose.Translation().Distance(GetPose().Translation()) > MINIMUM_PATHFIND_DISTANCE) {
+        return frc2::cmd::Sequence(
+            AutoBuilder::followPath(path), 
+            FinalAlignmentCommand{this, pose}.ToPtr(),
+            this->RunOnce([this] {StopMotors();})
+        );
+    } else {
+        return frc2::cmd::Sequence(
+            FinalAlignmentCommand{this, pose}.ToPtr(),
+            this->RunOnce([this] {StopMotors();})
+        );
+    }
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {

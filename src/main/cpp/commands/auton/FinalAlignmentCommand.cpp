@@ -10,24 +10,29 @@ FinalAlignmentCommand::FinalAlignmentCommand(
     frc::Pose2d target_pose) :
     _drivetrain_subsystem(drivetrain_subsystem){
     AddRequirements(_drivetrain_subsystem);
+	_target_pose = target_pose;
 }
 
-void FinalAlignmentCommand::Initialize() {}
+void FinalAlignmentCommand::Initialize() {
+	_counter = 0;
+}
 
 void FinalAlignmentCommand::Execute() {
 	_counter++;
-	pathplanner::PathPlannerTrajectoryState goalSate{};
+	pathplanner::PathPlannerTrajectoryState goalState{};
+	goalState.pose = _target_pose;
 
 	_drivetrain_subsystem->DriveRobotcentric(
 		_drive_controller->calculateRobotRelativeSpeeds(
 			_drivetrain_subsystem->GetPose(), 
-			goalSate
+			goalState
 		)
 	);
 
 }
 
 void FinalAlignmentCommand::End(bool interrupted) {
+	_drivetrain_subsystem->StopMotors();
 }
 
 bool FinalAlignmentCommand::IsFinished() {
