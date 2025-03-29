@@ -25,6 +25,7 @@ LEDSubsystem::LEDSubsystem(
     _level_three_blink{_score_three_mask.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
     _level_four_blink{_solid_blue.Blink(LEDConstants::SCORING_BLUE_ON_TIME, LEDConstants::SCORING_BLUE_OFF_TIME)},
     _low_battery{_solid_red.Breathe(LEDConstants::LOW_BATTERY_CYCLE_TIME)},
+    _tokay{_combined_colors.ScrollAtAbsoluteSpeed(1.0_mps, LEDConstants::LED_SPACING)}, 
     _climb_mask{_solid_blue.Mask(_progress_bar_blue)},
     _elevator_home{_solid_green.Breathe(LEDConstants::ELEVATOR_HOME_CYCLE_TIME)}
     {
@@ -71,6 +72,14 @@ void LEDSubsystem::SandAnimation() {
 void LEDSubsystem::LowBatteryAnimation() {
     _low_battery.ApplyTo(_bottom_leds);
     _low_battery.ApplyTo(_top_leds);
+    std::reverse(_top_leds.begin(), _top_leds.end());
+    _leds.SetData(_led_buffer);
+}
+
+//Auton Animation using gecko Colors
+void LEDSubsystem::TokayAnimation() {
+    _tokay.ApplyTo(_bottom_leds);
+    _tokay.ApplyTo(_top_leds);
     std::reverse(_top_leds.begin(), _top_leds.end());
     _leds.SetData(_led_buffer);
 }

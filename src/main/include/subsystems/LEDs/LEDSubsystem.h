@@ -29,6 +29,8 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         void LowBatteryAnimation();
 
+        void TokayAnimation();
+        
         void DrivingAnimation();
 
         void PathAnimation();
@@ -100,7 +102,8 @@ class LEDSubsystem : public frc2::SubsystemBase {
 
         frc::LEDPattern _low_battery;
 
-        frc::LEDPattern _combined_colors = frc::LEDPattern::Gradient(frc::LEDPattern::GradientType::kDiscontinuous, LEDConstants::COLOR_FUSION).ScrollAtAbsoluteSpeed(1.0_mps, LEDConstants::LED_SPACING);
+        frc::LEDPattern _combined_colors = frc::LEDPattern::Gradient(frc::LEDPattern::GradientType::kDiscontinuous, LEDConstants::COLOR_FUSION);
+        frc::LEDPattern _tokay;
 
         frc::LEDPattern _progress_bar_blue = frc::LEDPattern::ProgressMaskLayer([this]() { return _PivotAnimationProgress(); });
         frc::LEDPattern _climb_mask;

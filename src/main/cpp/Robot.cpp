@@ -67,7 +67,7 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     #ifdef LED_ENABLED
-    _leds->TetrisAnimation();
+    _leds->TokayAnimation();
     #endif
 }
 
