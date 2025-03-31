@@ -6,19 +6,16 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
-#include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 
 #include "OI.h"
 
-/**
- * Scores coral into the reef by setting the height of the elevator, extending the pivot, and running the intake
- */
 class TeleopScoreCoralCommand
     : public frc2::CommandHelper<frc2::Command, TeleopScoreCoralCommand> {
 	public:
 		/**
-         * 
+         * Scores coral into the reef by setting the height of the elevator, extending the pivot, and running the intake
+		 * 
          * @param pivot A pointer to the pivot subsystem
          * @param elevator A pointer to the elevator interface
 		 * @param intake A pointer to the intake subsystem
@@ -26,7 +23,6 @@ class TeleopScoreCoralCommand
 		 * @param oi A pointer to the operator interface 
          */
 		TeleopScoreCoralCommand(
-			DrivetrainSubsystem* drivetrain, 
 			ElevatorSubsystem* elevator,
 			IntakeSubsystem* intake, 
 			PivotSubsystem* pivot,   
@@ -42,10 +38,9 @@ class TeleopScoreCoralCommand
 		bool IsFinished() override;
 
 	private:
-		enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
+		enum State {wait, traveling_pivot, extend_elevator, extend_pivot, eject_piece, done};
 		State _auto_score_coral_state = wait;
 
-		DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;

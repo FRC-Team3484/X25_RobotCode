@@ -3,7 +3,9 @@
 
 // Subsystems
 #include "subsystems/DrivetrainSubsystem.h"
-// Include other subsystems here
+#include "subsystems/ElevatorSubsystem.h"
+#include "subsystems/PivotSubsystem.h"
+#include "subsystems/IntakeSubsystem.h"
 
 //Auton Commands
 #include "commands/auton/AutonFeederCoralCommand.h"

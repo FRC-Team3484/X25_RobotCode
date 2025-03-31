@@ -2,7 +2,6 @@
 #define OI_H
 
 #include "Constants.h"
-#include "Datatypes.h"
 #include <frc/XboxController.h>
 
 /**
@@ -19,8 +18,6 @@ class Driver_Interface {
         bool GetResetHeading();
         bool GetBrake();
         bool GetBrakePressed();
-
-        bool GetSetCoastMode();
         
         bool GetDynamicPivot();
 
@@ -33,6 +30,8 @@ class Driver_Interface {
         bool GetAlgaePickup();
         bool GetScoreReef();
         bool GetScoreProcessor();
+
+        int RawPOV();
 
 
     private:
@@ -48,15 +47,14 @@ class Operator_Interface {
 
         void SetRumble(double Rumble);
 
-        ReefAlignment GetReefAlignment();
         int GetReefLevel();
+        bool GetAlgaeOrCoral();
+
         
-        bool GetProcessor();
-        bool GetClimbUp();
-        bool GetClimbDown();
-        bool GetNet();
+        bool GetConfirmManualScore();
         bool GetIgnoreVision();
         bool GetLoadCoral();
+        bool GetReset();
 
         int RawPOV();
 
@@ -75,6 +73,11 @@ class Testing_Interface {
         double GetRawPivot();
         double GetRawElevator();
         double GetRawIntake();
+
+        bool GetA();
+        bool GetB();
+        bool GetX();
+        bool GetY();
 
     private:
         frc::XboxController _testing_controller{UserInterface::Testing::TESTING_CONTROLLER_PORT};
