@@ -50,9 +50,8 @@ void TeleopDriveCommand::Execute() {
                     // Created objects
                     _pivot_corner = {1_m, copysign(1.0, _oi->GetRotation())*1_m};
 
-                    auto alliance = DriverStation::GetAlliance();
                     units::meter_t direction = -1_m;
-                    if (alliance && alliance.value() == DriverStation::Alliance::kRed) {
+                    if (alliance.value() == DriverStation::Alliance::kRed) {
                         direction = 1_m;
                     }
                     _pivot_drive = {_oi->GetThrottle()*direction, _oi->GetStrafe()*direction};
@@ -96,20 +95,14 @@ void TeleopDriveCommand::Execute() {
                 } else {
                     // Logic for actual joystick movements
 
-                    meters_per_second_t x_speed = -_oi->GetThrottle() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
-                    meters_per_second_t y_speed = -_oi->GetStrafe() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
+                    meters_per_second_t x_speed = _oi->GetThrottle() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
+                    meters_per_second_t y_speed = _oi->GetStrafe() * MAX_LINEAR_SPEED * (alliance.value() == DriverStation::Alliance::kRed ? -1 : 1);
                     radians_per_second_t rotation = _oi->GetRotation() * MAX_ROTATION_SPEED;
 
                     if (_oi->LowSpeed() || _elevator->AtExtendedPosition()) {
                         x_speed *= LOW_SCALE;
                         y_speed *= LOW_SCALE;
                         rotation *= LOW_SCALE;
-                    }
-
-                    auto alliance = DriverStation::GetAlliance();
-                    if (alliance && alliance.value() == DriverStation::Alliance::kRed) {
-                        x_speed *= -1;
-                        y_speed *= -1;
                     }
                     
                     _drivetrain->Drive(x_speed, y_speed, rotation, true);
