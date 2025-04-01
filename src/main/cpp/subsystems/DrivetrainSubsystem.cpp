@@ -6,7 +6,6 @@
 //Path Planner Paths
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
-#include <frc/DriverStation.h>
 
 using namespace SC;
 using namespace SwerveConstants::DrivetrainConstants;
@@ -261,7 +260,7 @@ int DrivetrainSubsystem::CheckNotNullModule() {
     return counter;
 }
 
-frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
+frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose, bool teleop) {
     PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
     std::vector<frc::Pose2d> poses{GetPose(), pose};
 
@@ -281,11 +280,19 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     _target_position = pose;
 
     if (pose.Translation().Distance(GetPose().Translation()) > MINIMUM_PATHFIND_DISTANCE) {
-        return frc2::cmd::Sequence(
-            AutoBuilder::followPath(path), 
-            FinalAlignmentCommand{this, pose}.ToPtr(),
-            this->RunOnce([this] {StopMotors();})
-        );
+        if (teleop) {
+            return frc2::cmd::Sequence(
+                FinalAlignmentCommand{this, pose}.ToPtr(),
+                this->RunOnce([this] {StopMotors();})
+            );
+        } else {
+            return frc2::cmd::Sequence(
+                AutoBuilder::followPath(path), 
+                FinalAlignmentCommand{this, pose}.ToPtr(),
+                this->RunOnce([this] {StopMotors();})
+            );
+        }
+        
     } else {
         return frc2::cmd::Sequence(
             FinalAlignmentCommand{this, pose}.ToPtr(),
@@ -366,28 +373,34 @@ frc::Pose2d DrivetrainSubsystem::GetClosestProcessor() {
     return GetNearestPose(poses);
 }
 
+
 frc::Pose2d DrivetrainSubsystem::GetReefAvoidPose(ReefAlignment::ReefAlignment alignment) {
-    int tag_to_find;
+    int tag_to_find = 99;
 
     if (_alliance == DriverStation::Alliance::kRed) {
-        if (ReefAlignment::ReefAlignment == left) {
+        if (alignment == ReefAlignment::left) {
             tag_to_find = 4;
-        } else if (ReefAlignment::ReefAlignment == right) {
+        } else if (alignment == ReefAlignment::right) {
             tag_to_find = 5;
         }
     } else {
-        if (ReefAlignment::ReefAlignment == left) {
+        if (alignment == ReefAlignment::left) {
             tag_to_find = 15;
-        } else if (ReefAlignment::ReefAlignment == right) {
+        } else if (alignment == ReefAlignment::left) {
             tag_to_find = 14;
         }
     }
 
     if (tag_to_find) {
         for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
-            if (tag.ID == )
+            if (tag.ID == tag_to_find) {
+                return ApplyOffsetToPose(tag.pose.ToPose2d(), BARGE_APRIL_TAG_OFFSET);
+            } else {
+                return GetPose();
+            }
         }
     }
+    return GetPose();
 }
 
 bool DrivetrainSubsystem::GetAtTargetPosition() {

@@ -106,7 +106,7 @@ namespace SwerveConstants {
         constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
         constexpr int PIGEON_ID = 22;
 
-        constexpr int FINAL_ALIGN_EXIT = 100;
+        constexpr int FINAL_ALIGN_EXIT = 1000000;
         constexpr units::inch_t FINAL_POSE_TOLERANCE = .3_in;
         constexpr units::degree_t FINAL_ANGLE_TOLERANCE = 1_deg;
 
@@ -139,7 +139,7 @@ namespace SwerveConstants {
     namespace AutonDriveConstants {
         // How fast the robot can move in autons
         constexpr units::feet_per_second_t MAX_LINEAR_SPEED = 8_fps;
-        constexpr units::feet_per_second_squared_t MAX_LINEAR_ACCELERATION = 4_fps_sq;
+        constexpr units::feet_per_second_squared_t MAX_LINEAR_ACCELERATION = 8_fps_sq;
         constexpr units::radians_per_second_t MAX_ROTATION_SPEED = 5.431_rad_per_s;
         constexpr units::radians_per_second_squared_t MAX_ROTATION_ACCELERATION = 2_rad_per_s_sq;
 
@@ -209,11 +209,7 @@ namespace SwerveConstants {
             {"L", ReefAlignment::right},
         };
 
-        constexpr frc::Pose2d LEFT_REEF_MID_POINT = frc::Pose2d{0_in, 0_in, 0_deg};
-        constexpr frc::Pose2d RIGHT_REEF_MID_POINT = frc::Pose2d{0_in, 0_in, 0_deg};
-
-        constexpr int BLUE_BARGE_APRIL_TAGS[] = {14, 15};
-        constexpr int RED_BARGE_APRIL_TAGS[] = {4, 5};
+        constexpr frc::Pose2d BARGE_APRIL_TAG_OFFSET = frc::Pose2d{48_in, 0_in, 0_deg};
     }
 
     namespace PathDrivePIDConstants {
