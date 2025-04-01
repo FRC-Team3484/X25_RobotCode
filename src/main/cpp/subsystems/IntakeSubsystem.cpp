@@ -35,6 +35,8 @@ IntakeSubsystem::IntakeSubsystem(
         .WithSupplyCurrentLowerLimit(intake_current_constants.Steer_Current_Threshold)
         .WithSupplyCurrentLowerTime(intake_current_constants.Steer_Current_Time);
 
+    motor_config.CurrentLimits = steer_current_limit;
+
     _intake_motor.GetConfigurator().Apply(motor_config);
 };
 

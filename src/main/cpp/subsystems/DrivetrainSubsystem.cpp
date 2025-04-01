@@ -261,10 +261,12 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
 
     std::vector<Waypoint> waypoints = PathPlannerPath::waypointsFromPoses(poses);
 
+    ChassisSpeeds speed = GetChassisSpeeds();
+
     auto path = std::make_shared<PathPlannerPath>(
         waypoints,
         constraints,
-        std::nullopt, // The ideal starting state, this is only relevant for pre-planned paths, so can be nullopt for on-the-fly paths.
+        IdealStartingState(math::sqrt(speed.vx*speed.vx + speed.vy*speed.vy), math::atan2(speed.vy, speed.vx)), // The ideal starting state, this is only relevant for pre-planned paths, so can be nullopt for on-the-fly paths.
         GoalEndState(0.0_mps, pose.Rotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
     );
 

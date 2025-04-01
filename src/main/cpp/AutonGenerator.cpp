@@ -10,8 +10,6 @@
 #include <memory>
 #include <vector>
 
-#include <frc2/command/ProxyCommand.h>
-
 using namespace frc;
 using namespace pathplanner;
 using namespace SwerveConstants::AutonNames;
@@ -55,24 +53,22 @@ AutonGenerator::AutonGenerator(DrivetrainSubsystem* drivetrain, ElevatorSubsyste
 }
 
 frc2::CommandPtr AutonGenerator::_GetCommand(std::string command_name) {
-
-    std::vector<frc2::CommandPtr> commands;
-
     if (command_name == "None") {
         return frc2::cmd::None();
 
-    } else if (command_name == "A" || command_name == "B" || command_name == "C" || command_name == "D" || command_name == "E" || command_name == "F" || command_name == "G" || command_name == "H" || command_name == "I" || command_name == "J" || command_name == "K" || command_name == "L") {
-        commands.push_back(frc2::cmd::DeferredProxy([this, command_name]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide(command_name)); } ));
-        // commands.push_back(frc2::cmd::None());
+    } else if ((command_name == "A") || (command_name == "B") || (command_name == "C") || (command_name == "D") 
+        || (command_name == "E") || (command_name == "F") || (command_name == "G") || (command_name == "H") 
+        || (command_name == "I") || (command_name == "J") || (command_name == "K") || (command_name == "L")) {
+
+        return frc2::cmd::Defer([this, command_name = std::move(command_name)]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide(command_name)); }, {_drivetrain});
+        // return frc2::cmd::None();
 
     } else if (command_name == "Level 1" || command_name == "Level 2" || command_name == "Level 3" || command_name == "Level 4") {
-        commands.push_back(AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, command_name}.ToPtr());
+        return AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, command_name}.ToPtr();
 
     } else {
         return frc2::cmd::None();
     }
-
-    return frc2::cmd::Sequence(std::move(commands));
 }
 
 frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
