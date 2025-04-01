@@ -56,7 +56,8 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
 
-                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(SwerveConstants::AutonDriveConstants::LEFT_REEF_MID_POINT); }, {_drivetrain}),
+
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
 
@@ -77,7 +78,8 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
 
-                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(SwerveConstants::AutonDriveConstants::RIGHT_REEF_MID_POINT); }, {_drivetrain}),
+
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
 
@@ -98,7 +100,8 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
 
-                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(SwerveConstants::AutonDriveConstants::LEFT_REEF_MID_POINT); }, {_drivetrain}),
+
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
 
@@ -119,7 +122,8 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("J")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
 
-                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(SwerveConstants::AutonDriveConstants::RIGHT_REEF_MID_POINT); }, {_drivetrain}),
+
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
 

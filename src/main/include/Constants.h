@@ -208,6 +208,12 @@ namespace SwerveConstants {
             {"K", ReefAlignment::left},
             {"L", ReefAlignment::right},
         };
+
+        constexpr frc::Pose2d LEFT_REEF_MID_POINT = frc::Pose2d{0_in, 0_in, 0_deg};
+        constexpr frc::Pose2d RIGHT_REEF_MID_POINT = frc::Pose2d{0_in, 0_in, 0_deg};
+
+        constexpr int BLUE_BARGE_APRIL_TAGS[] = {14, 15};
+        constexpr int RED_BARGE_APRIL_TAGS[] = {4, 5};
     }
 
     namespace PathDrivePIDConstants {

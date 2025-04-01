@@ -142,6 +142,8 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         Operator_Interface* _oi;
 
+        auto _alliance;
+
 };
 
 #endif

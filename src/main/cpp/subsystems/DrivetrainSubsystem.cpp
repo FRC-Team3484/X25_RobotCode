@@ -74,6 +74,12 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
     SetBrakeMode();
 
     frc::SmartDashboard::PutData("Field", &_field);
+
+    _alliance = frc::DriverStation::GetAlliance();
+    if (!_alliance.has_value()) {
+        fmt::print("Error: Teleop Drive Command failed to determine alliance station");
+        _alliance = DriverStation::Alliance::kBlue;
+    }
 }
 
 void DrivetrainSubsystem::Periodic() {
@@ -358,6 +364,30 @@ frc::Pose2d DrivetrainSubsystem::GetClosestProcessor() {
     }
 
     return GetNearestPose(poses);
+}
+
+frc::Pose2d DrivetrainSubsystem::GetReefAvoidPose(ReefAlignment::ReefAlignment alignment) {
+    int tag_to_find;
+
+    if (_alliance == DriverStation::Alliance::kRed) {
+        if (ReefAlignment::ReefAlignment == left) {
+            tag_to_find = 4;
+        } else if (ReefAlignment::ReefAlignment == right) {
+            tag_to_find = 5;
+        }
+    } else {
+        if (ReefAlignment::ReefAlignment == left) {
+            tag_to_find = 15;
+        } else if (ReefAlignment::ReefAlignment == right) {
+            tag_to_find = 14;
+        }
+    }
+
+    if (tag_to_find) {
+        for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+            if (tag.ID == )
+        }
+    }
 }
 
 bool DrivetrainSubsystem::GetAtTargetPosition() {
