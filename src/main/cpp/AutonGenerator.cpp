@@ -13,77 +13,141 @@
 using namespace frc;
 using namespace pathplanner;
 using namespace SwerveConstants::AutonNames;
-using namespace SwerveConstants::AutonDropdowns;
 
 AutonGenerator::AutonGenerator(DrivetrainSubsystem* drivetrain, ElevatorSubsystem* elevator, IntakeSubsystem* intake, PivotSubsystem* pivot)
     : _drivetrain{drivetrain}, 
     _elevator{elevator}, 
     _intake{intake},
     _pivot{pivot} {
-    
-    _auton_choosers.resize(AUTON_DROPDOWN_COUNT * 2);
 
-    for (int i = 0; i < AUTON_DROPDOWN_COUNT * 2; i += 2) {
-        _auton_choosers[i].SetDefaultOption("None", "None");
-        _auton_choosers[i + 1].SetDefaultOption("None", "None");
+    _auton_chooser.SetDefaultOption("None", Auton::none);
+    _auton_chooser.AddOption("Center", Auton::center);
+    _auton_chooser.AddOption("Center Left", Auton::center_left);
+    _auton_chooser.AddOption("Center Right", Auton::center_right);
+    _auton_chooser.AddOption("Left", Auton::left);
+    _auton_chooser.AddOption("Right", Auton::right);
+    _auton_chooser.AddOption("Taxi", Auton::taxi);
+    SmartDashboard::PutData("Auton", &_auton_chooser);
 
-        _auton_choosers[i].AddOption("A", "A");
-        _auton_choosers[i].AddOption("B", "B");
-        _auton_choosers[i].AddOption("C", "C");
-        _auton_choosers[i].AddOption("D", "D");
-        _auton_choosers[i].AddOption("E", "E");
-        _auton_choosers[i].AddOption("F", "F");
-        _auton_choosers[i].AddOption("G", "G");
-        _auton_choosers[i].AddOption("H", "H");
-        _auton_choosers[i].AddOption("I", "I");
-        _auton_choosers[i].AddOption("J", "J");
-        _auton_choosers[i].AddOption("K", "K");
-        _auton_choosers[i].AddOption("L", "L");
-        
-        _auton_choosers[i + 1].AddOption("Level 1", "Level 1");
-        _auton_choosers[i + 1].AddOption("Level 2", "Level 2");
-        _auton_choosers[i + 1].AddOption("Level 3", "Level 3");
-        _auton_choosers[i + 1].AddOption("Level 4", "Level 4");
-    }
-
-    for (int i = 0; i < AUTON_DROPDOWN_COUNT * 2; i += 2) {
-        SmartDashboard::PutData("Auton " + std::to_string(i / 2 + 1) + " Score Alignment", &_auton_choosers[i]);
-        SmartDashboard::PutData("Auton " + std::to_string(i / 2 + 1) + " Score", &_auton_choosers[i + 1]);
-    }
-}
-
-frc2::CommandPtr AutonGenerator::_GetCommand(std::string command_name) {
-    if (command_name == "None") {
-        return frc2::cmd::None();
-
-    } else if ((command_name == "A") || (command_name == "B") || (command_name == "C") || (command_name == "D") 
-        || (command_name == "E") || (command_name == "F") || (command_name == "G") || (command_name == "H") 
-        || (command_name == "I") || (command_name == "J") || (command_name == "K") || (command_name == "L")) {
-
-        return frc2::cmd::Defer([this, command_name = std::move(command_name)]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide(command_name)); }, {_drivetrain});
-        // return frc2::cmd::None();
-
-    } else if (command_name == "Level 1" || command_name == "Level 2" || command_name == "Level 3" || command_name == "Level 4") {
-        return AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, command_name}.ToPtr();
-
-    } else {
-        return frc2::cmd::None();
-    }
+    // Adjust the level options to add more heights
+    _auton_level.SetDefaultOption("None", AutonLevel::none);
+    _auton_level.AddOption("Level 2", AutonLevel::level_2);
+    _auton_level.AddOption("Level 4", AutonLevel::level_4);
+    SmartDashboard::PutData("Auton Level", &_auton_level);
 }
 
 frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
-    std::vector<frc2::CommandPtr> commands;
-    for (int i = 0; i < AUTON_DROPDOWN_COUNT; i++) {
-        fmt::println("Loop");
-        commands.push_back(_GetCommand(_auton_choosers[i].GetSelected()));
-        
-        if (i % 2 == 1 && i < AUTON_DROPDOWN_COUNT - 1) {
-            commands.push_back(AutonFeederCoralCommand{_drivetrain, _elevator, _intake, _pivot}.ToPtr());
-        }
-    }
-    commands.push_back(AutonStopCommand(_drivetrain).ToPtr());
+    Auton::Auton auton_selected = _auton_chooser.GetSelected();
+    AutonLevel::AutonLevel auton_level_selected = _auton_level.GetSelected();
 
-    fmt::println("Made command list");
-    
-    return frc2::cmd::Sequence(std::move(commands));
+    switch (auton_selected) {
+        case Auton::center:
+            // Go to G/H, score
+            return frc2::cmd::Sequence(
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                AutonStopCommand(_drivetrain).ToPtr()
+            );
+            break;
+
+        case Auton::center_left:
+            // Go to G, then feeder station, then go to D, score, go to feeder station, score C
+            return frc2::cmd::Sequence(
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("D")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+            );
+            break;
+
+        case Auton::center_right:
+            // Go to H, then feeder station, then go to K, score, go to feeder station, score at L
+            return frc2::cmd::Sequence(
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("K")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+                
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("L")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+            );
+            break;
+
+        case Auton::left:
+            // Score E, then feeder station, then score D, feeder station, score C
+            return frc2::cmd::Sequence(
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("D")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+                
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("C")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+            );
+            break;
+
+        case Auton::right:
+            // Score J, then feeder station, then score K, feeder station, score L
+            return frc2::cmd::Sequence(
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("J")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                // TODO: Add GoToPose at position on outside of reef so robot doesn't try to path through the reef
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("K")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
+                AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
+                
+                frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("L")); }, {_drivetrain}),
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+            );
+            break;
+
+        case Auton::taxi:
+            // Drives forwards past the starting line
+            return frc2::cmd::Sequence(
+                PathPlannerAuto("Drive").ToPtr(),
+                AutonStopCommand(_drivetrain).ToPtr()
+            );
+            break;
+
+        case Auton::none:
+            // Doesn't do anything
+            return frc2::cmd::None();
+            break;
+
+        default:
+            auton_selected = Auton::none;
+    }
 }

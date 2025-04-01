@@ -6,7 +6,7 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,
-    std::string reef_level) : 
+    AutonLevel::AutonLevel reef_level) : 
     _drivetrain(drivetrain), 
     _elevator(elevator),
     _intake(intake),
@@ -29,13 +29,13 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case extend_elevator:
-            if (_reef_level == "Level 1") {
+            if (_reef_level == AutonLevel::level_1) {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_1);
-            } else if (_reef_level == "Level 2") {
+            } else if (_reef_level == AutonLevel::level_2) {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_2);
-            } else if (_reef_level == "Level 3") {
+            } else if (_reef_level == AutonLevel::level_3) {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_3);
-            } else if (_reef_level == "Level 4") {
+            } else if (_reef_level == AutonLevel::level_4) {
                 _elevator->SetHeight(ElevatorConstants::CORAL_LEVEL_4);
             }
 
@@ -44,9 +44,9 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case extend_pivot:
-            if (_reef_level == "Level 1" || _reef_level == "Level 2" || _reef_level == "Level 3") {
+            if ((_reef_level == AutonLevel::level_1) || (_reef_level == AutonLevel::level_2) || (_reef_level == AutonLevel::level_3)) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
-            } else if (_reef_level == "Level 4") {
+            } else if (_reef_level == AutonLevel::level_4) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
             }
 

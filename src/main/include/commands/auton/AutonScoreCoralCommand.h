@@ -9,6 +9,8 @@
 #include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 
+#include "Datatypes.h"
+
 class AutonScoreCoralCommand
 : public frc2::CommandHelper<frc2::Command, AutonScoreCoralCommand> {
  public:
@@ -17,7 +19,7 @@ class AutonScoreCoralCommand
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,
-    std::string reef_level
+    AutonLevel::AutonLevel reef_level
   );
 
         void Initialize() override;
@@ -32,12 +34,12 @@ class AutonScoreCoralCommand
         enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
 		State _auton_score_coral_state = wait;
 
-        DrivetrainSubsystem* _drivetrain;
+    DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;
 
-    std::string _reef_level;
+    AutonLevel::AutonLevel _reef_level;
 };
 
 #endif

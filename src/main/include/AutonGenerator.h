@@ -17,6 +17,8 @@
 #include <frc2/command/SequentialCommandGroup.h>
 #include <frc/smartdashboard/SendableChooser.h>
 
+#include "Datatypes.h"
+
 class AutonGenerator {
     public:
         /**
@@ -43,21 +45,13 @@ class AutonGenerator {
         frc2::CommandPtr GetAutonomousCommand();
         
     private:
-        /**
-         * Takes a string of the name of the command and returns the command needed
-         * 
-         * @param command_name The name of the command to get
-         * 
-         * @return The command which can now be added to a command group
-         */
-        frc2::CommandPtr _GetCommand(std::string command_name);
-        
         DrivetrainSubsystem* _drivetrain;
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake;
         PivotSubsystem* _pivot;
 
-        std::vector<frc::SendableChooser<std::string>> _auton_choosers;
+        frc::SendableChooser<Auton::Auton> _auton_chooser;
+        frc::SendableChooser<AutonLevel::AutonLevel> _auton_level;
 };
 
 #endif

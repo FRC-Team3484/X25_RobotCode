@@ -85,11 +85,11 @@ bool Operator_Interface::IgnoreVision(){return true}
 
 ReefAlignment Operator_Interface::GetReefAlignment() {
     if (_operator_controller.GetRawButton(CORAL_LEVEL_4_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_LEFT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_LEFT)) {
-        return left;
+        return ReefAlignemnt::left;
     } else if (_operator_controller.GetRawButton(CORAL_LEVEL_4_RIGHT) || _operator_controller.GetRawButton(CORAL_LEVEL_3_RIGHT) || _operator_controller.GetRawButton(CORAL_LEVEL_2_RIGHT)) {
-        return right;
+        return ReefAlignemnt::right;
     } else {
-        return center;
+        return ReefAlignment::center;
     }
 }
 int Operator_Interface::GetReefLevel() {

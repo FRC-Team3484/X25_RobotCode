@@ -300,7 +300,7 @@ frc::Pose2d DrivetrainSubsystem::GetReefSide(std::string letter) {
             if (tag.ID == id) {
                 auto it_offset = APRIL_TAG_LETTER_TO_OFFSET.find(letter);
                 if (it_offset != APRIL_TAG_LETTER_TO_OFFSET.end()) {
-                    ReefAlignment reef_offset = it_offset->second;
+                    ReefAlignment::ReefAlignment reef_offset = it_offset->second;
                     if (reef_offset == ReefAlignment::left) {
                         return ApplyOffsetToPose(tag.pose.ToPose2d(), LEFT_REEF_OFFSET);
                     } else {

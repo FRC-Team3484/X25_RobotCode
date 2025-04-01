@@ -58,10 +58,6 @@ namespace SwerveConstants {
         };
     }
 
-    namespace AutonDropdowns {
-        constexpr int AUTON_DROPDOWN_COUNT = 4;
-    }
-
     namespace ControllerConstants {
         constexpr double DRIVER_RUMBLE_HIGH = 0.5;
         constexpr double DRIVER_RUMBLE_LOW = 0.2;
@@ -199,19 +195,19 @@ namespace SwerveConstants {
             {"L", 6},
         };
 
-        const std::unordered_map<std::string, ReefAlignment> APRIL_TAG_LETTER_TO_OFFSET = {
-            {"A", left},
-            {"B", right},
-            {"C", left},
-            {"D", right},
-            {"E", left},
-            {"F", right},
-            {"G", left},
-            {"H", right},
-            {"I", left},
-            {"J", right},
-            {"K", left},
-            {"L", right},
+        const std::unordered_map<std::string, ReefAlignment::ReefAlignment> APRIL_TAG_LETTER_TO_OFFSET = {
+            {"A", ReefAlignment::left},
+            {"B", ReefAlignment::right},
+            {"C", ReefAlignment::left},
+            {"D", ReefAlignment::right},
+            {"E", ReefAlignment::left},
+            {"F", ReefAlignment::right},
+            {"G", ReefAlignment::left},
+            {"H", ReefAlignment::right},
+            {"I", ReefAlignment::left},
+            {"J", ReefAlignment::right},
+            {"K", ReefAlignment::left},
+            {"L", ReefAlignment::right},
         };
     }
 
@@ -365,10 +361,10 @@ namespace IntakeConstants {
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 3;
 
-        constexpr double CORAL_EJECT_POWER = -1.0;
-        constexpr double ALGAE_EJECT_POWER = 1.0;
+        constexpr double CORAL_EJECT_POWER = -0.8;
+        constexpr double ALGAE_EJECT_POWER = 0.8;
         constexpr double STOP_POWER = 0.0;
-        constexpr double INTAKE_POWER = -1.0;
+        constexpr double INTAKE_POWER = -0.8;
 
         constexpr bool INVERT_MOTOR = false;
         
