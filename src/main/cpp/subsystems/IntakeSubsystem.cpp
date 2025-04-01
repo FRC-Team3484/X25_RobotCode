@@ -23,6 +23,7 @@ IntakeSubsystem::IntakeSubsystem(
     motor_config.MotorOutput.Inverted = INVERT_MOTOR;
     motor_config.MotorOutput.NeutralMode = signals::NeutralModeValue::Brake;
     motor_config.Commutation.MotorArrangement = signals::MotorArrangementValue::Minion_JST;
+    //motor_config.OpenLoopRamps.DutyCycleOpenLoopRampPeriod = 0.05_s;
 
     // Load motor configs
     SC::SC_SwerveCurrents intake_current_constants;

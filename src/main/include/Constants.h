@@ -36,7 +36,6 @@ namespace VisionConstants {
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{ // Front
             "Camera_1",
-            // frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -40_deg, -34.7_deg}},
             frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -40_deg, -33_deg}},
             true
         },
@@ -148,8 +147,8 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, -7_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, 7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 7_in}, frc::Rotation2d{180_deg}};
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
@@ -343,9 +342,9 @@ namespace ElevatorConstants {
     constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 39_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 58.5_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 21.5_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 37_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 56.5_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 20_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 30_in;
@@ -396,7 +395,7 @@ namespace PivotConstants {
     constexpr units::degree_t PROCESSOR_POSITION = 135_deg;
     constexpr units::degree_t TRAVEL_POSITION = 130_deg;
     constexpr units::degree_t INTAKE_POSITION = 112.5_deg;
-    constexpr units::degree_t TARGET_CORAL_ANGLE = 130_deg;
+    constexpr units::degree_t TARGET_CORAL_ANGLE = 135_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
