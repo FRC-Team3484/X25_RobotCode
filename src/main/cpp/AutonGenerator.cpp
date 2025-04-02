@@ -55,6 +55,7 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
             return frc2::cmd::Sequence(
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefAvoidPose(ReefAlignment::left)); }, {_drivetrain}),
 
@@ -63,12 +64,14 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("D")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("G")); }, {_drivetrain}),
-                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr()
             );
             break;
 
@@ -77,6 +80,7 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
             return frc2::cmd::Sequence(
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefAvoidPose(ReefAlignment::right)); }, {_drivetrain}),
 
@@ -85,12 +89,14 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("K")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
                 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("L")); }, {_drivetrain}),
-                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr()
             );
             break;
 
@@ -99,6 +105,7 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
             return frc2::cmd::Sequence(
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("H")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefAvoidPose(ReefAlignment::left)); }, {_drivetrain}),
 
@@ -107,12 +114,14 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("D")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
                 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("C")); }, {_drivetrain}),
-                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr()
             );
             break;
 
@@ -121,6 +130,7 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
             return frc2::cmd::Sequence(
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("J")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefAvoidPose(ReefAlignment::right)); }, {_drivetrain}),
 
@@ -129,12 +139,14 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("K")); }, {_drivetrain}),
                 AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr(),
 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation()); }, {_drivetrain}),
                 AutonFeederCoralCommand(_drivetrain, _elevator, _intake, _pivot).ToPtr(),
                 
                 frc2::cmd::Defer([this]() { return _drivetrain->GoToPose(_drivetrain->GetReefSide("L")); }, {_drivetrain}),
-                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr()
+                AutonScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, auton_level_selected}.ToPtr(),
+                StowArmCommand{_pivot, _elevator}.ToPtr()
             );
             break;
 
@@ -150,8 +162,5 @@ frc2::CommandPtr AutonGenerator::GetAutonomousCommand() {
             // Doesn't do anything
             return frc2::cmd::None();
             break;
-
-        default:
-            auton_selected = Auton::none;
     }
 }

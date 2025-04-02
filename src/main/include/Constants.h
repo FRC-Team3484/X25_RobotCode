@@ -209,7 +209,7 @@ namespace SwerveConstants {
             {"L", ReefAlignment::right},
         };
 
-        constexpr frc::Pose2d BARGE_APRIL_TAG_OFFSET = frc::Pose2d{48_in, 0_in, 0_deg};
+        constexpr frc::Translation2d BARGE_APRIL_TAG_OFFSET = frc::Translation2d{96_in, 0_in};
     }
 
     namespace PathDrivePIDConstants {

@@ -67,6 +67,6 @@ void IntakeSubsystem::PrintTestInfo() {
     frc::SmartDashboard::PutBoolean("Has Algae 1", !_algae_top_sensor.Get());
     frc::SmartDashboard::PutBoolean("Has Algae 2", !_algae_bottom_sensor.Get());
     
-    frc::SmartDashboard::PutBoolean("Have Coral High", CoralHigh());
-    frc::SmartDashboard::PutBoolean("Have Coral Low", CoralLow());
+    frc::SmartDashboard::PutBoolean("Have Coral High", !_coral_high_sensor.Get());
+    frc::SmartDashboard::PutBoolean("Have Coral Low", !_coral_low_sensor.Get());
 }

@@ -386,20 +386,15 @@ frc::Pose2d DrivetrainSubsystem::GetReefAvoidPose(ReefAlignment::ReefAlignment a
     } else {
         if (alignment == ReefAlignment::left) {
             tag_to_find = 15;
-        } else if (alignment == ReefAlignment::left) {
+        } else if (alignment == ReefAlignment::right) {
             tag_to_find = 14;
         }
     }
 
     if (tag_to_find) {
-        for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
-            if (tag.ID == tag_to_find) {
-                return ApplyOffsetToPose(tag.pose.ToPose2d(), BARGE_APRIL_TAG_OFFSET);
-            } else {
-                return GetPose();
-            }
-        }
+        return ApplyOffsetToPose(APRIL_TAG_LAYOUT.GetTagPose(tag_to_find).value_or(frc::Pose3d{{GetPose().X() - 24_in, GetPose().Y(), GetPose().Rotation()}}).ToPose2d(), frc::Pose2d{BARGE_APRIL_TAG_OFFSET, frc::Rotation2d{GetPose().Rotation()}});
     }
+    fmt::println("GetReefAvoidPose: Couldn't find april tag pose");
     return GetPose();
 }
 

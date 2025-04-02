@@ -21,9 +21,9 @@ void AutonFeederCoralCommand::Execute() {
         case wait:
             // Stow the elevator and pivot
             // Once the robot is near the target position, go to next state
-            _elevator->SetHeight(ElevatorConstants::HOME_POSITION);
-            _pivot->SetPivotAngle(PivotConstants::HOME_POSITION);
-            if(_drivetrain->GetNearTargetPosition()){
+            _elevator->SetHeight(ElevatorConstants::INTAKE_HEIGHT);
+            _pivot->SetPivotAngle(PivotConstants::INTAKE_POSITION);
+            if(_pivot->AtTargetPosition()){
                 _auton_feeder_coral_state = intake;
             }
             break;
@@ -31,7 +31,7 @@ void AutonFeederCoralCommand::Execute() {
             // Run the intake and funnel to feed in coral
             // Once coral is in the intake, go to next state
             _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
-            if (_intake->HasCoral()) {
+            if (_intake->CoralLow()) {
                 _auton_feeder_coral_state = done;
             }
             break;

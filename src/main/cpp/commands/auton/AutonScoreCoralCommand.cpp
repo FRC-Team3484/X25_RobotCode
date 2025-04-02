@@ -18,13 +18,21 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     AddRequirements(_pivot);
 }
 
-void AutonScoreCoralCommand::Initialize() {}
+void AutonScoreCoralCommand::Initialize() {
+    _auton_score_coral_state = wait;
+}
 
 void AutonScoreCoralCommand::Execute() {
     switch(_auton_score_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to next state
             if(_drivetrain->GetNearTargetPosition()) {
+                _auton_score_coral_state = traveling_pivot;
+            }
+            break;
+        case traveling_pivot:
+            _pivot->SetPivotAngle(PivotConstants::TRAVEL_POSITION);
+            if (_pivot->AtTargetPosition()) {
                 _auton_score_coral_state = extend_elevator;
             }
             break;

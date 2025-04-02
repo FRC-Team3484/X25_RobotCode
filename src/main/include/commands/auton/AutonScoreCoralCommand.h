@@ -31,7 +31,7 @@ class AutonScoreCoralCommand
         bool IsFinished() override;
 
     private:
-        enum State {wait, extend_elevator, extend_pivot, eject_piece, done};
+        enum State {wait, traveling_pivot, extend_elevator, extend_pivot, eject_piece, done};
 		State _auton_score_coral_state = wait;
 
     DrivetrainSubsystem* _drivetrain;

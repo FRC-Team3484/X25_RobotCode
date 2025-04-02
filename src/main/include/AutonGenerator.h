@@ -11,6 +11,7 @@
 #include "commands/auton/AutonFeederCoralCommand.h"
 #include "commands/auton/AutonScoreCoralCommand.h"
 #include "commands/auton/AutonStopCommand.h"
+#include "commands/teleop/StowArmCommand.h"
 
 #include <frc2/command/Commands.h>
 #include <frc2/command/CommandPtr.h>
