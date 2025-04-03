@@ -36,7 +36,10 @@
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
 
-#include <units/time.h>
+#include "commands/auton/AutonFeederCoralCommand.h"
+#include "commands/auton/AutonScoreCoralCommand.h"
+#include "commands/auton/AutonStopCommand.h"
+#include "AutonGenerator.h"
 
 class Robot : public frc::TimedRobot {
     public:
@@ -63,16 +66,9 @@ class Robot : public frc::TimedRobot {
 
         void LedPeriodic();
 
-        bool AutoGetLoadCoralCondition();
-        bool AutoGetRemoveAlgaeCondition();
-        bool AutoGetScoreReefCondition();
-        //bool AutoGetScoreProcessorCondition();
-
-        bool ManualGetLoadCoralCondition();
-        bool ManualGetRemoveAlgaeCondition();
-        bool ManualGetScoreReefCondition();
-        //bool ManualGetScoreProcessorCondition();
-        bool ManualGetClimbUpCondition();
+        bool GetLoadCoralCondition();
+        bool GetRemoveAlgaeCondition();
+        bool GetScoreReefCondition();
 
         void ResetAllSubsystems();
 
@@ -95,22 +91,18 @@ class Robot : public frc::TimedRobot {
         DrivetrainSubsystem* _drivetrain = nullptr;
         #endif
 
-        #ifdef ELEVATOR_ENABLED
-        ElevatorSubsystem* _elevator= new ElevatorSubsystem(ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, ElevatorConstants::BRAKE_SERVO, ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD);
+        #if defined (ELEVATOR_ENABLED) && defined (PIVOT_ENABLED)
+        ElevatorSubsystem* _elevator = new ElevatorSubsystem(ElevatorConstants::PRIMARY_MOTOR_CAN_ID, ElevatorConstants::SECONDARY_MOTOR_CAN_ID, ElevatorConstants::HOME_SENSOR_DI_CH, /*ElevatorConstants::BRAKE_SERVO,*/ ElevatorConstants::PID_C, ElevatorConstants::MAX_VELOCITY, ElevatorConstants::MAX_ACCELERATION, ElevatorConstants::FEED_FORWARD);
+        PivotSubsystem* _pivot = new PivotSubsystem(PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD, _elevator);
         #else
         ElevatorSubsystem* _elevator = nullptr;
+        PivotSubsystem* _pivot = nullptr;
         #endif
 
         #ifdef INTAKE_ENABLED
         IntakeSubsystem* _intake = new IntakeSubsystem(IntakeConstants::MOTOR_CAN_ID, IntakeConstants::ALGAE_TOP_SENSOR_DI_CH, IntakeConstants::ALGAE_BOTTOM_SENSOR_DI_CH, IntakeConstants::CORAL_HIGH_SENSOR_DI_CH, IntakeConstants::CORAL_LOW_SENSOR_DI_CH);
         #else
         IntakeSubsystem* _intake = nullptr;
-        #endif
-
-        #ifdef PIVOT_ENABLED
-        PivotSubsystem* _pivot = new PivotSubsystem(PivotConstants::PIVOT_MOTOR_CAN_ID, PivotConstants::PIVOT_HOME_DI_CH, PivotConstants::PID_C, PivotConstants::MAX_VELOCITY, PivotConstants::MAX_ACCELERATION, PivotConstants::FEED_FORWARD);
-        #else
-        PivotSubsystem* _pivot = nullptr;
         #endif
 
         #ifdef FUNNEL_ENABLED
@@ -126,7 +118,7 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #if defined (DRIVETRAIN_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (ELEVATOR_ENABLED)
-        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain, _elevator, _pivot, _intake);
+        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain, _elevator, _intake, _pivot);
         #else
         AutonGenerator* _auton_generator = nullptr;
         #endif
@@ -143,7 +135,7 @@ class Robot : public frc::TimedRobot {
         
         frc2::CommandPtr _stow_state_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (ELEVATOR_ENABLED) && defined (PIVOT_ENABLED)
+            #if defined ELEVATOR_ENABLED && defined PIVOT_ENABLED
             StowArmCommand{_pivot, _elevator}.ToPtr(),
             #endif
             #endif
@@ -151,16 +143,16 @@ class Robot : public frc::TimedRobot {
         );
 
         frc2::CommandPtr _drive_state_commands = frc2::cmd::Parallel(
-            #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{_drivetrain, _oi_driver}.ToPtr(),
+            #if defined DRIVETRAIN_ENABLED && defined ELEVATOR_ENABLED
+            TeleopDriveCommand{_drivetrain, _oi_driver, _elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
 
         frc2::CommandPtr _intake_algae_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeAlgaeCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if defined ELEVATOR_ENABLED && defined INTAKE_ENABLED && defined PIVOT_ENABLED
+            TeleopIntakeAlgaeCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -168,8 +160,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _intake_coral_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopIntakeCoralCommand{_drivetrain, _elevator, _intake, _pivot, _funnel, _oi_operator}.ToPtr(),
+            #if  defined ELEVATOR_ENABLED && defined INTAKE_ENABLED && defined PIVOT_ENABLED
+            TeleopIntakeCoralCommand{_elevator, _intake, _pivot, _funnel, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -177,8 +169,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _processor_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED)
-            TeleopProcessorCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if  defined ELEVATOR_ENABLED && defined INTAKE_ENABLED && defined PIVOT_ENABLED
+            TeleopProcessorCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -186,8 +178,8 @@ class Robot : public frc::TimedRobot {
 
         frc2::CommandPtr _score_coral_commands = frc2::cmd::Parallel(
             #ifdef COMMANDS_ENABLED
-            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED )&& defined (INTAKE_ENABLED) &&  defined (PIVOT_ENABLED)
-            TeleopScoreCoralCommand{_drivetrain, _elevator, _intake, _pivot, _oi_operator}.ToPtr(),
+            #if  defined ELEVATOR_ENABLED && defined INTAKE_ENABLED &&  defined PIVOT_ENABLED
+            TeleopScoreCoralCommand{_elevator, _intake, _pivot, _oi_operator}.ToPtr(),
             #endif
             #endif
             frc2::cmd::None()
@@ -203,11 +195,13 @@ class Robot : public frc::TimedRobot {
             #ifdef PIVOT_ENABLED
             TestPivotCommand{_pivot, _oi_testing}.ToPtr(),
             #endif
-            #ifdef DRIVETRAIN_ENABLED
-            TeleopDriveCommand{_drivetrain, _oi_driver}.ToPtr(),
+            #if defined (DRIVETRAIN_ENABLED) && defined (ELEVATOR_ENABLED)
+            TeleopDriveCommand{_drivetrain, _oi_driver, _elevator}.ToPtr(),
             #endif
             frc2::cmd::None()
         );
+
+        frc2::CommandPtr _go_to_pose_command = frc2::cmd::None();
 
         // State machine
         enum driver_states {
@@ -220,16 +214,9 @@ class Robot : public frc::TimedRobot {
 
         enum operator_states {
             stow,
-            manual_score_coral,
-            manual_score_processor, 
-            manual_remove_algae,
-            manual_pickup_coral,
-            climb_up,
-            climb_down,
-            auto_pickup_coral_operator, 
-            auto_pickup_algae_operator,
-            auto_score_reef_operator, 
-            auto_score_processor_operator
+            score_coral,
+            remove_algae,
+            pickup_coral
         }; //state inside the drive state (driver)
         operator_states _operator_drive_robot_state = stow;
 

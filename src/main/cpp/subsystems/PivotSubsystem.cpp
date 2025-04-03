@@ -13,7 +13,8 @@ PivotSubsystem::PivotSubsystem(
     SC::SC_PIDConstants pivot_pidc,
     radians_per_second_t max_velocity,
     radians_per_second_squared_t max_acceleration,
-    SC::SC_AngularFeedForward feed_forward_constants
+    SC::SC_AngularFeedForward feed_forward_constants,
+    ElevatorSubsystem* elevator
     ) :
     _pivot_motor{pivot_motor_can_id},
     _pivot_home{pivot_home_di_ch},
@@ -24,7 +25,8 @@ PivotSubsystem::PivotSubsystem(
         feed_forward_constants.G,
         feed_forward_constants.V,
         feed_forward_constants.A
-    }
+    },
+    _elevator{elevator}
     {
         configs::TalonFXConfiguration motor_config{};
         motor_config.MotorOutput.Inverted = INVERT_MOTOR;
@@ -47,15 +49,18 @@ void PivotSubsystem::Periodic() {
     switch(_pivot_state){
     case home:
         // Homes the pivot
-        _pivot_motor.Set(HOME_POWER);
-        if (_HomeSensor()||_GetStalled()){
-            SetPower(0);
-            _pivot_pid_controller.Reset();
-            _isHomed = true;
-            _pivot_state = ready;
+        if (_elevator->AtSafeStowPosition()) {
+            _pivot_motor.Set(HOME_POWER);
+            if (_HomeSensor()||_GetStalled()){
+                SetPower(0);
+                _pivot_pid_controller.Reset();
+                _isHomed = true;
+                _pivot_state = ready;
+            }
         }
         break;
     case ready:
+    case test:
         // Sets the pisvot to the target angle given in SetPivotAngle()
         if (!frc::SmartDashboard::GetBoolean("Test Elevator", false)){
             if (_target_state.position == HOME_POSITION && _HomeSensor()) {
@@ -70,16 +75,19 @@ void PivotSubsystem::Periodic() {
                 pid_output = volt_t{_pivot_pid_controller.Calculate(degree_t{_GetPivotAngle()}.value(), degree_t{current_state.position}.value())};
                 _pivot_motor.SetVoltage(feed_forward_output+pid_output);
                 _previous_pivot_velocity = current_state.velocity;
+                
             }
         }
-        break;
-    case test:
         break;
     default:
         _pivot_state=home;
         break;
     }
-        PrintTestInfo();
+    PrintTestInfo();
+
+    frc::SmartDashboard::PutNumber("Pivot Torque Current", _pivot_motor.GetTorqueCurrent().GetValue().value());
+    frc::SmartDashboard::PutNumber("Pivot Supply Current", _pivot_motor.GetSupplyCurrent().GetValue().value());
+    frc::SmartDashboard::PutNumber("Pivot Voltage Demand", _pivot_motor.GetMotorVoltage().GetValue().value());
 }
 
 void PivotSubsystem::SetPivotAngle(degree_t angle) {

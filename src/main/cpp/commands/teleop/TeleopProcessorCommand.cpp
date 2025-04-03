@@ -2,12 +2,10 @@
 #include "Constants.h"
 
 TeleopProcessorCommand::TeleopProcessorCommand(
-    DrivetrainSubsystem* drivetrain,
     ElevatorSubsystem* elevator,
     IntakeSubsystem* intake,
     PivotSubsystem* pivot,
     Operator_Interface* oi) :
-    _drivetrain(drivetrain),
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot),
@@ -25,9 +23,7 @@ void TeleopProcessorCommand::Execute() {
     switch (_auto_processor_state) {
         case wait:
             // Wait until the robot is near the target position, then go to the next state
-            if (_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()) {
-                _auto_processor_state = traveling_pivot;
-            }
+            _auto_processor_state = traveling_pivot;
             break; 
         case traveling_pivot:
             // Set the pivot to the travel position
@@ -41,7 +37,7 @@ void TeleopProcessorCommand::Execute() {
             // Set the height of the elevator to the processor position
             // Once the elevator is at the target height and the drivetrain has reached the target position, go to the next state
             _elevator->SetHeight(ElevatorConstants::PROCESSOR_POSITION);
-            if (_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
+            if (_elevator->AtTargetHeight()) {
                 _auto_processor_state = extend_pivot;
             }
             break;
@@ -49,7 +45,7 @@ void TeleopProcessorCommand::Execute() {
             // Set the angle of the pivot to the processor position
             // Once the pivot is at the target angle, go to the next state
             _pivot->SetPivotAngle(PivotConstants::PROCESSOR_POSITION);
-            if (_pivot->AtTargetPosition()) {
+            if (_pivot->AtTargetPosition() && _oi->GetConfirmManualScore()) {
                 _auto_processor_state = eject_algae;
             }
             break;

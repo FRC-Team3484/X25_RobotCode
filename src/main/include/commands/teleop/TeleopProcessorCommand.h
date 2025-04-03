@@ -6,7 +6,6 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
-#include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 
 #include "OI.h"
@@ -17,14 +16,12 @@ class TeleopProcessorCommand
         /**
          * Scores an algae into the processor by extending the pivot and running the intakes
          * 
-         * @param drivetrain A pointer to the drivetrain subsystem
          * @param elevator A pointer to the elevator subsystem
          * @param intake A pointer to the intake subsystem
          * @param pivot A pointer to the pivot subsystem
          * @param oi A pointer to the operator interface
          */
         explicit TeleopProcessorCommand(
-            DrivetrainSubsystem* drivetrain,
             ElevatorSubsystem* elevator,
             IntakeSubsystem* intake,
             PivotSubsystem* pivot,
@@ -43,7 +40,6 @@ class TeleopProcessorCommand
         enum State {wait, traveling_pivot, extend_elevator, extend_pivot, eject_algae, done};
         State _auto_processor_state = wait;
 
-        DrivetrainSubsystem* _drivetrain;
         ElevatorSubsystem* _elevator;
         IntakeSubsystem* _intake;
         PivotSubsystem* _pivot;

@@ -10,7 +10,7 @@ ElevatorSubsystem::ElevatorSubsystem(
     int primary_motor_can_id,
     int secondary_motor_can_id,
     int home_sensor_di_ch,
-    int brake_servo_port,
+    // int brake_servo_port,
     SC::SC_PIDConstants elevator_pidc,
     feet_per_second_t max_velocity,
     feet_per_second_squared_t max_acceleration,
@@ -19,7 +19,7 @@ ElevatorSubsystem::ElevatorSubsystem(
     _primary_motor(primary_motor_can_id),
     _secondary_motor(secondary_motor_can_id),
     _home_sensor(home_sensor_di_ch),
-    _brake_servo{brake_servo_port},
+    // _brake_servo{brake_servo_port},
     _elevator_pid_controller{elevator_pidc.Kp, elevator_pidc.Ki, elevator_pidc.Kd},
     _elevator_trapezoid{{max_velocity, max_acceleration}},
     _elevator_feed_forward{
@@ -68,21 +68,22 @@ void ElevatorSubsystem::Periodic() {
             }
             break;
         case ready:
-            // Set the elevator to the target position given by SetHeight()
-            if ((math::abs(_target_state.position - HOME_POSITION) < POSITION_TOLERANCE) && _HomeSensor()) {
-                _elevator_pid_controller.Reset();
-                _previous_elevator_velocity = 0_mps;
-                SetPower(0);
-                _SetPosition(HOME_POSITION);
-            } else {
-                current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
-                feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
-                pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
-                _primary_motor.SetVoltage(feed_forward_output+pid_output);
-                _previous_elevator_velocity = current_state.velocity;
-            }
-            break;
         case test:
+            // Set the elevator to the target position given by SetHeight()
+            if (!frc::SmartDashboard::GetBoolean("Test Elevator", false)){
+                if ((math::abs(_target_state.position - HOME_POSITION) < POSITION_TOLERANCE) && _HomeSensor()) {
+                    _elevator_pid_controller.Reset();
+                    _previous_elevator_velocity = 0_mps;
+                    SetPower(0);
+                    _SetPosition(HOME_POSITION);
+                } else {
+                    current_state = _elevator_trapezoid.Calculate(_trapezoid_timer.Get(), _initial_state, _target_state);
+                    feed_forward_output = _elevator_feed_forward.Calculate(_previous_elevator_velocity, meters_per_second_t{current_state.velocity});
+                    pid_output = volt_t{_elevator_pid_controller.Calculate(inch_t{_GetElevatorHeight()}.value(), inch_t{current_state.position}.value())};
+                    _primary_motor.SetVoltage(feed_forward_output+pid_output);
+                    _previous_elevator_velocity = current_state.velocity;
+                }
+            }
             break;
         default:
             _elevator_state = home;
@@ -90,11 +91,11 @@ void ElevatorSubsystem::Periodic() {
     }
     PrintTestInfo();
     // If we're climbing, engage the elevator brake
-    if (_climbing) {
+    /*if (_climbing) {
         _brake_servo.Set(RATCHET_ENGAGED);
     } else {
         _brake_servo.Set(RATCHET_DISENGAGED);
-    }
+    }*/
 }
 
 void ElevatorSubsystem::SetHeight(inch_t height) {
@@ -117,7 +118,11 @@ bool ElevatorSubsystem::AtTargetHeight() {
 }
 
 bool ElevatorSubsystem::AtSafeStowPosition() {
-    return math::abs(_target_state.position - _GetElevatorHeight()) < SAFE_STOW_POSITION;
+    return _GetElevatorHeight() < SAFE_STOW_POSITION;
+}
+
+bool ElevatorSubsystem::AtExtendedPosition() {
+    return _GetElevatorHeight() > EXTENDED_POSITION;
 }
 
 void ElevatorSubsystem::SetPower(double power) {

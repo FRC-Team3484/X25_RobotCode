@@ -1,13 +1,11 @@
 #include "commands/teleop/TeleopIntakeCoralCommand.h"
 
 TeleopIntakeCoralCommand::TeleopIntakeCoralCommand(
-    DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator, 
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot, 
     FunnelSubsystem* funnel, 
     Operator_Interface* oi) : 
-    _drivetrain(drivetrain),
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot),
@@ -27,9 +25,7 @@ void TeleopIntakeCoralCommand::Execute() {
     switch(_auto_intake_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to the next state
-            if(_drivetrain->GetNearTargetPosition() || _oi->IgnoreVision()){
-                _auto_intake_coral_state = ready_intake;
-            }
+            _auto_intake_coral_state = ready_intake;
             break;
         case ready_intake:
             // Set the pivot to the intake position

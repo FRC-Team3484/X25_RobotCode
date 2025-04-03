@@ -6,7 +6,6 @@
 
 #include "subsystems/IntakeSubsystem.h"
 #include "subsystems/PivotSubsystem.h"
-#include "subsystems/DrivetrainSubsystem.h"
 #include "subsystems/ElevatorSubsystem.h"
 
 #include "OI.h"
@@ -24,7 +23,6 @@ class TeleopScoreCoralCommand
 		 * @param oi A pointer to the operator interface 
          */
 		TeleopScoreCoralCommand(
-			DrivetrainSubsystem* drivetrain, 
 			ElevatorSubsystem* elevator,
 			IntakeSubsystem* intake, 
 			PivotSubsystem* pivot,   
@@ -43,7 +41,6 @@ class TeleopScoreCoralCommand
 		enum State {wait, traveling_pivot, extend_elevator, extend_pivot, eject_piece, done};
 		State _auto_score_coral_state = wait;
 
-		DrivetrainSubsystem* _drivetrain;
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;

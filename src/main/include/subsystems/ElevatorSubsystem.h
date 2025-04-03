@@ -8,7 +8,7 @@
 #include <frc/controller/ElevatorFeedforward.h>
 #include <units/length.h>
 #include <frc/controller/PIDController.h>
-#include <frc/Servo.h>
+//#include <frc/Servo.h>
 #include <units/velocity.h>
 
 #include <ctre/phoenix6/TalonFX.hpp>
@@ -34,7 +34,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
             int primary_motor_can_id,
             int secondary_motor_can_id,
             int home_sensor_di_ch,
-            int brake_servo,
+            // int brake_servo,
             SC::SC_PIDConstants elevator_pidc,
             units::feet_per_second_t max_velocity,
             units::feet_per_second_squared_t max_acceleration,
@@ -60,6 +60,13 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
          * @return True if the elevator has reached the target
          */
         bool AtSafeStowPosition();
+
+        /**
+         * Checks if the elevator is at the extended position
+         * 
+         * @return True if the elevator is extended
+         */
+        bool AtExtendedPosition();
 
         /**
          * Sets the power of the elevator
@@ -112,7 +119,7 @@ class ElevatorSubsystem : public frc2::SubsystemBase {
 
         frc::DigitalInput _home_sensor;
 
-        frc::Servo _brake_servo;
+        // frc::Servo _brake_servo;
 
         frc::PIDController _elevator_pid_controller{0,0,0};
 

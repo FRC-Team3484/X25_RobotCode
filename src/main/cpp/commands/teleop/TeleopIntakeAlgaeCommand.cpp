@@ -3,12 +3,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 TeleopIntakeAlgaeCommand::TeleopIntakeAlgaeCommand(
-    DrivetrainSubsystem* drivetrain, 
     ElevatorSubsystem* elevator, 
     IntakeSubsystem* intake, 
     PivotSubsystem* pivot,
     Operator_Interface* oi) : 
-    _drivetrain(drivetrain),
     _elevator(elevator),
     _intake(intake),
     _pivot(pivot),
@@ -41,7 +39,7 @@ void TeleopIntakeAlgaeCommand::Execute() {
         case extend_elevator:
             // Set the height of the elevator, based off of the selected reef level
             // Once the elevator is at the target height and the drivetrain has reached the target position, go to the next state
-           
+            
             fmt::println("Extend Elevator");
             if (_oi->GetReefLevel() == 2) {
                 _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_2);
@@ -49,7 +47,7 @@ void TeleopIntakeAlgaeCommand::Execute() {
                 _elevator->SetHeight(ElevatorConstants::ALGAE_LEVEL_3);
             }
 
-            if(_elevator->AtTargetHeight() && _drivetrain->GetAtTargetPosition()) {
+            if(_elevator->AtTargetHeight()) {
                 _auto_intake_algae_state = extend_pivot;
             }
             break;
@@ -71,7 +69,7 @@ void TeleopIntakeAlgaeCommand::Execute() {
             // Once the intake has the algae, go to the next state
 
             fmt::println("Intake");
-            _intake->SetPower(IntakeConstants::INTAKE_POWER);
+            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
 
             //if (_intake->HasAlgae()) {
             //    _auto_intake_algae_state = done;

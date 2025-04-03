@@ -3,6 +3,7 @@
 
 #include "OI.h"
 #include "subsystems/DrivetrainSubsystem.h"
+#include "subsystems/ElevatorSubsystem.h"
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
@@ -18,8 +19,9 @@ class TeleopDriveCommand: public frc2::CommandHelper<frc2::Command, TeleopDriveC
          * 
          * @param drivetrain A pointer to the drivetrain subsystem
          * @param oi A pointer to the driver interface
+         * @param elevator A pointer to the elevator subsystem
          */
-        explicit TeleopDriveCommand(DrivetrainSubsystem* drivetrain, Driver_Interface* oi);
+        explicit TeleopDriveCommand(DrivetrainSubsystem* drivetrain, Driver_Interface* oi, ElevatorSubsystem* elevator);
 
         void Initialize() override;
         void Execute() override;
@@ -29,6 +31,8 @@ class TeleopDriveCommand: public frc2::CommandHelper<frc2::Command, TeleopDriveC
     private:
         DrivetrainSubsystem* _drivetrain;
         Driver_Interface* _oi;
+        ElevatorSubsystem* _elevator;
+        
         bool _aiming;
 
         std::optional<frc::DriverStation::Alliance> alliance;

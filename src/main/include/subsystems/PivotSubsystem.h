@@ -9,6 +9,7 @@
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/Timer.h>
 #include <frc/controller/PIDController.h>
+#include "subsystems/ElevatorSubsystem.h"
 
 #include <frc2/command/SubsystemBase.h>
 
@@ -34,7 +35,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
             SC::SC_PIDConstants pivot_pidc,
             units::radians_per_second_t max_velocity,
             units::radians_per_second_squared_t max_acceleration,
-            SC::SC_AngularFeedForward feed_forward_constants
+            SC::SC_AngularFeedForward feed_forward_constants,
+            ElevatorSubsystem* elevator
         );
 
         /**
@@ -112,6 +114,8 @@ class PivotSubsystem : public frc2::SubsystemBase {
         frc::Timer _trapezoid_timer;
 
         SC_ArmFeedForward _pivot_feed_forward;
+
+        ElevatorSubsystem* _elevator;
 
         units::radians_per_second_t _previous_pivot_velocity = 0_rad_per_s;
 };

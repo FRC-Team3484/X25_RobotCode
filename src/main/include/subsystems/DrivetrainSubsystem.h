@@ -15,12 +15,13 @@
 #include <frc2/command/SubsystemBase.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/ChassisSpeeds.h>
-#include <frc/kinematics/SwerveDriveOdometry.h>
+#include <frc/estimator/SwerveDrivePoseEstimator.h>
 #include <frc/kinematics/SwerveDriveKinematics.h>
 #include <frc/smartdashboard/Field2d.h>
 #include <frc2/command/CommandPtr.h>
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include "OI.h"
+#include <frc/DriverStation.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
@@ -54,7 +55,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @param pose The pose to drive to
          * @return A command that will drive the robot to the given pose
          */
-        void GoToPose(frc::Pose2d pose);
+        frc2::CommandPtr GoToPose(frc::Pose2d pose, bool teleop=false);
 
         /**
          * Returns the nearest pose to the robot from a vector of poses
@@ -74,12 +75,20 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         frc::Pose2d ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset);
 
         /**
+         * Returns the pose of the reef side with the given letter     
+         * 
+         * @param letter The letter of the reef side to get the pose of
+         * 
+         * @return The pose of the reef side 
+         */
+        frc::Pose2d GetReefSide(std::string letter);
+
+        /**
          * Returns the pose of the closest reef side
          * 
-         * @param reef_offset The left or the right side of the reef to align to
          * @return The pose of the closest reef side
          */
-        frc::Pose2d GetClosestReefSide(ReefAlignment reef_offset);
+        frc::Pose2d GetClosestReefSide();
         
         /**
          * Returns the pose of the closest feeder station, including which side (offset) is closest (either left or right)
@@ -108,6 +117,17 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @return True if the robot is near the target position
          */
         bool GetNearTargetPosition();
+
+        /**
+         * Returns the pose on the field based on the alliance and alignment to act as a temporary point for autons
+         * 
+         * @param alignment The alignment of the reef to get the pose of
+         * 
+         * @return The pose of the reef
+         */
+        frc::Pose2d GetReefAvoidPose(ReefAlignment::ReefAlignment alignment);
+
+        
         
         frc::SwerveDriveKinematics<4> kinematics{
             frc::Translation2d{SwerveConstants::DrivetrainConstants::DRIVETRAIN_LENGTH/2, SwerveConstants::DrivetrainConstants::DRIVETRAIN_WIDTH/2},
@@ -123,7 +143,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         
         ctre::phoenix6::hardware::Pigeon2 _pigeon;
 
-        frc::SwerveDriveOdometry<4>* _odometry;
+        frc::SwerveDrivePoseEstimator<4>* _odometry;
 
         frc::Field2d _field;
 
@@ -132,6 +152,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         Operator_Interface* _oi;
 
+        std::optional<frc::DriverStation::Alliance> _alliance;
 };
 
 #endif
