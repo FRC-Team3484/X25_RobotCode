@@ -22,6 +22,9 @@
 #include <vector>
 
 #include "Config.h"
+#include "Datatypes.h"
+
+#include <unordered_map>
 
 namespace VisionConstants {
     const frc::AprilTagFieldLayout APRIL_TAG_LAYOUT = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2025ReefscapeWelded);
@@ -31,14 +34,14 @@ namespace VisionConstants {
     const Eigen::Matrix<double, 3, 1> MULTI_TAG_STDDEV{0.5, 0.5, 1};
 
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
-        SC::SC_CameraConfig{
+        SC::SC_CameraConfig{ // Front
             "Camera_1",
-            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -45_deg, -28.5_deg}},
+            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -40_deg, -33_deg}},
             true
         },
-        SC::SC_CameraConfig{
+        SC::SC_CameraConfig{ // Back
             "Camera_2",
-            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 28.5_deg}},
+            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 28.45_deg}},
             false
         }
     };
@@ -46,8 +49,11 @@ namespace VisionConstants {
 
 namespace SwerveConstants {
     namespace AutonNames {
-        const std::string AUTON_NAMES[] = {
-            "Path1", "Path2", "Path3"
+        const std::string AUTON_SCORE_LEVEL[] = {
+            "None", "Level 1", "Level 2", "Level 3", "Level 4"
+        };
+        const std::string AUTON_SCORE_ALIGNMENT[] = {
+            "None", "Left", "Right"
         };
     }
 
@@ -100,7 +106,7 @@ namespace SwerveConstants {
         constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
         constexpr int PIGEON_ID = 22;
 
-        constexpr int FINAL_ALIGN_EXIT = 100;
+        constexpr int FINAL_ALIGN_EXIT = 1000000;
         constexpr units::inch_t FINAL_POSE_TOLERANCE = .3_in;
         constexpr units::degree_t FINAL_ANGLE_TOLERANCE = 1_deg;
 
@@ -133,7 +139,7 @@ namespace SwerveConstants {
     namespace AutonDriveConstants {
         // How fast the robot can move in autons
         constexpr units::feet_per_second_t MAX_LINEAR_SPEED = 8_fps;
-        constexpr units::feet_per_second_squared_t MAX_LINEAR_ACCELERATION = 4_fps_sq;
+        constexpr units::feet_per_second_squared_t MAX_LINEAR_ACCELERATION = 8_fps_sq;
         constexpr units::radians_per_second_t MAX_ROTATION_SPEED = 5.431_rad_per_s;
         constexpr units::radians_per_second_squared_t MAX_ROTATION_ACCELERATION = 2_rad_per_s_sq;
 
@@ -141,8 +147,8 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, -7_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{20_in, 7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 7_in}, frc::Rotation2d{180_deg}};
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
@@ -157,6 +163,53 @@ namespace SwerveConstants {
         constexpr frc::Pose2d STARTING_POSITION_C = frc::Pose2d{frc::Translation2d{0_in, 0_in}, frc::Rotation2d{0_deg}};
 
         constexpr units::inch_t MINIMUM_PATHFIND_DISTANCE = 6_in;
+    
+        const std::unordered_map<std::string, int> APRIL_TAG_LETTER_TO_ID_BLUE = {
+            {"A", 18},
+            {"B", 18},
+            {"C", 17},
+            {"D", 17},
+            {"E", 22},
+            {"F", 22},
+            {"G", 21},
+            {"H", 21},
+            {"I", 20},
+            {"J", 20},
+            {"K", 19},
+            {"L", 19},
+        };
+
+        const std::unordered_map<std::string, int> APRIL_TAG_LETTER_TO_ID_RED = {
+            {"A", 7},
+            {"B", 7},
+            {"C", 8},
+            {"D", 8},
+            {"E", 9},
+            {"F", 9},
+            {"G", 10},
+            {"H", 10},
+            {"I", 11},
+            {"J", 11},
+            {"K", 6},
+            {"L", 6},
+        };
+
+        const std::unordered_map<std::string, ReefAlignment::ReefAlignment> APRIL_TAG_LETTER_TO_OFFSET = {
+            {"A", ReefAlignment::left},
+            {"B", ReefAlignment::right},
+            {"C", ReefAlignment::left},
+            {"D", ReefAlignment::right},
+            {"E", ReefAlignment::left},
+            {"F", ReefAlignment::right},
+            {"G", ReefAlignment::left},
+            {"H", ReefAlignment::right},
+            {"I", ReefAlignment::left},
+            {"J", ReefAlignment::right},
+            {"K", ReefAlignment::left},
+            {"L", ReefAlignment::right},
+        };
+
+        constexpr frc::Translation2d BARGE_APRIL_TAG_OFFSET = frc::Translation2d{96_in, 0_in};
     }
 
     namespace PathDrivePIDConstants {
@@ -291,9 +344,9 @@ namespace ElevatorConstants {
     constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 23.5_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 39_in;
-    constexpr units::inch_t CORAL_LEVEL_4 = 58.5_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 21.5_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 37_in;
+    constexpr units::inch_t CORAL_LEVEL_4 = 56.5_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 20_in;
     constexpr units::inch_t ALGAE_LEVEL_3 = 30_in;
@@ -309,10 +362,10 @@ namespace IntakeConstants {
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 3;
 
-        constexpr double CORAL_EJECT_POWER = -1.0;
-        constexpr double ALGAE_EJECT_POWER = 1.0;
+        constexpr double CORAL_EJECT_POWER = -0.8;
+        constexpr double ALGAE_EJECT_POWER = 0.8;
         constexpr double STOP_POWER = 0.0;
-        constexpr double INTAKE_POWER = -1.0;
+        constexpr double INTAKE_POWER = -0.8;
 
         constexpr bool INVERT_MOTOR = false;
         
@@ -342,7 +395,7 @@ namespace PivotConstants {
     constexpr units::degree_t ANGLE_TOLERANCE = 7.5_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 135_deg;
-    constexpr units::degree_t TRAVEL_POSITION = 135_deg;
+    constexpr units::degree_t TRAVEL_POSITION = 130_deg;
     constexpr units::degree_t INTAKE_POSITION = 112.5_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 135_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;

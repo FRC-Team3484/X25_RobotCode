@@ -57,8 +57,9 @@ void Robot::AutonomousInit() {
 
     _has_been_enabled = true;
 
-    _auton_command = _auton_generator->GetAutonomousCommand(_basic_autons.GetSelected());
-    _drivetrain->SetBrakeMode();
+    // _drivetrain->SetBrakeMode();
+
+    _auton_command = _auton_generator->GetAutonomousCommand();
 
     if (_auton_command) {
         _auton_command->Schedule();

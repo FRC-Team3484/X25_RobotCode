@@ -21,6 +21,7 @@
 #include <frc2/command/CommandPtr.h>
 #include <ctre/phoenix6/Pigeon2.hpp>
 #include "OI.h"
+#include <frc/DriverStation.h>
 
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
@@ -54,7 +55,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @param pose The pose to drive to
          * @return A command that will drive the robot to the given pose
          */
-        frc2::CommandPtr GoToPose(frc::Pose2d pose);
+        frc2::CommandPtr GoToPose(frc::Pose2d pose, bool teleop=false);
 
         /**
          * Returns the nearest pose to the robot from a vector of poses
@@ -72,6 +73,15 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @return A pose that is offset from the given pose
          */
         frc::Pose2d ApplyOffsetToPose(frc::Pose2d pose, frc::Pose2d offset);
+
+        /**
+         * Returns the pose of the reef side with the given letter     
+         * 
+         * @param letter The letter of the reef side to get the pose of
+         * 
+         * @return The pose of the reef side 
+         */
+        frc::Pose2d GetReefSide(std::string letter);
 
         /**
          * Returns the pose of the closest reef side
@@ -108,6 +118,15 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          */
         bool GetNearTargetPosition();
 
+        /**
+         * Returns the pose on the field based on the alliance and alignment to act as a temporary point for autons
+         * 
+         * @param alignment The alignment of the reef to get the pose of
+         * 
+         * @return The pose of the reef
+         */
+        frc::Pose2d GetReefAvoidPose(ReefAlignment::ReefAlignment alignment);
+
         
         
         frc::SwerveDriveKinematics<4> kinematics{
@@ -133,6 +152,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
 
         Operator_Interface* _oi;
 
+        std::optional<frc::DriverStation::Alliance> _alliance;
 };
 
 #endif

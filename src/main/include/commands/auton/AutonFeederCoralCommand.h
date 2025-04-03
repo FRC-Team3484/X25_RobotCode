@@ -20,14 +20,12 @@ class AutonFeederCoralCommand
          * @param elevator A pointer to the elevator subsystem
          * @param intake A pointer to the intake subsystem    
          * @param pivot A pointer to the pivot subsystem 
-         * @param funnel A pointer to the funnel subsystem
          */
         AutonFeederCoralCommand(
             DrivetrainSubsystem* drivetrain, 
             ElevatorSubsystem* elevator,
             IntakeSubsystem* intake, 
-            PivotSubsystem* pivot,
-            FunnelSubsystem* funnel
+            PivotSubsystem* pivot
         );
 
         void Initialize() override;
@@ -46,7 +44,6 @@ class AutonFeederCoralCommand
 		ElevatorSubsystem* _elevator;
 		IntakeSubsystem* _intake;
 		PivotSubsystem* _pivot;
-        FunnelSubsystem* _funnel;
 };
 
 #endif

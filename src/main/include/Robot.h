@@ -36,7 +36,10 @@
 #include "commands/testing/TestIntakeCommand.h"
 #include "commands/testing/TestPivotCommand.h"
 
-#include <units/time.h>
+#include "commands/auton/AutonFeederCoralCommand.h"
+#include "commands/auton/AutonScoreCoralCommand.h"
+#include "commands/auton/AutonStopCommand.h"
+#include "AutonGenerator.h"
 
 class Robot : public frc::TimedRobot {
     public:
@@ -115,7 +118,7 @@ class Robot : public frc::TimedRobot {
         #endif
 
         #if defined (DRIVETRAIN_ENABLED) && defined (INTAKE_ENABLED) && defined (PIVOT_ENABLED) && defined (ELEVATOR_ENABLED)
-        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain, _elevator, _pivot, _intake);
+        AutonGenerator* _auton_generator = new AutonGenerator(_drivetrain, _elevator, _intake, _pivot);
         #else
         AutonGenerator* _auton_generator = nullptr;
         #endif

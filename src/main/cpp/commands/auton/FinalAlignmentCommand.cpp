@@ -28,7 +28,6 @@ void FinalAlignmentCommand::Execute() {
 			goalState
 		)
 	);
-
 }
 
 void FinalAlignmentCommand::End(bool interrupted) {

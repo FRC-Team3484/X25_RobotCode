@@ -6,7 +6,6 @@
 //Path Planner Paths
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <pathplanner/lib/controllers/PPHolonomicDriveController.h>
-#include <frc/DriverStation.h>
 
 using namespace SC;
 using namespace SwerveConstants::DrivetrainConstants;
@@ -74,6 +73,12 @@ DrivetrainSubsystem::DrivetrainSubsystem(SC_SwerveConfigs swerve_config_array[4]
     SetBrakeMode();
 
     frc::SmartDashboard::PutData("Field", &_field);
+
+    _alliance = frc::DriverStation::GetAlliance();
+    if (!_alliance.has_value()) {
+        fmt::print("Error: Teleop Drive Command failed to determine alliance station");
+        _alliance = DriverStation::Alliance::kBlue;
+    }
 }
 
 void DrivetrainSubsystem::Periodic() {
@@ -255,16 +260,18 @@ int DrivetrainSubsystem::CheckNotNullModule() {
     return counter;
 }
 
-frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
+frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose, bool teleop) {
     PathConstraints constraints = PathConstraints(MAX_LINEAR_SPEED, MAX_LINEAR_ACCELERATION, MAX_ROTATION_SPEED, MAX_ROTATION_ACCELERATION);
     std::vector<frc::Pose2d> poses{GetPose(), pose};
 
     std::vector<Waypoint> waypoints = PathPlannerPath::waypointsFromPoses(poses);
 
+    ChassisSpeeds speed = GetChassisSpeeds();
+
     auto path = std::make_shared<PathPlannerPath>(
         waypoints,
         constraints,
-        std::nullopt, // The ideal starting state, this is only relevant for pre-planned paths, so can be nullopt for on-the-fly paths.
+        IdealStartingState(math::sqrt(speed.vx*speed.vx + speed.vy*speed.vy), math::atan2(speed.vy, speed.vx)), // The ideal starting state, this is only relevant for pre-planned paths, so can be nullopt for on-the-fly paths.
         GoalEndState(0.0_mps, pose.Rotation()) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
     );
 
@@ -273,17 +280,50 @@ frc2::CommandPtr DrivetrainSubsystem::GoToPose(Pose2d pose) {
     _target_position = pose;
 
     if (pose.Translation().Distance(GetPose().Translation()) > MINIMUM_PATHFIND_DISTANCE) {
-        return frc2::cmd::Sequence(
-            AutoBuilder::followPath(path), 
-            FinalAlignmentCommand{this, pose}.ToPtr(),
-            this->RunOnce([this] {StopMotors();})
-        );
+        if (teleop) {
+            return frc2::cmd::Sequence(
+                FinalAlignmentCommand{this, pose}.ToPtr(),
+                this->RunOnce([this] {StopMotors();})
+            );
+        } else {
+            return frc2::cmd::Sequence(
+                AutoBuilder::followPath(path), 
+                FinalAlignmentCommand{this, pose}.ToPtr(),
+                this->RunOnce([this] {StopMotors();})
+            );
+        }
+        
     } else {
         return frc2::cmd::Sequence(
             FinalAlignmentCommand{this, pose}.ToPtr(),
             this->RunOnce([this] {StopMotors();})
         );
     }
+}
+
+frc::Pose2d DrivetrainSubsystem::GetReefSide(std::string letter) {
+    const auto& letter_to_id_map = (DriverStation::GetAlliance().value() == DriverStation::Alliance::kBlue) ? 
+                                    APRIL_TAG_LETTER_TO_ID_BLUE : APRIL_TAG_LETTER_TO_ID_RED;
+    auto it_id = letter_to_id_map.find(letter);
+
+    if (it_id != letter_to_id_map.end()) {
+        int id = it_id->second;
+        
+        for (const auto& tag : APRIL_TAG_LAYOUT.GetTags()) {
+            if (tag.ID == id) {
+                auto it_offset = APRIL_TAG_LETTER_TO_OFFSET.find(letter);
+                if (it_offset != APRIL_TAG_LETTER_TO_OFFSET.end()) {
+                    ReefAlignment::ReefAlignment reef_offset = it_offset->second;
+                    if (reef_offset == ReefAlignment::left) {
+                        return ApplyOffsetToPose(tag.pose.ToPose2d(), LEFT_REEF_OFFSET);
+                    } else {
+                        return ApplyOffsetToPose(tag.pose.ToPose2d(), RIGHT_REEF_OFFSET);
+                    }
+                }
+            }
+        }
+    }
+    return frc::Pose2d{}; // Return a default pose if no match found
 }
 
 frc::Pose2d DrivetrainSubsystem::GetNearestPose(std::vector<frc::Pose2d> poses) {
@@ -331,6 +371,31 @@ frc::Pose2d DrivetrainSubsystem::GetClosestProcessor() {
     }
 
     return GetNearestPose(poses);
+}
+
+
+frc::Pose2d DrivetrainSubsystem::GetReefAvoidPose(ReefAlignment::ReefAlignment alignment) {
+    int tag_to_find = 99;
+
+    if (_alliance == DriverStation::Alliance::kRed) {
+        if (alignment == ReefAlignment::left) {
+            tag_to_find = 4;
+        } else if (alignment == ReefAlignment::right) {
+            tag_to_find = 5;
+        }
+    } else {
+        if (alignment == ReefAlignment::left) {
+            tag_to_find = 15;
+        } else if (alignment == ReefAlignment::right) {
+            tag_to_find = 14;
+        }
+    }
+
+    if (tag_to_find) {
+        return ApplyOffsetToPose(APRIL_TAG_LAYOUT.GetTagPose(tag_to_find).value_or(frc::Pose3d{{GetPose().X() - 24_in, GetPose().Y(), GetPose().Rotation()}}).ToPose2d(), frc::Pose2d{BARGE_APRIL_TAG_OFFSET, frc::Rotation2d{GetPose().Rotation()}});
+    }
+    fmt::println("GetReefAvoidPose: Couldn't find april tag pose");
+    return GetPose();
 }
 
 bool DrivetrainSubsystem::GetAtTargetPosition() {
