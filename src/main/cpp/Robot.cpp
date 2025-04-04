@@ -96,21 +96,21 @@ void Robot::TeleopPeriodic() {
                 _driver_robot_state = auto_pickup_coral_driver;
                 CancelDriverCommands();
 
-                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation());
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestFeederStation(), true);
                 _go_to_pose_command.Schedule();
 
             } else if ((_oi_driver->GetScoreReef() || _oi_driver->GetAlgaePickup())) {
                 _driver_robot_state = auto_reef_driver;
                 CancelDriverCommands();
 
-                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestReefSide());
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestReefSide(), true);
                 _go_to_pose_command.Schedule();
 
             } else if (_oi_driver->GetScoreProcessor()) {
                 _driver_robot_state = auto_score_processor_driver;
                 CancelDriverCommands();
 
-                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestProcessor());
+                _go_to_pose_command = _drivetrain->GoToPose(_drivetrain->GetClosestProcessor(), true);
                 _go_to_pose_command.Schedule();
             }
             break;

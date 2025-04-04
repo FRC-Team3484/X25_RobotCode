@@ -13,7 +13,7 @@ class FinalAlignmentCommand
     :public frc2::CommandHelper<frc2::Command, FinalAlignmentCommand> {
 
     public:
-        explicit FinalAlignmentCommand(DrivetrainSubsystem* drivetrain_subsystem, frc::Pose2d target_pose);
+        explicit FinalAlignmentCommand(DrivetrainSubsystem* drivetrain_subsystem, frc::Pose2d target_pose, bool far=false);
 
         void Initialize() override;
         void Execute() override;
@@ -27,6 +27,7 @@ class FinalAlignmentCommand
 			pathplanner::PIDConstants(5.0, 0.0, 0.0) // Rotation PID constants
 		);
 		frc::Pose2d _target_pose;
+        bool _far;
 		int _counter = 0;
 
 };

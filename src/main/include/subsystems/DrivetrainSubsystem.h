@@ -23,9 +23,11 @@
 #include "OI.h"
 #include <frc/DriverStation.h>
 
+#include <commands/teleop/RumbleCommand.h>
+
 class DrivetrainSubsystem : public frc2::SubsystemBase {
     public:
-        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* oi);
+        DrivetrainSubsystem(SC::SC_SwerveConfigs swerve_config_array[4], SC_Photon* vision, int pigeon_id, std::string_view drivetrain_canbus_name, Operator_Interface* oi, Driver_Interface* driver_interface);
         void Periodic() override;
 
         void Drive(units::meters_per_second_t x_speed, units::meters_per_second_t y_speed, units::radians_per_second_t rotation, bool open_loop=false);
@@ -55,7 +57,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * @param pose The pose to drive to
          * @return A command that will drive the robot to the given pose
          */
-        frc2::CommandPtr GoToPose(frc::Pose2d pose, bool teleop=false);
+        frc2::CommandPtr GoToPose(frc::Pose2d pose, bool teleop=false, bool far=false);
 
         /**
          * Returns the nearest pose to the robot from a vector of poses
@@ -81,7 +83,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
          * 
          * @return The pose of the reef side 
          */
-        frc::Pose2d GetReefSide(std::string letter);
+        frc::Pose2d GetReefSide(std::string letter, bool far=false);
 
         /**
          * Returns the pose of the closest reef side
@@ -151,6 +153,7 @@ class DrivetrainSubsystem : public frc2::SubsystemBase {
         units::degree_t _pigeon_offset;
 
         Operator_Interface* _oi;
+        Driver_Interface* _driver_interface;
 
         std::optional<frc::DriverStation::Alliance> _alliance;
 };

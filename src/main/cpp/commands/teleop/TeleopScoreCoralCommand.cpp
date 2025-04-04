@@ -20,6 +20,12 @@ void TeleopScoreCoralCommand::Initialize() {
 }
 
 void TeleopScoreCoralCommand::Execute() {
+    if (_oi->GetConfirmManualScore()) {
+        _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
+    } else {
+        _intake->SetPower(IntakeConstants::STOP_POWER);
+    }
+
     switch(_auto_score_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to next state
@@ -58,23 +64,6 @@ void TeleopScoreCoralCommand::Execute() {
             } else if (_oi->GetReefLevel() == 4) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
             }
-
-            if(_pivot->AtTargetPosition() && _oi->GetConfirmManualScore()) {
-                _auto_score_coral_state = eject_piece;
-            }
-            break;
-        case eject_piece:
-            // Run the intake to eject the coral
-            // Once the intake no longer has coral, go to the next state
-            _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
-
-            if(!_intake->HasCoral()) {
-                _auto_score_coral_state = done;
-            }
-            break;
-        case done:
-            // Stop the intake
-            _intake->SetPower(IntakeConstants::STOP_POWER);
             break;
         default:
             _auto_score_coral_state = wait;

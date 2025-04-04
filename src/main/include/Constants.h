@@ -36,13 +36,13 @@ namespace VisionConstants {
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
         SC::SC_CameraConfig{ // Front
             "Camera_1",
-            frc::Transform3d{frc::Translation3d{10.3_in, 11.62_in, 4.75_in}, frc::Rotation3d{0_deg, -40_deg, -33_deg}},
+            frc::Transform3d{frc::Translation3d{10_in, 11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, -21.2_deg}},
             true
         },
         SC::SC_CameraConfig{ // Back
             "Camera_2",
-            frc::Transform3d{frc::Translation3d{-9.82_in, -11.68_in, 4.8_in}, frc::Rotation3d{0_deg, -65_deg, 180_deg - 28.45_deg}},
-            false
+            frc::Transform3d{frc::Translation3d{10_in, -11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, 21.2_deg}},
+            true
         }
     };
 }
@@ -98,10 +98,10 @@ namespace SwerveConstants {
         constexpr units::inch_t WHEEL_RADIUS = 2_in;
 
         constexpr units::feet_per_second_t MAX_WHEEL_SPEED = 8_fps;
-        constexpr units::feet_per_second_squared_t MAX_WHEEL_ACCELERATION = 4_fps_sq;
+        constexpr units::feet_per_second_squared_t MAX_WHEEL_ACCELERATION = 8_fps_sq;
 
-        constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 6_in;
-        constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 12_in;
+        constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 3_in;
+        constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 16_in;
 
         constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
         constexpr int PIGEON_ID = 22;
@@ -109,6 +109,9 @@ namespace SwerveConstants {
         constexpr int FINAL_ALIGN_EXIT = 1000000;
         constexpr units::inch_t FINAL_POSE_TOLERANCE = .3_in;
         constexpr units::degree_t FINAL_ANGLE_TOLERANCE = 1_deg;
+        
+        constexpr units::inch_t FAR_POSE_TOLERANCE = 6_in;
+        constexpr units::degree_t FAR_ANGLE_TOLERANCE = 4_deg;
 
 // Check For Autons
         namespace DrivePIDConstants {
@@ -147,8 +150,11 @@ namespace SwerveConstants {
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, -7_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{22_in, 7_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, -6.5_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, 6.5_in}, frc::Rotation2d{180_deg}};
+
+        constexpr frc::Pose2d LEFT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, -6.5_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, 6.5_in}, frc::Rotation2d{180_deg}};
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
@@ -324,7 +330,7 @@ namespace ElevatorConstants {
     constexpr double STALL_LIMIT = 0.9;
     constexpr double STALL_TRIGGER = 0.1;
     constexpr units::unit_t<units::compound_unit<units::inch, units::inverse<units::turn>>> ELEVATOR_RATIO = units::inch_t{units::constants::pi.value()/3.0}/1_tr; // 0.505_in
-    constexpr units::inch_t POSITION_TOLERANCE = 0.2_in;
+    constexpr units::inch_t POSITION_TOLERANCE = 0.5_in;
 
     constexpr units::feet_per_second_t HOME_VELOCITY = -0.2_fps;
 
@@ -344,8 +350,8 @@ namespace ElevatorConstants {
     constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
     constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
-    constexpr units::inch_t CORAL_LEVEL_2 = 21.5_in;
-    constexpr units::inch_t CORAL_LEVEL_3 = 37_in;
+    constexpr units::inch_t CORAL_LEVEL_2 = 20.5_in;
+    constexpr units::inch_t CORAL_LEVEL_3 = 35_in;
     constexpr units::inch_t CORAL_LEVEL_4 = 56.5_in;
 
     constexpr units::inch_t ALGAE_LEVEL_2 = 20_in;
@@ -362,7 +368,7 @@ namespace IntakeConstants {
         constexpr int CORAL_HIGH_SENSOR_DI_CH = 1;
         constexpr int CORAL_LOW_SENSOR_DI_CH = 3;
 
-        constexpr double CORAL_EJECT_POWER = -0.8;
+        constexpr double CORAL_EJECT_POWER = -0.7;
         constexpr double ALGAE_EJECT_POWER = 0.8;
         constexpr double STOP_POWER = 0.0;
         constexpr double INTAKE_POWER = -0.8;
@@ -398,7 +404,7 @@ namespace PivotConstants {
     constexpr units::degree_t TRAVEL_POSITION = 130_deg;
     constexpr units::degree_t INTAKE_POSITION = 112.5_deg;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 135_deg;
-    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 135_deg;
+    constexpr units::degree_t TARGET_CORAL_4_ANGLE = 138_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;
     constexpr double HOME_POWER = -0.1;
 }
