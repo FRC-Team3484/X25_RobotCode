@@ -34,14 +34,14 @@ namespace VisionConstants {
     const Eigen::Matrix<double, 3, 1> MULTI_TAG_STDDEV{0.5, 0.5, 1};
 
     const std::vector<SC::SC_CameraConfig> CAMERA_CONFIGS = {
-        SC::SC_CameraConfig{ // Front
+        SC::SC_CameraConfig{ // Front Left
             "Camera_1",
-            frc::Transform3d{frc::Translation3d{10_in, 11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, -21.2_deg}},
+            frc::Transform3d{frc::Translation3d{10_in, 11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, -23.2_deg}},
             true
         },
-        SC::SC_CameraConfig{ // Back
+        SC::SC_CameraConfig{ // front right
             "Camera_2",
-            frc::Transform3d{frc::Translation3d{10_in, -11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, 21.2_deg}},
+            frc::Transform3d{frc::Translation3d{10_in, -11.31_in, 8.75_in}, frc::Rotation3d{0_deg, -20.8_deg, 23.2_deg}},
             true
         }
     };
@@ -91,16 +91,16 @@ namespace SwerveConstants {
         #define BL 2
         #define BR 3
 
-        constexpr units::inch_t DRIVETRAIN_WIDTH = 24_in;
-        constexpr units::inch_t DRIVETRAIN_LENGTH = 24_in;
-        constexpr double DRIVE_GEAR_RATIO = 36000.0/5880.0;
+        constexpr units::inch_t DRIVETRAIN_WIDTH = 22.5625_in;
+        constexpr units::inch_t DRIVETRAIN_LENGTH = 22.5625_in;
+        constexpr double DRIVE_GEAR_RATIO = 38250.0/6480.0;
         constexpr double STEER_GEAR_RATIO = 12.8;
-        constexpr units::inch_t WHEEL_RADIUS = 2_in;
+        constexpr units::inch_t WHEEL_RADIUS = 1.9375_in;
 
         constexpr units::feet_per_second_t MAX_WHEEL_SPEED = 8_fps;
         constexpr units::feet_per_second_squared_t MAX_WHEEL_ACCELERATION = 8_fps_sq;
 
-        constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 3_in;
+        constexpr units::inch_t AT_TARGET_POSITION_THRESHOLD = 2_in;
         constexpr units::inch_t NEAR_TARGET_POSITION_THRESHOLD = 16_in;
 
         constexpr std::string_view DRIVETRAIN_CANBUS_NAME = "Drivetrain CANivore";
@@ -146,15 +146,15 @@ namespace SwerveConstants {
         constexpr units::radians_per_second_t MAX_ROTATION_SPEED = 5.431_rad_per_s;
         constexpr units::radians_per_second_squared_t MAX_ROTATION_ACCELERATION = 2_rad_per_s_sq;
 
-        constexpr units::inch_t POSITION_TOLERANCE = 2_in; // Drive to a position, when safe to quit
+        constexpr units::inch_t POSITION_TOLERANCE = 3_in; // Drive to a position, when safe to quit
         constexpr units::degree_t ANGLE_TOLERANCE = 2_deg;
 
         constexpr int REEF_APRIL_TAGS[] = {6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22};
-        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, -6.5_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, 6.5_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, -6_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET = frc::Pose2d{frc::Translation2d{18_in, 6_in}, frc::Rotation2d{180_deg}};
 
-        constexpr frc::Pose2d LEFT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, -6.5_in}, frc::Rotation2d{180_deg}};
-        constexpr frc::Pose2d RIGHT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, 6.5_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d LEFT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, -6_in}, frc::Rotation2d{180_deg}};
+        constexpr frc::Pose2d RIGHT_REEF_OFFSET_FAR = frc::Pose2d{frc::Translation2d{30_in, 6_in}, frc::Rotation2d{180_deg}};
 
         constexpr int FEEDER_STATION_APRIL_TAGS[] = {1, 2, 12, 13};
         // TODO: Fix later when we know where we want to align
@@ -349,7 +349,7 @@ namespace ElevatorConstants {
     constexpr units::inch_t CLIMB_HEIGHT = 18_in;
     constexpr units::inch_t INTAKE_HEIGHT = 1.25_in;
     
-    constexpr units::inch_t CORAL_LEVEL_1 = 15_in;
+    constexpr units::inch_t CORAL_LEVEL_1 = HOME_POSITION;
     constexpr units::inch_t CORAL_LEVEL_2 = 20.5_in;
     constexpr units::inch_t CORAL_LEVEL_3 = 35_in;
     constexpr units::inch_t CORAL_LEVEL_4 = 56.5_in;
@@ -398,11 +398,12 @@ namespace PivotConstants {
     constexpr double GEAR_RATIO = 45/1;
 
     // All functional angles are 90 degrees more, straight up (aligned with elevator sides) is 90 degrees
-    constexpr units::degree_t ANGLE_TOLERANCE = 7.5_deg;
+    constexpr units::degree_t ANGLE_TOLERANCE = 1_deg;
     constexpr units::degree_t HOME_POSITION = 102.5_deg;
     constexpr units::degree_t PROCESSOR_POSITION = 135_deg;
     constexpr units::degree_t TRAVEL_POSITION = 130_deg;
     constexpr units::degree_t INTAKE_POSITION = 112.5_deg;
+    constexpr units::degree_t TARGET_CORAL_1_ANGLE = HOME_POSITION;
     constexpr units::degree_t TARGET_CORAL_ANGLE = 135_deg;
     constexpr units::degree_t TARGET_CORAL_4_ANGLE = 138_deg;
     constexpr units::degree_t TARGET_ALGAE_ANGLE = 150_deg;

@@ -12,7 +12,6 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
     _intake(intake),
     _pivot(pivot),
     _reef_level(reef_level) {
-    AddRequirements(_drivetrain);
     AddRequirements(_elevator);
     AddRequirements(_intake);
     AddRequirements(_pivot);
@@ -20,6 +19,8 @@ AutonScoreCoralCommand::AutonScoreCoralCommand(
 
 void AutonScoreCoralCommand::Initialize() {
     _auton_score_coral_state = wait;
+    _eject_timer.Stop();
+    _eject_timer.Reset();
 }
 
 void AutonScoreCoralCommand::Execute() {
@@ -52,20 +53,23 @@ void AutonScoreCoralCommand::Execute() {
             }
             break;
         case extend_pivot:
-            if ((_reef_level == AutonLevel::level_1) || (_reef_level == AutonLevel::level_2) || (_reef_level == AutonLevel::level_3)) {
+            if ((_reef_level == AutonLevel::level_2) || (_reef_level == AutonLevel::level_3)) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
             } else if (_reef_level == AutonLevel::level_4) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
+            } else if(_reef_level == AutonLevel::level_1){
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_1_ANGLE);
             }
 
             if(_pivot->AtTargetPosition()) {
                 _auton_score_coral_state = eject_piece;
+                _eject_timer.Start();
             }
             break;
         case eject_piece:
             _intake->SetPower(IntakeConstants::CORAL_EJECT_POWER);
 
-            if (!_intake->HasCoral()) {
+            if (!_intake->HasCoral() && _eject_timer.HasElapsed(1_s)) {
                 _auton_score_coral_state = done;
             }
             break;
@@ -81,6 +85,7 @@ void AutonScoreCoralCommand::Execute() {
 
 void AutonScoreCoralCommand::End(bool interrupted) {
     _intake->SetPower(IntakeConstants::STOP_POWER);
+    _eject_timer.Stop();
 }
 
 bool AutonScoreCoralCommand::IsFinished() {

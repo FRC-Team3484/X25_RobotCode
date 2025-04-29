@@ -76,7 +76,7 @@ void TeleopDriveCommand::Execute() {
                         false
                     );
                     
-                } else if (_oi->RawPOV() >= 0) {
+                } else if (_oi->RawPOV() >= 0 && _oi->RawPOV() % 90 == 0) {
                     if (!_elevator->AtExtendedPosition()){
                     _drivetrain->DriveRobotcentric(
                         ChassisSpeeds{

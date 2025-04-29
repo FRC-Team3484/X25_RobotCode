@@ -29,7 +29,8 @@ void TeleopScoreCoralCommand::Execute() {
     switch(_auto_score_coral_state) {
         case wait:
             // Wait until the robot is near the target position, then go to next state
-            _auto_score_coral_state = traveling_pivot;
+            if (_oi->GetReefLevel() == 1) _auto_score_coral_state = extend_elevator;
+            else _auto_score_coral_state = traveling_pivot;
             break;
         case traveling_pivot:
             // Set the pivot to the travel position
@@ -59,10 +60,12 @@ void TeleopScoreCoralCommand::Execute() {
         case extend_pivot:
             // Set the angle of the pivot to the coral angle depending on the selected reef level
             // Once the pivot is at the target angle, and the button for confirming the score is pressed, go to the next state
-            if (_oi->GetReefLevel() == 1 || _oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
+            if (_oi->GetReefLevel() == 2 ||_oi->GetReefLevel() == 3){
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_ANGLE);
             } else if (_oi->GetReefLevel() == 4) {
                 _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_4_ANGLE);
+            } else if (_oi->GetReefLevel() == 1){
+                _pivot->SetPivotAngle(PivotConstants::TARGET_CORAL_1_ANGLE);
             }
             break;
         default:

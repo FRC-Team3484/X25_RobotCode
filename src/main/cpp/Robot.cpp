@@ -172,13 +172,13 @@ void Robot::OperatorPeriodic() {
 
 void Robot::LedPeriodic() {
     #ifdef INTAKE_ENABLED
-    if (_oi_operator->GetReefLevel() == 4) _leds->ScoringLevelFourAnimation();
+    if (_driver_robot_state != drive) _leds->PathAnimation();
+    else if (_oi_operator->GetReefLevel() == 4) _leds->ScoringLevelFourAnimation();
     else if (_oi_operator->GetReefLevel() == 3) _leds->ScoringLevelThreeAnimation();
     else if (_oi_operator->GetReefLevel() == 2) _leds->ScoringLevelTwoAnimation();
     else if (_oi_operator->GetReefLevel() == 1) _leds->ScoringLevelOneAnimation();
     else if (_operator_drive_robot_state == stow && !_elevator->AtTargetHeight()) _leds->ElevatorHomingAnimation();
     else if (_oi_driver->GetDynamicPivot()) _leds->PivotAnimation();
-    else if (_driver_robot_state != drive) _leds->PathAnimation();
     else if (_intake->HasCoral()) _leds->HasCoralAnimation(); 
     else if (_intake->HasAlgae()) _leds->HasAlgaeAnimation();  
     else if (_driver_robot_state == drive) _leds->DrivingAnimation();
@@ -192,7 +192,6 @@ void Robot::LedPeriodic() {
         _leds->ScoringAnimation();
     }
     #endif
-    
 }
 
 // This functiion is called to enter the drive state in teleop (the default state)
